@@ -1,6 +1,8 @@
 using CatalogR.Data;
+using CatalogR.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,6 +73,21 @@ using (var scope = app.Services.CreateAsyncScope())
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");
     }
+}
+
+using (var scope = app.Services.CreateAsyncScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var topics = new[] { "Books", "Signs", "Silverware" };
+    foreach (var topic in topics)
+    {
+        if (!await db.CollectionTopics.AnyAsync(c => c.Name == topic))
+        {
+            await db.CollectionTopics.AddAsync(new CollectionTopic() { Name = topic });
+        }
+    }
+    
+    await db.SaveChangesAsync();
 }
 
 app.Run();
