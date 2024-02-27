@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 
 namespace CatalogR.Models
 {
@@ -17,9 +16,9 @@ namespace CatalogR.Models
 
         [Display(Name = "Description")]
         [Column(TypeName = "TEXT")]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
 
         public string UserId { get; set; }
-        public IdentityUser User { get; set; }
+        public User User { get; set; }
     }
 }
