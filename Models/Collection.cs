@@ -20,5 +20,9 @@ namespace CatalogR.Models
 
         public string UserId { get; set; }
         public User User { get; set; }
+
+        [ForeignKey(nameof(Topic))]
+        public int? CollectionTopicId { get; set; }
+        public virtual CollectionTopic Topic { get; set; }
     }
 }
