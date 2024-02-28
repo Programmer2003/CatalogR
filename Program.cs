@@ -1,6 +1,8 @@
 using CatalogR.Data;
+using CatalogR.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
@@ -58,19 +60,34 @@ using (var scope = app.Services.CreateAsyncScope())
 
 using (var scope = app.Services.CreateAsyncScope())
 {
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     string email = "admin@admin.com";
     string password = "Test1234,";
 
     if (await userManager.FindByEmailAsync(email) == null)
     {
-        var user = new IdentityUser();
+        var user = new User();
         user.UserName = email;
         user.Email = email;
 
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");
     }
+}
+
+using (var scope = app.Services.CreateAsyncScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var topics = new[] { "Books", "Signs", "Silverware" };
+    foreach (var topic in topics)
+    {
+        if (!await db.CollectionTopics.AnyAsync(c => c.Name == topic))
+        {
+            await db.CollectionTopics.AddAsync(new CollectionTopic() { Name = topic });
+        }
+    }
+    
+    await db.SaveChangesAsync();
 }
 
 app.Run();
