@@ -4,6 +4,7 @@ using CatalogR.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CatalogR.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240228080405_AddTopicIdToCollectionsTable")]
+    partial class AddTopicIdToCollectionsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +31,9 @@ namespace CatalogR.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("CollectionTopic2Id")
+                        .HasColumnType("int");
 
                     b.Property<int?>("CollectionTopicId")
                         .IsRequired()
@@ -47,6 +52,8 @@ namespace CatalogR.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CollectionTopic2Id");
 
                     b.HasIndex("CollectionTopicId");
 
@@ -277,9 +284,15 @@ namespace CatalogR.Data.Migrations
 
             modelBuilder.Entity("CatalogR.Models.Collection", b =>
                 {
+                    b.HasOne("CatalogR.Models.CollectionTopic", "Topic2")
+                        .WithMany()
+                        .HasForeignKey("CollectionTopic2Id");
+
                     b.HasOne("CatalogR.Models.CollectionTopic", "Topic")
                         .WithMany()
-                        .HasForeignKey("CollectionTopicId");
+                        .HasForeignKey("CollectionTopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("CatalogR.Models.User", "User")
                         .WithMany("Collections")
@@ -288,6 +301,8 @@ namespace CatalogR.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Topic");
+
+                    b.Navigation("Topic2");
 
                     b.Navigation("User");
                 });

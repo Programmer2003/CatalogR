@@ -40,6 +40,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 var app = builder.Build();
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhKYVVpR2Nbe050flREalxZVAciSV9jS3pTdEdrWXtfcnRdQGRVUA==");
 
 app.UseRequestLocalization();
 
