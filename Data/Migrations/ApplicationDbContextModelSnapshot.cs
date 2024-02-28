@@ -30,9 +30,6 @@ namespace CatalogR.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("CollectionTopic2Id")
-                        .HasColumnType("int");
-
                     b.Property<int?>("CollectionTopicId")
                         .IsRequired()
                         .HasColumnType("int");
@@ -50,8 +47,6 @@ namespace CatalogR.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CollectionTopic2Id");
 
                     b.HasIndex("CollectionTopicId");
 
@@ -282,15 +277,9 @@ namespace CatalogR.Data.Migrations
 
             modelBuilder.Entity("CatalogR.Models.Collection", b =>
                 {
-                    b.HasOne("CatalogR.Models.CollectionTopic", "Topic2")
-                        .WithMany()
-                        .HasForeignKey("CollectionTopic2Id");
-
                     b.HasOne("CatalogR.Models.CollectionTopic", "Topic")
                         .WithMany()
-                        .HasForeignKey("CollectionTopicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CollectionTopicId");
 
                     b.HasOne("CatalogR.Models.User", "User")
                         .WithMany("Collections")
@@ -299,8 +288,6 @@ namespace CatalogR.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Topic");
-
-                    b.Navigation("Topic2");
 
                     b.Navigation("User");
                 });
