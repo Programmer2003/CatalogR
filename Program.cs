@@ -18,6 +18,7 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhKYVVpR2Nbe050flREalxZVAciSV9jS3pTdEdrWXtfcnRdQGRVUA==");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
