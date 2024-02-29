@@ -3,8 +3,8 @@
 
 - [ ] Site
   - [ ] Multi Languages
-    - [] Russian
-	- [] English
+    - [ ] Russian
+	- [ ] English
 	- [ ] Save Choice
   - [x] Themes
     - [x] Light
