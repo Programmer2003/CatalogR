@@ -1,4 +1,6 @@
-﻿<ul class="navbar-nav">
+﻿@inject SignInManager<User> SignInManager
+
+<ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
