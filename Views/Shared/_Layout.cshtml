@@ -4,17 +4,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CatalogR</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist-5.3.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CatalogR.styles.css" asp-append-version="true" />
-    <link href="~/lib/syncfusion/dist/css/material.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/lib/syncfusion/dist/css/dark.css" id="syncfusion-css-link" />
+    <script src="~/js/themes.js"></script>
     <script src="~/lib/syncfusion/dist/js/ej2.min.js"></script>
-
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+    <header class="bd-navbar">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
+            <div class="container-fluid text-primary">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CatalogR</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -23,12 +24,37 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+                    <div class="nav-item dropdown me-2">
+                        <a class="nav-link dropdown-toggle link-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i id="current-theme" class="bi bi-circle-half"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <button href="#" type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                                    <i class="bi bi-sun-fill me-2"></i>
+                                    Light
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="true">
+                                    <i class="bi bi-moon-stars-fill me-2"></i>
+                                    Dark
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                                    <i class="bi bi-circle-half me-2"></i>
+                                    Auto
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
                     <partial name="_LoginPartial" />
                 </div>
             </div>
@@ -46,7 +72,7 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist-5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <ejs-scripts></ejs-scripts>

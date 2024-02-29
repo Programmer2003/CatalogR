@@ -14,17 +14,24 @@
     }
 
     const setTheme = theme => {
+        let current = document.getElementById('current-theme');
+        if (current) {
+            current.classList = 'bi';
+        }
         if (theme === 'auto') {
             let name = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             document.documentElement.setAttribute('data-bs-theme', name);
             document.getElementById('syncfusion-css-link').href = '/lib/syncfusion/dist/css/' + name + '.css';
+            if (current) current.classList.add('bi-circle-half');
         } else {
             document.documentElement.setAttribute('data-bs-theme', theme)
             if (theme == 'dark') {
                 document.getElementById('syncfusion-css-link').href = '/lib/syncfusion/dist/css/dark.css';
+                if (current) current.classList.add('bi-moon-stars-fill');
             }
             else {
                 document.getElementById('syncfusion-css-link').href = '/lib/syncfusion/dist/css/light.css';
+                if (current) current.classList.add('bi-sun-fill');
             }
         }
     }
