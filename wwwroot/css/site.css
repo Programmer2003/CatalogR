@@ -16,3 +16,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+@media (max-width: 575px) {
+    .nav-item.dropdown {
+        display: none;
+    }
+}
