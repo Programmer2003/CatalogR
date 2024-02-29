@@ -3,13 +3,13 @@
 
 - [ ] Site
   - [ ] Multi Languages
-    - [ ] Russian
-	- [ ] English
+    - [] Russian
+	- [] English
 	- [ ] Save Choice
-  - [ ] Themes
-    - [ ] Light
-	- [ ] Dark
-	- [ ] Save Choice
+  - [x] Themes
+    - [x] Light
+	- [x] Dark
+	- [x] Save Choice
   - [ ] Full text search
   - [ ] Main page
     - [ ] Last added items (name, collection, author)
