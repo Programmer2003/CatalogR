@@ -7,7 +7,7 @@
 	- [x] English
 	- [x] Save Choice
 	- [ ] Adaptive
-  - [] Themes
+  - [ ] Themes
     - [x] Light
 	- [x] Dark
 	- [x] Save Choice
