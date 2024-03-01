@@ -107,6 +107,12 @@ namespace CatalogR.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            var user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
+            if (user.IsLocked == true)
+            {
+                var attempt = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, lockoutOnFailure: false);
+                if(attempt.Succeeded) ModelState.AddModelError("", "Your account is locked out");
+            }
 
             if (ModelState.IsValid)
             {

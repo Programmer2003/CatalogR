@@ -18,11 +18,11 @@ namespace CatalogR.Models
         [Column(TypeName = "TEXT")]
         public string? Description { get; set; }
 
-        public string UserId { get; set; }
-        public User User { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public User User { get; set; } = null!;
 
         [ForeignKey(nameof(Topic))]
         public int? CollectionTopicId { get; set; }
-        public virtual CollectionTopic Topic { get; set; }
+        public virtual CollectionTopic? Topic { get; set; }
     }
 }
