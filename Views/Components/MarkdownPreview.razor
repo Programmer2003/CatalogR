@@ -1,38 +1,43 @@
 ﻿@using Markdig;
 @using Microsoft.AspNetCore.Components
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor
 
-<div id="ej2Tab">
-    <div class="e-tab-header">
-        <div>Edit </div>
-        <div>Preview</div>
-    </div>
-    <div class="e-content">
-        <div>
-            <textarea id="Description" name="Description" rows="10" style="width: 100%" @oninput="OnTextChanged"></textarea>
-        </div>
-        <div class="scrollable-div ">
-            @Html
-        </div>
-    </div>
-</div>
-<style>
-    .scrollable-div {
-        overflow-y: scroll;
-        height: 200px;
-    }
-</style>
-<script type="text/javascript">
-    var tabObj = new ej.navigations.Tab({
-        height: "250px"
-    });
-    tabObj.appendTo('#ej2Tab');
-</script>
+<SfTab CssClass=@("default-tab")>
+    <TabAnimationSettings>
+        <TabAnimationPrevious Effect=AnimationEffect.None></TabAnimationPrevious>
+        <TabAnimationNext Effect=AnimationEffect.None></TabAnimationNext>
+    </TabAnimationSettings>
+    <TabItems>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="Edit"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <div>
+                    <textarea id="Description" name="Description" rows="10" style="width: 100%" @oninput="OnTextChanged"></textarea>
+                </div>
+            </ContentTemplate>
+        </TabItem>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="Preview"></TabHeader>
+            </ChildContent>
+            <ContentTemplate>
+                <div class="scrollable-div ">
+                    @Html
+                </div>
+            </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>
+
 @code {
     public MarkupString Html { get; set; }
 
-    protected void OnTextChanged(ChangeEventArgs args)
+    protected void OnTextChanged(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-        Html = (MarkupString)Markdown.ToHtml(args.Value.ToString());
+        Html = (MarkupString)Markdown.ToHtml(args.Value!.ToString()!);
         InvokeAsync(() => StateHasChanged());
     }
- }   
+}

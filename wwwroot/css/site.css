@@ -36,3 +36,8 @@ body {
     background: rgba(68, 68, 68, 0.3);
     border-radius: 5px;
 }
+
+.scrollable-div {
+    overflow-y: scroll;
+    height: 200px;
+}
