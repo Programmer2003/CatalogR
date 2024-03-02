@@ -1,5 +1,7 @@
 using CatalogR.Data;
+using CatalogR.Data.Migrations;
 using CatalogR.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -40,6 +42,20 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ActiveUserPolicy", policyBuilder =>
+    {
+        policyBuilder.AddRequirements(new ActiveUserRequirement());
+    });
+});
+builder.Services.AddTransient<IAuthorizationHandler, ActiveUserRequirementHandler>();
+
+builder.Services.Configure<SecurityStampValidatorOptions>(options =>
+{
+    options.ValidationInterval = TimeSpan.Zero;
+});
+
 var app = builder.Build();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhKYVVpR2Nbe050flREalxZVAciSV9jS3pTdEdrWXtfcnRdQGRVUA==");
 
@@ -67,8 +83,10 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+    pattern: "{controller=Home}/{action=Index}/{id?}")
+    .RequireAuthorization("ActiveUserPolicy");
+app.MapRazorPages()
+   .RequireAuthorization("ActiveUserPolicy");
 
 using (var scope = app.Services.CreateAsyncScope())
 {
@@ -112,7 +130,7 @@ using (var scope = app.Services.CreateAsyncScope())
             await db.CollectionTopics.AddAsync(new CollectionTopic() { Name = topic });
         }
     }
-    
+
     await db.SaveChangesAsync();
 }
 
