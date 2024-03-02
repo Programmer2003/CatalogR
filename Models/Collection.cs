@@ -18,8 +18,11 @@ namespace CatalogR.Models
         [Column(TypeName = "TEXT")]
         public string? Description { get; set; }
 
+        [NotMapped]
+        public string DescriptionMarkdown { get => Markdown.Parse(Description); }
+
         public string UserId { get; set; } = string.Empty;
-        public User User { get; set; } = null!;
+        public User? User { get; set; }
 
         [ForeignKey(nameof(Topic))]
         public int? CollectionTopicId { get; set; }
