@@ -1,0 +1,27 @@
+﻿@model IEnumerable<CatalogR.Models.Collection>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p><a asp-action="Create">Create New</a></p>
+<div class="d-flex flex-column gap-3">
+    @foreach (var item in Model)
+    {
+        <div class="e-card e-card-horizontal" style="height: 180px">
+            <img src="/img/1.png" class="object-fit-scale border rounded flex-grow-0" alt="Sample">
+            <div class="e-card-stacked flex-grow-1">
+                <div class="e-card-header flex-grow-0 pb-2">
+                    <div class="e-card-header-caption">
+                        <div class="e-card-header-title">@item.Name</div>
+                    </div>
+                </div>
+                <div class="e-card-content flex-grow-1 overflow-auto mb-2">
+                    @Html.Raw(item.DescriptionMarkdown)
+                </div>
+            </div>
+        </div>
+    }
+</div>

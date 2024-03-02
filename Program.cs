@@ -21,6 +21,7 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.AddServerSideBlazor();
 builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
 
@@ -85,6 +86,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .RequireAuthorization("ActiveUserPolicy");
+app.MapBlazorHub();
 app.MapRazorPages()
    .RequireAuthorization("ActiveUserPolicy");
 

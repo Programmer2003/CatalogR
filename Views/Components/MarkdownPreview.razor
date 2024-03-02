@@ -1,0 +1,38 @@
+﻿@using Markdig;
+@using Microsoft.AspNetCore.Components
+
+<div id="ej2Tab">
+    <div class="e-tab-header">
+        <div>Edit </div>
+        <div>Preview</div>
+    </div>
+    <div class="e-content">
+        <div>
+            <textarea id="Description" name="Description" rows="10" style="width: 100%" @oninput="OnTextChanged"></textarea>
+        </div>
+        <div class="scrollable-div ">
+            @Html
+        </div>
+    </div>
+</div>
+<style>
+    .scrollable-div {
+        overflow-y: scroll;
+        height: 200px;
+    }
+</style>
+<script type="text/javascript">
+    var tabObj = new ej.navigations.Tab({
+        height: "250px"
+    });
+    tabObj.appendTo('#ej2Tab');
+</script>
+@code {
+    public MarkupString Html { get; set; }
+
+    protected void OnTextChanged(ChangeEventArgs args)
+    {
+        Html = (MarkupString)Markdown.ToHtml(args.Value.ToString());
+        InvokeAsync(() => StateHasChanged());
+    }
+ }   

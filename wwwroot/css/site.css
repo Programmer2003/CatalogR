@@ -22,3 +22,17 @@ body {
         display: none;
     }
 }
+
+.e-card-content::-webkit-scrollbar {
+    width: 10px;
+    border-radius: 5px;
+}
+
+.e-card-content::-webkit-scrollbar-track {
+    background-color: unset;
+}
+
+.e-card-content::-webkit-scrollbar-thumb {
+    background: rgba(68, 68, 68, 0.3);
+    border-radius: 5px;
+}

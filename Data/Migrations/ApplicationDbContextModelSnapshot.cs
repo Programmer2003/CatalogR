@@ -51,7 +51,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections", (string)null);
                 });
 
             modelBuilder.Entity("CatalogR.Models.CollectionTopic", b =>
@@ -69,7 +69,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CollectionTopics");
+                    b.ToTable("CollectionTopics", (string)null);
                 });
 
             modelBuilder.Entity("CatalogR.Models.User", b =>
