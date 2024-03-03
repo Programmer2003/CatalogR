@@ -1,6 +1,7 @@
 ﻿using CatalogR.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace CatalogR.Data
 {
@@ -8,6 +9,8 @@ namespace CatalogR.Data
     {
         public DbSet<CollectionTopic> CollectionTopics { get; set; } = null!;
         public DbSet<Collection> Collections { get; set; } = null!;
+        public DbSet<Item> Items { get; set; } = null!;
+        public DbSet<Tag> Tags { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -21,7 +24,11 @@ namespace CatalogR.Data
                 .HasMany(u => u.Collections)
                 .WithOne(c => c.User)
                 .HasForeignKey(c => c.UserId)
-                .IsRequired();
+            .IsRequired();
+
+            builder.Entity<Item>()
+                .HasMany(e => e.Tags)
+                .WithMany(e => e.Items);
         }
     }
 }
