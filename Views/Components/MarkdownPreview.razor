@@ -15,7 +15,9 @@
             </ChildContent>
             <ContentTemplate>
                 <div>
-                    <textarea id="Description" name="Description" rows="10" style="width: 100%" @oninput="OnTextChanged"></textarea>
+                    <textarea id="Description" name="Description" rows="10" style="width: 100%" @oninput="OnTextChanged">
+                        @Text
+                    </textarea>
                 </div>
             </ContentTemplate>
         </TabItem>
@@ -33,11 +35,20 @@
 </SfTab>
 
 @code {
+    [Parameter]
+    public string Text { get; set; } = string.Empty;
+
     public MarkupString Html { get; set; }
 
     protected void OnTextChanged(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-        Html = (MarkupString)Markdown.ToHtml(args.Value!.ToString()!);
+        Html = (MarkupString)Markdown.ToHtml(args.Value?.ToString() ?? string.Empty);
         InvokeAsync(() => StateHasChanged());
+    }
+
+    protected override Task OnInitializedAsync()
+    {
+        Html = (MarkupString)Markdown.ToHtml(Text);
+        return base.OnInitializedAsync();
     }
 }

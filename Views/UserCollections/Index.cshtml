@@ -11,6 +11,17 @@
     @foreach (var item in Model)
     {
         <div class="e-card e-card-horizontal" style="height: 180px">
+            <div class="fs-5 position-absolute top-0 end-0 pe-2 d-flex gap-2">
+                <a class="link-info" asp-action="Edit" asp-route-id="@item.Id">
+                    <i class="bi bi-pencil-square"></i> 
+                </a>
+                <a class="link-info" asp-action="Details" asp-route-id="@item.Id">
+                    <i class="bi bi-eye"></i>
+                </a>
+                <a class="link-info " asp-action="Delete" asp-route-id="@item.Id">
+                    <i class="bi bi-trash3"></i>
+                </a>
+            </div>
             <img src="/img/1.png" class="object-fit-scale border rounded flex-grow-0" alt="Sample">
             <div class="e-card-stacked flex-grow-1">
                 <div class="e-card-header flex-grow-0 pb-2">
