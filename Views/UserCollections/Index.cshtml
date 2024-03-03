@@ -10,10 +10,10 @@
 <div class="d-flex flex-column gap-3">
     @foreach (var item in Model)
     {
-        <div class="e-card e-card-horizontal" style="height: 180px">
+        <div class="card mb-3" >
             <div class="fs-5 position-absolute top-0 end-0 pe-2 d-flex gap-2">
                 <a class="link-info" asp-action="Edit" asp-route-id="@item.Id">
-                    <i class="bi bi-pencil-square"></i> 
+                    <i class="bi bi-pencil-square"></i>
                 </a>
                 <a class="link-info" asp-action="Details" asp-route-id="@item.Id">
                     <i class="bi bi-eye"></i>
@@ -22,15 +22,18 @@
                     <i class="bi bi-trash3"></i>
                 </a>
             </div>
-            <img src="/img/1.png" class="object-fit-scale border rounded flex-grow-0" alt="Sample">
-            <div class="e-card-stacked flex-grow-1">
-                <div class="e-card-header flex-grow-0 pb-2">
-                    <div class="e-card-header-caption">
-                        <div class="e-card-header-title">@item.Name</div>
-                    </div>
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="/img/1.png" class="img-fluid rounded-start" alt="...">
                 </div>
-                <div class="e-card-content flex-grow-1 overflow-auto mb-2">
-                    @Html.Raw(item.DescriptionMarkdown)
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <div class="card-text overflow-auto scrollable-div" style="max-height: 150px">
+                            @Html.Raw(item.DescriptionMarkdown)
+                        </div>
+                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                    </div>
                 </div>
             </div>
         </div>

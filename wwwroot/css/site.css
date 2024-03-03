@@ -23,21 +23,16 @@ body {
     }
 }
 
-.e-card-content::-webkit-scrollbar {
+.scrollable-div::-webkit-scrollbar {
     width: 10px;
     border-radius: 5px;
 }
 
-.e-card-content::-webkit-scrollbar-track {
+.scrollable-div::-webkit-scrollbar-track {
     background-color: unset;
 }
 
-.e-card-content::-webkit-scrollbar-thumb {
+.scrollable-div::-webkit-scrollbar-thumb {
     background: rgba(68, 68, 68, 0.3);
     border-radius: 5px;
-}
-
-.scrollable-div {
-    overflow-y: scroll;
-    height: 200px;
 }

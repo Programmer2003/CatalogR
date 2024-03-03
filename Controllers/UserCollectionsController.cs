@@ -48,12 +48,7 @@ namespace CatalogR.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            else
-            {
-                var errors = ModelState.Select(x => x.Value?.Errors)
-                                       .Where(y => y?.Count > 0)
-                                       .ToList();
-            }
+
             ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name", collection.CollectionTopicId);
             return View(collection);
         }
@@ -107,6 +102,42 @@ namespace CatalogR.Controllers
 
             ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name", collection.CollectionTopicId);
             return View(collection);
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.Collections == null)
+            {
+                return NotFound();
+            }
+
+            var collection = await _context.Collections
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (collection == null || collection.UserId != _userManager.GetUserId(User))
+            {
+                return NotFound();
+            }
+
+            return View(collection);
+        }
+
+        // POST: UserCollections/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            if (_context.Collections == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Collections'  is null.");
+            }
+            var collection = await _context.Collections.FindAsync(id);
+            if (collection != null)
+            {
+                _context.Collections.Remove(collection);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         private bool CollectionExists(int id)
