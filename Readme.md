@@ -21,13 +21,10 @@
 - [ ] User Profile
   - [ ] Collections list
     - [ ] CRUD
-      - [ ] Name
-	  - [ ] Description (with markdown)
-	  - [ ] Topic (dropdown)
+      - [x] Name
+	  - [x] Description (with markdown)
+	  - [x] Topic (dropdown)
 	  - [ ] Image (using cloud, could be null)
-	- [ ] Table manipulations
-	  - [ ] Sorting
-	  - [ ] Filtering
 	- [ ] Additional fields
 	  - [ ] 3 int
 	  - [ ] 3 string
@@ -41,6 +38,9 @@
 	  - [ ] Tags
 	    - [ ] Autocomplete
 	  - [ ] Custom fields
+	- [ ] Table manipulations
+	  - [ ] Sorting
+	  - [ ] Filtering
 	- [ ] Item page
 	  - [ ] Auth check
 	  - [ ] Comments
