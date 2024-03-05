@@ -13,6 +13,6 @@ namespace CatalogR.Models
         [DataType(DataType.Text)]
         public string Name { get; set; } = string.Empty;
 
-        public List<Tag> Tags { get; } = new List<Tag>();
+        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
     }
 }

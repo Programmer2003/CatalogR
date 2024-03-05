@@ -12,6 +12,6 @@ namespace CatalogR.Models
         [StringLength(10, ErrorMessage = "Tag name cannot be longer than 10 characters")]
         [DataType(DataType.Text)]
         public string Name { get; set; } = string.Empty;
-        public List<Item> Items { get; } = new List<Item>();
+        public ICollection<Item> Items { get; } = new List<Item>();
     }
 }

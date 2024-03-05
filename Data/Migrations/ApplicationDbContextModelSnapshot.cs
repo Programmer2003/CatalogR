@@ -51,7 +51,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Collections");
+                    b.ToTable("Collections", (string)null);
                 });
 
             modelBuilder.Entity("CatalogR.Models.CollectionTopic", b =>
@@ -69,7 +69,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CollectionTopics");
+                    b.ToTable("CollectionTopics", (string)null);
                 });
 
             modelBuilder.Entity("CatalogR.Models.Item", b =>
@@ -87,7 +87,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items");
+                    b.ToTable("Items", (string)null);
                 });
 
             modelBuilder.Entity("CatalogR.Models.Tag", b =>
@@ -105,7 +105,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("CatalogR.Models.User", b =>
@@ -188,7 +188,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("ItemTag");
+                    b.ToTable("ItemTag", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -138,18 +138,15 @@ using (var scope = app.Services.CreateAsyncScope())
     await db.SaveChangesAsync();
 }
 
-List<Tag> allTags = new List<Tag>();
 using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var tags = new[] { "Cool", "Hot", "New", "Real" };
     foreach (var tag in tags)
     {
-        Tag newTag = new Tag() { Name = tag };
-        allTags.Add(newTag);
         if (!await db.Tags.AnyAsync(c => c.Name == tag))
         {
-            await db.Tags.AddAsync(newTag);
+            await db.Tags.AddAsync(new Tag() { Name = tag });
         }
     }
 
@@ -160,6 +157,7 @@ using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var items = new[] { "Item 1", "Book Hawking", "J.K. Rowling", "Stop Sign" };
+    List<Tag> allTags = db.Tags.ToList();
     foreach (var item in items)
     {
         if (!await db.Items.AnyAsync(c => c.Name == item))
