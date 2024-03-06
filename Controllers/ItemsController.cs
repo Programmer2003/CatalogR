@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CatalogR.Data;
 using CatalogR.Models;
 using System.Data;
-using Microsoft.AspNetCore.Components.Forms;
 
 namespace CatalogR.Controllers
 {
@@ -30,18 +24,11 @@ namespace CatalogR.Controllers
 
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Items == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Items == null) return NotFound();
 
-            await Console.Out.WriteLineAsync("TEst");
             var item = await _context.Items.Include(i => i.Tags)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
+            if (item == null) return NotFound();
 
             return View(item);
         }
@@ -62,9 +49,7 @@ namespace CatalogR.Controllers
             if (ModelState.IsValid)
             {
                 model.Item = _context.Add(model.Item).Entity;
-
                 model.Item.Tags = await _context.Entry(model.Item).Collection(i => i.Tags).Query().ToListAsync();
-
                 if (!UpdateTags(model))
                 {
                     return View(model);
@@ -79,18 +64,12 @@ namespace CatalogR.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Items == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Items == null) return NotFound();
 
             var item = await _context.Items.Include(i => i.Tags).FirstOrDefaultAsync(i => i.Id == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            ItemModel model = new ItemModel();
-            model.Item = item;
+            if (item == null) return NotFound();
+
+            ItemModel model = new ItemModel() { Item = item };
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
             model.SelectedTags = item.Tags.Select(t => t.Name).ToArray();
             return View(model);
@@ -100,10 +79,7 @@ namespace CatalogR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ItemModel model)
         {
-            if (id != model.Item.Id)
-            {
-                return NotFound();
-            }
+            if (id != model.Item.Id) return NotFound();
 
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
 
@@ -112,9 +88,7 @@ namespace CatalogR.Controllers
                 try
                 {
                     model.Item = _context.Update(model.Item).Entity;
-
                     model.Item.Tags = await _context.Entry(model.Item).Collection(i => i.Tags).Query().ToListAsync();
-
                     if (!UpdateTags(model))
                     {
                         return View(model);
@@ -124,15 +98,10 @@ namespace CatalogR.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemExists(model.Item.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!ItemExists(model.Item.Id)) return NotFound();
+                    else throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -178,17 +147,11 @@ namespace CatalogR.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Items == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Items == null) return NotFound();
 
-            var item = await _context.Items
+            var item = await _context.Items.Include(i => i.Tags)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (item == null)
-            {
-                return NotFound();
-            }
+            if (item == null) return NotFound();
 
             return View(item);
         }
@@ -197,15 +160,10 @@ namespace CatalogR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Items == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Items'  is null.");
-            }
+            if (_context.Items == null) return Problem("Entity set 'ApplicationDbContext.Items'  is null.");
+
             var item = await _context.Items.FindAsync(id);
-            if (item != null)
-            {
-                _context.Items.Remove(item);
-            }
+            if (item != null) _context.Items.Remove(item);
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
