@@ -34,9 +34,9 @@
   - [ ] Items List
     - [ ] Render custom fields (string, date)
     - [ ] CRUD
-	  - [ ] Name
-	  - [ ] Tags
-	    - [ ] Autocomplete
+	  - [x] Name
+	  - [x] Tags
+	    - [x] Autocomplete
 	  - [ ] Custom fields
 	- [ ] Table manipulations
 	  - [ ] Sorting
