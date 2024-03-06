@@ -4,6 +4,7 @@ using CatalogR.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CatalogR.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240303161020_AddItemsTagsTables")]
+    partial class AddItemsTagsTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +53,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Collections", (string)null);
+                    b.ToTable("Collections");
                 });
 
             modelBuilder.Entity("CatalogR.Models.CollectionTopic", b =>
@@ -69,7 +71,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CollectionTopics", (string)null);
+                    b.ToTable("CollectionTopics");
                 });
 
             modelBuilder.Entity("CatalogR.Models.Item", b =>
@@ -87,7 +89,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("CatalogR.Models.Tag", b =>
@@ -105,7 +107,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tags", (string)null);
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("CatalogR.Models.User", b =>
@@ -188,7 +190,7 @@ namespace CatalogR.Data.Migrations
 
                     b.HasIndex("TagsId");
 
-                    b.ToTable("ItemTag", (string)null);
+                    b.ToTable("ItemTag");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
