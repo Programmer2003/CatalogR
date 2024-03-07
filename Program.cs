@@ -152,7 +152,7 @@ using (var scope = app.Services.CreateAsyncScope())
 
     await db.SaveChangesAsync();
 }
-
+/*
 using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -174,5 +174,6 @@ using (var scope = app.Services.CreateAsyncScope())
 
     await db.SaveChangesAsync();
 }
+*/
 
 app.Run();

@@ -7,35 +7,67 @@
 <h1>Index</h1>
 
 <p><a asp-action="Create">Create New</a></p>
-<div class="d-flex flex-column gap-3">
-    @foreach (var item in Model)
-    {
-        <div class="card mb-3" >
-            <div class="fs-5 position-absolute top-0 end-0 pe-2 d-flex gap-2">
-                <a class="link-info" asp-action="Edit" asp-route-id="@item.Id">
-                    <i class="bi bi-pencil-square"></i>
-                </a>
-                <a class="link-info" asp-action="Details" asp-route-id="@item.Id">
-                    <i class="bi bi-eye"></i>
-                </a>
-                <a class="link-info " asp-action="Delete" asp-route-id="@item.Id">
-                    <i class="bi bi-trash3"></i>
-                </a>
-            </div>
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="/img/1.png" class="img-fluid rounded-start" alt="...">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Name</h5>
-                        <div class="card-text overflow-auto scrollable-div" style="max-height: 150px">
-                            @Html.Raw(item.DescriptionMarkdown)
-                        </div>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+<ejs-grid dataSource="Model" id="Grid" dataBound="dataBound" enableStickyHeader="true" allowResizing="true" allowPaging="true" allowSorting="true" allowFiltering="true" allowGrouping="true" rowHeight="180" allowSelection="true" rowSelected="rowSelected">
+    <e-grid-pagesettings pageSizes="@(new string[] { "5", "10" , "20" })" pageSize="5"></e-grid-pagesettings>
+    <e-data-manager json="@Model.ToArray()" adaptor="RemoteSaveAdaptor" insertUrl="/UserCollections/Create" updateUrl="/UserCollections/Edit" removeUrl="/UserCollections/Delete"></e-data-manager>
+    <e-grid-loadingIndicator indicatorType="Shimmer"></e-grid-loadingIndicator>
+    <e-grid-filterSettings type="Menu"></e-grid-filterSettings>
+    <e-grid-groupsettings enableLazyLoading="true"></e-grid-groupsettings>
+    <e-grid-columns>
+        <e-grid-column template="#img-template" headerText="Image" textAlign="Center" width="150"></e-grid-column>
+        <e-grid-column field="Name" headerText="Name" allowGrouping="false" width="100"></e-grid-column>
+        <e-grid-column template="#markdown-template" headerText="Description" width="200"></e-grid-column>
+        <e-grid-column field="Topic.Name" headerText="Topic" filter="@(new { type="CheckBox"})" textAlign="Left" width="100"></e-grid-column>
+        <e-grid-column template="#actions-template" headerText="Actions" textAlign="Center" width="50"></e-grid-column>
+    </e-grid-columns>
+</ejs-grid>
+
+<script id="img-template" type="text/x-template">
+    <div class="d-none d-lg-block">
+        <img class="img-thumbnail" style="max-height: 180px" src="/img/1.png" alt="..." />
+    </div>
+</script>
+
+<script id="markdown-template" type="text/x-template">
+    <div class="overflow-auto scrollable-div py-2" style="max-height: 150px; margin: 0 !important">
+        ${DescriptionMarkdown}
+    </div>
+</script>
+
+<script id="actions-template" type="text/x-template">
+    <div class="fs-3 pe-2 d-flex gap-2">
+        <a href='@Url.Action("Edit")/${Id}' class="link-warning" title="Edit">
+            <i class="bi bi-pencil-square"></i>
+        </a>
+        <a href='@Url.Action("Details")/${Id}' vclass="link-info" title="Details">
+            <i class="bi bi-eye"></i>
+        </a>
+        <a href='@Url.Action("Delete")/${Id}' class="link-danger" title="Delete">
+            <i class="bi bi-trash3"></i>
+        </a>
+    </div>
+</script>
+
+<style>
+    .e-grid .e-gridheader .e-columnheader, .e-groupcaptionrow {
+        height: 50px !important;
     }
-</div>
+
+    .e-row{
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    function dataBound() {
+        var grid = document.getElementById('Grid').ej2_instances[0];
+        grid.hideScroll();
+    }
+
+    function rowSelected(args) {
+        var actionUrl = '@(Url.Action("Index", "CollectionItems") + "/" + "PLACEHOLDER")';
+        console.log(actionUrl);
+        window.open(actionUrl.replace('PLACEHOLDER', args.data.Id));
+        var selectedrecords = this.getSelectedRecords();  // get the selected records.
+    }
+</script>   

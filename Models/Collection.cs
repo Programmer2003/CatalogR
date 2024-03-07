@@ -27,5 +27,7 @@ namespace CatalogR.Models
         [ForeignKey(nameof(Topic))]
         public int? CollectionTopicId { get; set; }
         public virtual CollectionTopic? Topic { get; set; }
+
+        public ICollection<Item> Items { get; set; } = new List<Item>();
     }
 }
