@@ -24,13 +24,13 @@
       - [x] Name
 	  - [x] Description (with markdown)
 	  - [x] Topic (dropdown)
-	  - [ ] Image (using cloud, could be null)
-	- [ ] Additional fields
-	  - [ ] 3 int
-	  - [ ] 3 string
-	  - [ ] 3 text
-	  - [ ] 3 checkbox
-	  - [ ] 3 dateb 
+	  - [x] Image (using cloud, could be null)
+	  - [ ] Additional fields
+	    - [ ] 3 int
+	    - [ ] 3 string
+	    - [ ] 3 text
+	    - [ ] 3 checkbox
+	    - [ ] 3 dateb 
   - [ ] Items List
     - [ ] Render custom fields (string, date)
     - [ ] CRUD
