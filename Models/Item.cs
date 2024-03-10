@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CatalogR.Models
 {
@@ -13,8 +15,8 @@ namespace CatalogR.Models
         [StringLength(255, ErrorMessage = "Item name cannot be longer than 255 characters")]
         [DataType(DataType.Text)]
         public string Name { get; set; } = string.Empty;
-
-        public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+        
+        public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
 
         public int? CollectionId { get; set; }
         public virtual Collection? Collection { get; set; }

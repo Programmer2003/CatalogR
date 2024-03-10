@@ -8,5 +8,6 @@ namespace CatalogR.Models
         public string[] SelectedTags { get; set; } = Array.Empty<string>();
         public string[] TagsListItems { get; set; } = Array.Empty<string>();
 
+        public int collectionId { get; set; }
     }
 }

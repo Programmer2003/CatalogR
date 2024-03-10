@@ -1,0 +1,50 @@
+﻿@using CatalogR.Models;
+@using Syncfusion.Blazor.Grids
+@inject LinkGenerator LinkGenerator
+
+<SfGrid DataSource="@Items" AllowPaging="true" AllowSorting="true" AllowFiltering="true">
+    <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+    <GridPageSettings PageSizes="@(new string[] { "5", "10" , "20" })" PageSize="5"></GridPageSettings>
+    <GridColumns>
+        <GridColumn Field=@nameof(Item.Id) HeaderText="ID" Width="120"></GridColumn>
+        <GridColumn Field=@nameof(Item.Name) HeaderText="Name" Width="120"></GridColumn>
+        <GridColumn Field=@nameof(Item.Tags) HeaderText="Tags" Width="50" AllowFiltering="false" AllowSorting="false">
+            <Template>
+                @{
+                    var item = (context as Item);
+                    if (item == null || item.Tags.Count() == 0)
+                    {
+                        <div> - </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex gap-1">
+                            @foreach (var tag in item.Tags)
+                            {
+                                <a class="btn btn-sm btn-outline-primary rounded-pill" href="#">@tag.Name</a>
+                            }
+                        </div>
+                    }
+                }
+            </Template>
+        </GridColumn>
+        <GridColumn HeaderText="Actions" Width="50">
+            <Template>
+                @{
+                    var item = (context as Item);
+                    var routeValues = new { collectionId = CollectionId, id = item?.Id };
+                    <a href="@LinkGenerator.GetPathByAction("Edit", "CollectionItems", routeValues)"> Edit </a>
+                    <a href="@LinkGenerator.GetPathByAction("Details", "CollectionItems", routeValues)"> Details </a>
+                    <a href="@LinkGenerator.GetPathByAction("Delete", "CollectionItems", routeValues)"> Delete </a>
+                }
+            </Template>
+        </GridColumn>
+    </GridColumns>
+</SfGrid>
+@code {
+    [Parameter]
+    public IEnumerable<Item> Items { get; set; } = new List<Item>();
+
+    [Parameter]
+    public string CollectionId { get; set; } = string.Empty;
+}

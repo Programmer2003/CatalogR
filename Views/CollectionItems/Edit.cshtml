@@ -1,0 +1,39 @@
+﻿@model ItemModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Item</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Item.Id" />
+            <div class="form-group">
+                <label asp-for="Item.Name" class="control-label"></label>
+                <input asp-for="Item.Name" class="form-control" />
+                <span asp-validation-for="Item.Name" class="text-danger"></span>
+            </div>
+            <ejs-multiselect name="SelectedTags" dataSource="Model.TagsListItems" value="Model.SelectedTags" id="SelectedTags" allowFiltering="true" floatLabelType="Auto" allowCustomValue="true" placeholder="Tags" MaximumSelectionLength="10">
+                <e-multiselect-fields value="Text"></e-multiselect-fields>
+            </ejs-multiselect>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" asp-route-collectionId="@ViewContext.RouteData.Values["collectionId"]">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

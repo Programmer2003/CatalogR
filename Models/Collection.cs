@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CatalogR.Models
 {
@@ -27,7 +29,9 @@ namespace CatalogR.Models
         [ForeignKey(nameof(Topic))]
         public int? CollectionTopicId { get; set; }
         public virtual CollectionTopic? Topic { get; set; }
-
+        
+        [JsonIgnore]
+        [IgnoreDataMember]
         public ICollection<Item> Items { get; set; } = new List<Item>();
     }
 }
