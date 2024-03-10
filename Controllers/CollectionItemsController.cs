@@ -178,11 +178,7 @@ namespace CatalogR.Controllers
         {
             foreach (var selectedTag in newTags)
             {
-                if (selectedTag.Length > 10)
-                {
-                    ModelState.AddModelError("", "Tag name cannot be longer than 10 characters");
-                    return false;
-                }
+                if (!CheckTag(selectedTag)) return false;
 
                 var newTag = new Tag { Name = selectedTag };
                 _context.Tags.Attach(newTag);
@@ -190,6 +186,14 @@ namespace CatalogR.Controllers
             }
 
             return true;
+        }
+
+        private bool CheckTag(string tagName)
+        {
+            if (tagName.Length <= 10 && tagName.Length > 2) return true;
+            if (tagName.Length > 10) ModelState.AddModelError("", "Tag name cannot be longer than 10 characters");
+            else ModelState.AddModelError("", "Tag name cannot be less than 3 characters");
+            return false;
         }
     }
 }

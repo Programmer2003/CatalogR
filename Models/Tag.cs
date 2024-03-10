@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace CatalogR.Models
 {
+    [Index(nameof(Name), IsUnique = true)]
     public class Tag
     {
         [Key]
