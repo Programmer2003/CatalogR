@@ -1,4 +1,5 @@
-﻿using CatalogR.Data;
+﻿using CatalogR.CloudStorage;
+using CatalogR.Data;
 using CatalogR.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,10 +14,12 @@ namespace CatalogR.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
-        public UserCollectionsController(ApplicationDbContext context, UserManager<User> userManager)
+        private readonly ICloudStorage _cloudStorage;
+        public UserCollectionsController(ApplicationDbContext context, UserManager<User> userManager, ICloudStorage cloudStorage)
         {
             _context = context;
             _userManager = userManager;
+            _cloudStorage = cloudStorage;
         }
 
         [HttpGet]
@@ -39,11 +42,16 @@ namespace CatalogR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,UserId,CollectionTopicId")] Collection collection)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,UserId,CollectionTopicId,ImageFile")] Collection collection)
         {
             collection.UserId = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
+                if(collection.ImageFile != null)
+                {
+                    await UploadFile(collection);
+                }
+
                 _context.Add(collection);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -72,18 +80,25 @@ namespace CatalogR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CollectionTopicId")] Collection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CollectionTopicId,ImageUrl,ImageFile,ImageStorageName")] Collection collection)
         {
             collection.UserId = _userManager.GetUserId(User);
-            if (id != collection.Id)
-            {
-                return NotFound();
-            }
+            if (id != collection.Id) return NotFound();
 
             if (ModelState.IsValid)
             {
                 try
                 {
+                    if(collection.ImageFile != null)
+                    {
+                        if (collection.ImageStorageName != null)
+                        {
+                            await _cloudStorage.DeleteFileAsync(collection.ImageStorageName);
+                        }
+
+                        await UploadFile(collection);
+                    }
+
                     _context.Update(collection);
                     await _context.SaveChangesAsync();
                 }
@@ -127,13 +142,16 @@ namespace CatalogR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Collections == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Collections'  is null.");
-            }
+            if (_context.Collections == null) return Problem("Entity set 'ApplicationDbContext.Collections'  is null.");
+
             var collection = await _context.Collections.FindAsync(id);
             if (collection != null)
             {
+                if(collection.ImageStorageName != null)
+                {
+                    await _cloudStorage.DeleteFileAsync(collection.ImageStorageName);
+                }
+
                 _context.Collections.Remove(collection);
             }
 
@@ -144,6 +162,22 @@ namespace CatalogR.Controllers
         private bool CollectionExists(int id)
         {
             return (_context.Collections?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
+        private async Task UploadFile(Collection collection)
+        {
+            if (collection.ImageFile == null) return;
+
+            string imageStorageName = FormFileName(collection.Name, collection.ImageFile.FileName);
+            collection.ImageUrl = await _cloudStorage.UploadFileAsync(collection.ImageFile, imageStorageName);
+            collection.ImageStorageName = imageStorageName;
+        }
+
+        private static string FormFileName(string title, string fileName)
+        {
+            var extension = Path.GetExtension(fileName);
+            var fileStorageName = $"{title}-{DateTime.Now.ToString("yyyyMMddHHmmss")}{extension}";
+            return fileStorageName;
         }
     }
 }

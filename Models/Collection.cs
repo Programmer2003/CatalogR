@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CatalogR.CustomValidationAttributes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
@@ -15,6 +16,19 @@ namespace CatalogR.Models
         [StringLength(255, ErrorMessage = "Collection name cannot be longer than 255 characters")]
         [DataType(DataType.Text)]
         public string Name { get; set; } = string.Empty;
+
+
+        [DataType(DataType.ImageUrl)]
+        [Display(Name = "Image")]
+        public string? ImageUrl { get; set; }
+
+        [Display(Name = "Collection Image")]
+        [MaxFileSize(1*1024*1024)]
+        [PermittedExtensions(new string[] {".jpg", ".png", ".jpeg", ".webp"})]
+        [NotMapped]
+        public virtual IFormFile? ImageFile { get; set; }
+
+        public string? ImageStorageName { get; set; }
 
         [Display(Name = "Description")]
         [Column(TypeName = "TEXT")]
