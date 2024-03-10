@@ -23,9 +23,11 @@
 </ejs-grid>
 
 <script id="img-template" type="text/x-template">
-    <div class="d-none d-lg-block">
-        <img class="img-thumbnail" style="max-height: 180px" src="/img/1.png" alt="..." />
-    </div>
+    ${if(ImageUrl)}
+        <img class="img-thumbnail" style="max-height: 180px" src="${ImageUrl}" alt="..." />
+    ${else}
+        
+    ${/if}
 </script>
 
 <script id="markdown-template" type="text/x-template">
@@ -53,7 +55,7 @@
         height: 50px !important;
     }
 
-    .e-row{
+    .e-row {
         cursor: pointer;
     }
 </style>

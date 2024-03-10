@@ -1,3 +1,4 @@
+using CatalogR.CloudStorage;
 using CatalogR.Data;
 using CatalogR.Data.Migrations;
 using CatalogR.Models;
@@ -63,6 +64,8 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {
     options.ValidationInterval = TimeSpan.Zero;
 });
+
+builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 
 var app = builder.Build();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhKYVVpR2Nbe050flREalxZVAciSV9jS3pTdEdrWXtfcnRdQGRVUA==");
