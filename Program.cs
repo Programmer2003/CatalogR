@@ -51,8 +51,13 @@ builder.Services.AddAuthorization(options =>
     {
         policyBuilder.AddRequirements(new ActiveUserRequirement());
     });
+    options.AddPolicy("CollectionAccessPolicy", policyBuilder =>
+    {
+        policyBuilder.AddRequirements(new CollectionAccessRequirement());
+    });
 });
 builder.Services.AddTransient<IAuthorizationHandler, ActiveUserRequirementHandler>();
+builder.Services.AddTransient<IAuthorizationHandler, CollectionAccessRequirementHandler>();
 
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {
@@ -152,7 +157,7 @@ using (var scope = app.Services.CreateAsyncScope())
 
     await db.SaveChangesAsync();
 }
-
+/*
 using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -174,5 +179,6 @@ using (var scope = app.Services.CreateAsyncScope())
 
     await db.SaveChangesAsync();
 }
+*/
 
 app.Run();

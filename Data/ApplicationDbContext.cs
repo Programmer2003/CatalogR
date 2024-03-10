@@ -29,6 +29,12 @@ namespace CatalogR.Data
             builder.Entity<Item>()
                 .HasMany(e => e.Tags)
                 .WithMany(e => e.Items);
+
+            builder.Entity<Collection>()
+                .HasMany(c => c.Items)
+                .WithOne(i => i.Collection)
+                .HasForeignKey(c => c.CollectionId)
+            .IsRequired();
         }
     }
 }

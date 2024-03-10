@@ -48,7 +48,7 @@
 
     protected override Task OnInitializedAsync()
     {
-        Html = (MarkupString)Markdown.ToHtml(Text);
+        Html = (MarkupString)Markdown.ToHtml(Text ?? string.Empty);
         return base.OnInitializedAsync();
     }
 }

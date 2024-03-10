@@ -23,7 +23,7 @@ namespace CatalogR.Controllers
         public async Task<IActionResult> Index()
         {
             var userId = _userManager.GetUserId(User);
-            var user = await _context.Users.Include(u => u.Collections).FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _context.Users.Include(u => u.Collections).ThenInclude(u => u.Topic).FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null) return NotFound();
 
             var collections = user.Collections.ToList();
@@ -72,9 +72,10 @@ namespace CatalogR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,UserId,CollectionTopicId")] Collection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CollectionTopicId")] Collection collection)
         {
-            if (id != collection.Id || collection.UserId != _userManager.GetUserId(User))
+            collection.UserId = _userManager.GetUserId(User);
+            if (id != collection.Id)
             {
                 return NotFound();
             }
