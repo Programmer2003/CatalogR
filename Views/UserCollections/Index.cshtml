@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p><a asp-action="Create">Create New</a></p>
-<ejs-grid dataSource="Model" id="Grid" dataBound="dataBound" enableStickyHeader="true" allowResizing="true" allowPaging="true" allowSorting="true" allowFiltering="true" allowGrouping="true" rowHeight="180" allowSelection="true" rowSelected="rowSelected">
+<ejs-grid dataSource="Model" id="Grid" dataBound="dataBound" enableStickyHeader="true" allowResizing="true" allowPaging="true" allowSorting="true" allowFiltering="true" allowGrouping="true" rowHeight="180" allowSelection="true">
     <e-grid-pagesettings pageSizes="@(new string[] { "5", "10" , "20" })" pageSize="5"></e-grid-pagesettings>
     <e-data-manager json="@Model.ToArray()" adaptor="RemoteSaveAdaptor" insertUrl="/UserCollections/Create" updateUrl="/UserCollections/Edit" removeUrl="/UserCollections/Delete"></e-data-manager>
     <e-grid-loadingIndicator indicatorType="Shimmer"></e-grid-loadingIndicator>
@@ -64,12 +64,5 @@
     function dataBound() {
         var grid = document.getElementById('Grid').ej2_instances[0];
         grid.hideScroll();
-    }
-
-    function rowSelected(args) {
-        var actionUrl = '@(Url.Action("Index", "CollectionItems") + "/" + "PLACEHOLDER")';
-        console.log(actionUrl);
-        window.open(actionUrl.replace('PLACEHOLDER', args.data.Id));
-        var selectedrecords = this.getSelectedRecords();  // get the selected records.
     }
 </script>   

@@ -15,6 +15,26 @@
 <div class="row">
     <form asp-action="Create" enctype="multipart/form-data">
         @(await Html.RenderComponentAsync<CatalogR.Views.Components.MarkdownPreview>(RenderMode.ServerPrerendered))
+        <div class="row">
+            <div class="col-md">
+                @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionCustomFields.CustomFields>(RenderMode.ServerPrerendered, new { Values = Model == null ? new List<string>() : Model.GetCustomString(), Title = "String Fields", Field = "String" }))
+            </div>
+            <div class="col-md">
+                @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionCustomFields.CustomFields>(RenderMode.ServerPrerendered, new { Values = Model == null ? new List<string>() : Model.GetCustomDate(), Title = "Date Fields", Field = "Date" }))
+            </div>
+            <div class="col-md">
+                @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionCustomFields.CustomFields>(RenderMode.ServerPrerendered, new { Values = Model == null ? new List<string>() : Model.GetCustomBool(), Title = "Bool Fields", Field = "Bool" }))
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md">
+                @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionCustomFields.CustomFields>(RenderMode.ServerPrerendered, new { Values = Model == null ? new List<string>() : Model.GetCustomInt(), Title = "Int Fields", Field = "Int" }))
+            </div>
+            <div class="col-md">
+                @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionCustomFields.CustomFields>(RenderMode.ServerPrerendered, new { Values = Model == null ? new List<string>() : Model.GetCustomText(), Title = "Text fields", Field = "Text" }))
+            </div>
+            <div class="col-md"></div>
+        </div>
         <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
