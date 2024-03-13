@@ -25,12 +25,12 @@
 	  - [x] Description (with markdown)
 	  - [x] Topic (dropdown)
 	  - [x] Image (using cloud, could be null)
-	  - [ ] Additional fields
-	    - [ ] 3 int
-	    - [ ] 3 string
-	    - [ ] 3 text
-	    - [ ] 3 checkbox
-	    - [ ] 3 dateb 
+	  - [x] Additional fields
+	    - [x] 3 int
+	    - [x] 3 string
+	    - [x] 3 text
+	    - [x] 3 checkbox
+	    - [x] 3 dateb 
   - [ ] Items List
     - [ ] Render custom fields (string, date)
     - [ ] CRUD
