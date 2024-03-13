@@ -42,15 +42,12 @@ namespace CatalogR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,UserId,CollectionTopicId,ImageFile")] Collection collection)
+        public async Task<IActionResult> Create(Collection collection)
         {
             collection.UserId = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
-                if(collection.ImageFile != null)
-                {
-                    await UploadFile(collection);
-                }
+                await UpdateImage(collection);
 
                 _context.Add(collection);
                 await _context.SaveChangesAsync();
@@ -63,16 +60,10 @@ namespace CatalogR.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Collections == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Collections == null) return NotFound();
 
             var collection = await _context.Collections.FindAsync(id);
-            if (collection == null)
-            {
-                return NotFound();
-            }
+            if (collection == null) return NotFound();
 
             ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name", collection.CollectionTopicId);
             return View(collection);
@@ -80,7 +71,7 @@ namespace CatalogR.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CollectionTopicId,ImageUrl,ImageFile,ImageStorageName")] Collection collection)
+        public async Task<IActionResult> Edit(int id, Collection collection)
         {
             collection.UserId = _userManager.GetUserId(User);
             if (id != collection.Id) return NotFound();
@@ -89,30 +80,17 @@ namespace CatalogR.Controllers
             {
                 try
                 {
-                    if(collection.ImageFile != null)
-                    {
-                        if (collection.ImageStorageName != null)
-                        {
-                            await _cloudStorage.DeleteFileAsync(collection.ImageStorageName);
-                        }
-
-                        await UploadFile(collection);
-                    }
+                    await UpdateImage(collection);
 
                     _context.Update(collection);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CollectionExists(collection.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    if (!CollectionExists(collection.Id)) return NotFound();
+                    else throw;
                 }
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -120,19 +98,21 @@ namespace CatalogR.Controllers
             return View(collection);
         }
 
+        private async Task UpdateImage(Collection collection)
+        {
+            if (collection.ImageFile == null) return;
+
+            if (collection.ImageStorageName != null) await _cloudStorage.DeleteFileAsync(collection.ImageStorageName);
+
+            await UploadFile(collection);
+        }
+
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Collections == null)
-            {
-                return NotFound();
-            }
+            if (id == null || _context.Collections == null) return NotFound();
 
-            var collection = await _context.Collections
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (collection == null || collection.UserId != _userManager.GetUserId(User))
-            {
-                return NotFound();
-            }
+            var collection = await _context.Collections.FirstOrDefaultAsync(m => m.Id == id);
+            if (collection == null || collection.UserId != _userManager.GetUserId(User)) return NotFound();
 
             return View(collection);
         }
@@ -147,10 +127,7 @@ namespace CatalogR.Controllers
             var collection = await _context.Collections.FindAsync(id);
             if (collection != null)
             {
-                if(collection.ImageStorageName != null)
-                {
-                    await _cloudStorage.DeleteFileAsync(collection.ImageStorageName);
-                }
+                if(collection.ImageStorageName != null) await _cloudStorage.DeleteFileAsync(collection.ImageStorageName);
 
                 _context.Collections.Remove(collection);
             }
@@ -159,10 +136,7 @@ namespace CatalogR.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CollectionExists(int id)
-        {
-            return (_context.Collections?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
+        private bool CollectionExists(int id) => (_context.Collections?.Any(e => e.Id == id)).GetValueOrDefault();
 
         private async Task UploadFile(Collection collection)
         {

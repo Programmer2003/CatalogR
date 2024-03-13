@@ -1,0 +1,31 @@
+﻿<div class="container border">
+    <h3>@Title</h3>
+    <hr />
+    <button type="button" @onclick="AddValue" class="btn btn-primary" disabled="@(Values.Count >= 3)">Add Field</button>
+
+    @for (int i = 0; i < Values.Count; i++)
+    {
+        int index = i;
+        var name = string.Concat("Custom", Field, i + 1, "_Name");
+        var state = string.Concat("Custom", Field, i + 1, "_State");
+        <div class="input-group mb-3">
+            <input @onchange="(e) => UpdateValue(index, e.Value?.ToString())" value="@Values[i]" type="text" class="form-control" name="@name" maxlength="10">
+            <button @onclick="() => RemoveValue(index)" class="btn btn-outline-danger" type="button"><i class="bi bi-trash3"></i></button>
+        </div>
+        <input type="checkbox" name="@state" value="@(string.IsNullOrWhiteSpace(Values[i]) ? "false": "true")" checked="checked" style="display: none">
+    }
+</div>
+@code {
+    [Parameter]
+    public List<string?> Values { get; set; } = new List<string?>();
+
+    [Parameter]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Field { get; set; } = string.Empty;
+
+    private void AddValue() { if (Values.Count < 3) Values.Add(""); }
+    private void UpdateValue(int i, string? value) => Values[i] = value;
+    private void RemoveValue(int i) => Values.RemoveAt(i);
+}
