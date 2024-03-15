@@ -35,9 +35,9 @@ namespace CatalogR.Models
         [StringLength(255, ErrorMessage = "String field cannot be longer than 255 characters")]
         public string? CustomString3 { get; set; }
 
-        public bool? CustomBool1 { get; set; }
-        public bool? CustomBool2 { get; set; }
-        public bool? CustomBool3 { get; set; }
+        public bool CustomBool1 { get; set; } = false;
+        public bool CustomBool2 { get; set; } = false;
+        public bool CustomBool3 { get; set; } = false;
 
         [Column(TypeName = "TEXT")]
         public string? CustomText1 { get; set; }

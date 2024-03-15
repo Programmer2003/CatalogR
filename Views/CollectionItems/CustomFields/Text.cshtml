@@ -1,0 +1,30 @@
+﻿@model ItemModel
+@{
+    var item = Model.Item;
+}
+@if (item.Collection != null)
+{
+    @if (item.Collection.CustomText1_State)
+    {
+        <div class="form-group">
+            <label class="control-label">@item.Collection.CustomText1_Name</label>
+            <textarea asp-for="Item.CustomText1"></textarea>
+            <span asp-validation-for="Item.CustomText1" class="text-danger"></span>
+        </div>
+    }
+
+    @if (item.Collection.CustomText2_State)
+    {
+        <label class="control-label">@item.Collection.CustomText2_Name</label>
+        <textarea asp-for="Item.CustomText2"></textarea>
+        <span asp-validation-for="Item.CustomText2" class="text-danger"></span>
+    }
+    @if (item.Collection.CustomText3_State)
+    {
+        <div class="form-group">
+            <label class="control-label">@item.Collection.CustomText3_Name</label>
+            <textarea asp-for="Item.CustomText3"></textarea>
+            <span asp-validation-for="Item.CustomText3" class="text-danger"></span>
+        </div>
+    }
+}

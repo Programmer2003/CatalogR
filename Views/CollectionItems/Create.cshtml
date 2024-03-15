@@ -21,6 +21,10 @@
                 <e-multiselect-fields value="Text"></e-multiselect-fields>
             </ejs-multiselect>
             @await Html.PartialAsync("CustomFields/String", Model)
+            @await Html.PartialAsync("CustomFields/Bool", Model)
+            @await Html.PartialAsync("CustomFields/Date", Model)
+            @await Html.PartialAsync("CustomFields/Int", Model)
+            @await Html.PartialAsync("CustomFields/Text", Model)
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

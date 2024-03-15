@@ -1,0 +1,27 @@
+﻿@model ItemModel
+@{
+    var item = Model.Item;
+}
+@if (item.Collection != null)
+{
+    @if (item.Collection.CustomDate1_State)
+    {
+        <label class="control-label">@item.Collection.CustomDate1_Name</label>
+        <ejs-datepicker id="format" ejs-for="Item.CustomDate1" enableMask="true" format="M/d/yyyy"></ejs-datepicker>
+        <span asp-validation-for="Item.CustomDate1" class="text-danger"></span>
+    }
+
+    @if (item.Collection.CustomDate2_State)
+    {
+        <label class="control-label">@item.Collection.CustomDate2_Name</label>
+        <ejs-datepicker id="format2" ejs-for="Item.CustomDate2" enableMask="true" format="M/d/yyyy"></ejs-datepicker>
+        <span asp-validation-for="Item.CustomDate2" class="text-danger"></span>
+    }
+
+    @if (item.Collection.CustomDate3_State)
+    {
+        <label class="control-label">@item.Collection.CustomDate3_Name</label>
+        <ejs-datepicker id="format3" ejs-for="Item.CustomDate3" enableMask="true" format="M/d/yyyy"></ejs-datepicker>
+        <span asp-validation-for="Item.CustomDate3" class="text-danger"></span>
+    }
+}

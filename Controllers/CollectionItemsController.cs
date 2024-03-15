@@ -101,6 +101,7 @@ namespace CatalogR.Controllers
             if (id != model.Item.Id) return NotFound();
 
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
+            model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == model.collectionId);
             if (ModelState.IsValid)
             {
                 try

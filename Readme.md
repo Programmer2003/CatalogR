@@ -33,11 +33,11 @@
 	    - [x] 3 dateb 
   - [ ] Items List
     - [ ] Render custom fields (string, date)
-    - [ ] CRUD
+    - [x] CRUD
 	  - [x] Name
 	  - [x] Tags
 	    - [x] Autocomplete
-	  - [ ] Custom fields
+	  - [x] Custom fields
 	- [ ] Table manipulations
 	  - [ ] Sorting
 	  - [ ] Filtering
