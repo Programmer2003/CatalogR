@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
+using System.Reflection.Metadata;
 
 namespace CatalogR.Data
 {
@@ -11,6 +12,7 @@ namespace CatalogR.Data
         public DbSet<Collection> Collections { get; set; } = null!;
         public DbSet<Item> Items { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; } = null!;
+        public DbSet<Comment> Comments { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -35,6 +37,10 @@ namespace CatalogR.Data
                 .WithOne(i => i.Collection)
                 .HasForeignKey(c => c.CollectionId)
             .IsRequired();
+
+            builder.Entity<Comment>()
+                .Property(b => b.TimeStamp)
+                .HasDefaultValueSql("getdate()");
         }
     }
 }
