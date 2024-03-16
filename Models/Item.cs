@@ -15,11 +15,11 @@ namespace CatalogR.Models
         [StringLength(255, ErrorMessage = "Item name cannot be longer than 255 characters")]
         [DataType(DataType.Text)]
         public string Name { get; set; } = string.Empty;
-
-        public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
-
         public int? CollectionId { get; set; }
         public virtual Collection? Collection { get; set; }
+
+        public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
+        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
         public int? CustomInt1 { get; set; }
         public int? CustomInt2 { get; set; }

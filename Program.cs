@@ -68,7 +68,7 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 
 var app = builder.Build();
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhKYVVpR2Nbe050flREalxZVAciSV9jS3pTdEdrWXtfcnRdQGRVUA==");
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(builder.Configuration.GetValue<string>("SyncfusionLicenseKey"));
 
 app.UseRequestLocalization();
 
