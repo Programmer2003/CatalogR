@@ -9,12 +9,13 @@ using CatalogR.Data;
 using CatalogR.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CatalogR.Controllers
 {
     [Authorize]
     [Authorize(Policy = "CollectionAccessPolicy")]
-    [Route("[controller]")]
+    [Route("[controller]/{collectionId}")]
     public class CollectionItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,7 +25,7 @@ namespace CatalogR.Controllers
             _context = context;
         }
 
-        [HttpGet("{collectionId}")]
+        [HttpGet]
         public async Task<IActionResult> Index(int collectionId)
         {
             if (_context.Items == null) return NotFound();
@@ -32,11 +33,13 @@ namespace CatalogR.Controllers
             var collection = await _context.Collections.Include(c => c.Items).ThenInclude(i => i.Tags).FirstOrDefaultAsync(c => c.Id == collectionId);
             if (collection == null) return NotFound();
 
-            var items = collection.Items.ToList();
-            return View(items);
+            var model = new CollectionListModel();
+            model.Items = collection.Items.ToList();
+            model.Collection = collection;
+            return View(model);
         }
 
-        [HttpGet("{collectionId}/Details/{id?}")]
+        [HttpGet("Details/{id?}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Items == null) return NotFound();
@@ -49,20 +52,20 @@ namespace CatalogR.Controllers
             return View(item);
         }
 
-        [HttpGet("{collectionId}/Create")]
+        [HttpGet("Create")]
         public IActionResult Create(int collectionId)
         {
             ItemModel model = new ItemModel();
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
             model.collectionId = collectionId;
+            model.Item.Collection =  _context.Collections.FirstOrDefault(c=> c.Id == collectionId);
             return View(model);
         }
 
-        [HttpPost("{collectionId}/Create")]
+        [HttpPost("Create")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ItemModel model)
         {
-            model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
             if (ModelState.IsValid)
             {
                 model.Item = _context.Add(model.Item).Entity;
@@ -74,10 +77,12 @@ namespace CatalogR.Controllers
                 return RedirectToAction(nameof(Index), new { model.collectionId });
             }
 
+            model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
+            model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == model.collectionId);
             return View(model);
         }
 
-        [HttpGet("{collectionId}/Edit/{id?}")]
+        [HttpGet("Edit/{id?}")]
         public async Task<IActionResult> Edit(int collectionId, int? id)
         {
             if (id == null || _context.Items == null) return NotFound();
@@ -91,13 +96,14 @@ namespace CatalogR.Controllers
             return View(model);
         }
 
-        [HttpPost("{collectionId}/Edit/{id?}")]
+        [HttpPost("Edit/{id?}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int collectionId, int id, ItemModel model)
         {
             if (id != model.Item.Id) return NotFound();
 
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
+            model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == model.collectionId);
             if (ModelState.IsValid)
             {
                 try
@@ -124,7 +130,7 @@ namespace CatalogR.Controllers
             return View(model);
         }
 
-        [HttpGet("{collectionId}/Delete/{id?}")]
+        [HttpGet("Delete/{id?}")]
         public async Task<IActionResult> Delete(int collectionId, int? id)
         {
             if (id == null || _context.Items == null) return NotFound();
@@ -137,7 +143,7 @@ namespace CatalogR.Controllers
             return View(item);
         }
 
-        [HttpPost("{collectionId}/Delete/{id?}"), ActionName("Delete")]
+        [HttpPost("Delete/{id?}"), ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int collectionId, int id)
         {

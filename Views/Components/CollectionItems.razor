@@ -32,13 +32,19 @@
             <Template>
                 @{
                     var item = (context as Item);
-                    var routeValues = new { collectionId = CollectionId, id = item?.Id };
+                    var routeValues = new { collectionId = Collection.Id, id = item?.Id };
                     <a href="@LinkGenerator.GetPathByAction("Edit", "CollectionItems", routeValues)"> Edit </a>
                     <a href="@LinkGenerator.GetPathByAction("Details", "CollectionItems", routeValues)"> Details </a>
                     <a href="@LinkGenerator.GetPathByAction("Delete", "CollectionItems", routeValues)"> Delete </a>
                 }
             </Template>
         </GridColumn>
+        <GridColumn Field=@nameof(Item.CustomString1) HeaderText="@Collection.CustomString1_Name" Width="60" Visible="@(Collection.CustomString1_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomString2) HeaderText="@Collection.CustomString2_Name" Width="60" Visible="@(Collection.CustomString2_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomString3) HeaderText="@Collection.CustomString3_Name" Width="60" Visible="@(Collection.CustomString3_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomDate1) HeaderText="@Collection.CustomDate1_Name" Width="60" Visible="@(Collection.CustomDate1_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomDate2) HeaderText="@Collection.CustomDate2_Name" Width="60" Visible="@(Collection.CustomDate2_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomDate3) HeaderText="@Collection.CustomDate3_Name" Width="60" Visible="@(Collection.CustomDate3_State)"></GridColumn>
     </GridColumns>
 </SfGrid>
 @code {
@@ -46,5 +52,5 @@
     public IEnumerable<Item> Items { get; set; } = new List<Item>();
 
     [Parameter]
-    public string CollectionId { get; set; } = string.Empty;
+    public Collection Collection { get; set; } = new Collection();
 }

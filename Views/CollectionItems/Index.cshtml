@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CatalogR.Models.Item>
+﻿@model CollectionListModel
 @using Syncfusion.Blazor.Grids
 
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
@@ -16,7 +16,7 @@
 <p>
     <a asp-action="Create" asp-route-collectionId="@collectionId">Create New</a>
 </p>
-@(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model, CollectionId = collectionId }))
+@(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection}))
 
 @section Scripts {
     <base href="~/" />

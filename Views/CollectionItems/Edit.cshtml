@@ -11,7 +11,6 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Item.Id" />
             <div class="form-group">
                 <label asp-for="Item.Name" class="control-label"></label>
@@ -21,6 +20,11 @@
             <ejs-multiselect name="SelectedTags" dataSource="Model.TagsListItems" value="Model.SelectedTags" id="SelectedTags" allowFiltering="true" floatLabelType="Auto" allowCustomValue="true" placeholder="Tags" MaximumSelectionLength="10">
                 <e-multiselect-fields value="Text"></e-multiselect-fields>
             </ejs-multiselect>
+            @await Html.PartialAsync("CustomFields/String", Model)
+            @await Html.PartialAsync("CustomFields/Bool", Model)
+            @await Html.PartialAsync("CustomFields/Date", Model)
+            @await Html.PartialAsync("CustomFields/Int", Model)
+            @await Html.PartialAsync("CustomFields/Text", Model)
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

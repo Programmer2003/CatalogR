@@ -1,0 +1,33 @@
+﻿@model ItemModel
+@{
+    var item = Model.Item;
+}
+@if (item.Collection != null)
+{
+    @if (item.Collection.CustomBool1_State)
+    {
+        <div class="form-group">
+            <label asp-for="Item.CustomBool1" class="control-label">@item.Collection.CustomBool1_Name</label>
+            <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool1" />
+            <span asp-validation-for="Item.CustomBool1" class="text-danger"></span>
+        </div>
+    }
+
+    @if (item.Collection.CustomBool2_State)
+    {
+        <div class="form-group">
+            <label asp-for="Item.CustomBool2" class="control-label">@item.Collection.CustomBool2_Name</label>
+            <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool2" />
+            <span asp-validation-for="Item.CustomBool2" class="text-danger"></span>
+        </div>
+    }
+
+    @if (item.Collection.CustomBool3_State)
+    {
+        <div class="form-group">
+            <label asp-for="Item.CustomBool3" class="control-label">@item.Collection.CustomBool3_Name</label>
+            <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool3" />
+            <span asp-validation-for="Item.CustomBool3" class="text-danger"></span>
+        </div>
+    }
+}

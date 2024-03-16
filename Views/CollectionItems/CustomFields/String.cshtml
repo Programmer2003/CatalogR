@@ -1,0 +1,33 @@
+﻿@model ItemModel
+@{
+    var item = Model.Item;
+}
+@if (item.Collection != null)
+{
+    @if (item.Collection.CustomString1_State)
+    {
+        <div class="form-group">
+            <label class="control-label">@item.Collection.CustomString1_Name</label>
+            <input type="text" class="form-control" asp-for="Item.CustomString1" />
+            <span asp-validation-for="Item.CustomString1" class="text-danger"></span>
+        </div>
+    }
+
+    @if (item.Collection.CustomString2_State)
+    {
+        <div class="form-group">
+            <label class="control-label">@item.Collection.CustomString2_Name</label>
+            <input type="text" class="form-control" asp-for="Item.CustomString2" />
+            <span asp-validation-for="Item.CustomString2" class="text-danger"></span>
+        </div>
+    }
+
+    @if (item.Collection.CustomString3_State)
+    {
+        <div class="form-group">
+            <label class="control-label">@item.Collection.CustomString3_Name</label>
+            <input type="text" class="form-control" asp-for="Item.CustomString3" />
+            <span asp-validation-for="Item.CustomString3" class="text-danger"></span>
+        </div>
+    }
+}
