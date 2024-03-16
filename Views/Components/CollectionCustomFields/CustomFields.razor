@@ -9,7 +9,7 @@
         var name = string.Concat("Custom", Field, i + 1, "_Name");
         var state = string.Concat("Custom", Field, i + 1, "_State");
         <div class="input-group mb-3">
-            <input @onchange="(e) => UpdateValue(index, e.Value?.ToString())" value="@Values[i]" type="text" class="form-control" name="@name" maxlength="10">
+            <input @onchange="(e) => UpdateValue(index, e.Value?.ToString())" value="@Values[i]" type="text" class="form-control" name="@name">
             <button @onclick="() => RemoveValue(index)" class="btn btn-outline-danger" type="button"><i class="bi bi-trash3"></i></button>
         </div>
         <input type="checkbox" name="@state" value="@(string.IsNullOrWhiteSpace(Values[i]) ? "false": "true")" checked="checked" style="display: none">

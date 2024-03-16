@@ -19,8 +19,8 @@
 	- [ ] Tags List
 
 - [ ] User Profile
-  - [ ] Collections list
-    - [ ] CRUD
+  - [x] Collections list
+    - [x] CRUD
       - [x] Name
 	  - [x] Description (with markdown)
 	  - [x] Topic (dropdown)
@@ -32,15 +32,15 @@
 	    - [x] 3 checkbox
 	    - [x] 3 dateb 
   - [ ] Items List
-    - [ ] Render custom fields (string, date)
+    - [x] Render custom fields (string, date)
     - [x] CRUD
 	  - [x] Name
 	  - [x] Tags
 	    - [x] Autocomplete
 	  - [x] Custom fields
-	- [ ] Table manipulations
-	  - [ ] Sorting
-	  - [ ] Filtering
+	- [x] Table manipulations
+	  - [x] Sorting
+	  - [x] Filtering
 	- [ ] Item page
 	  - [ ] Auth check
 	  - [ ] Comments
