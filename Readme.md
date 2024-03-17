@@ -42,10 +42,10 @@
 	  - [x] Sorting
 	  - [x] Filtering
 	- [ ] Item page
-	  - [ ] Auth check
-	  - [ ] Comments
-	    - [ ] Add comment
-		- [ ] Auto Update
+	  - [x] Auth check
+	  - [x] Comments
+	    - [x] Add comment
+		- [x] Auto Update
 	  - [ ] Likes
 	    - [ ] Like item
 		- [ ] Auto Update
