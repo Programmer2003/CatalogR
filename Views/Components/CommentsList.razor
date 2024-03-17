@@ -1,0 +1,103 @@
+﻿@using CatalogR.Models
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+
+<ul class="list-group">
+    @foreach (var comment in Comments)
+    {
+        <li class="list-group-item">@comment.Text - @comment.User?.UserName</li>
+    }
+</ul>
+
+@if (Auth)
+{
+    <div class="form-group">
+        <label>
+            Message:
+            <input @bind="textInput" size="50" />
+        </label>
+    </div>
+    <button @onclick="Send" class="btn btn-primary" disabled="@(!IsConnected)">Send</button>
+}
+
+@code {
+    [Parameter]
+    public List<Comment> Comments { get; set; } = new List<Comment>();
+
+    [Parameter]
+    public string UserId { get; set; } = string.Empty;
+
+    [Parameter]
+    public int ItemId { get; set; }
+
+    [Parameter]
+    public bool Auth { get; set; }
+
+    private HubConnection? hubConnection;
+    private string? textInput;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/itemhub"))
+            .Build();
+
+        hubConnection.On<Comment>("CommentAdded", (comment) =>
+        {
+            Comments.Add(comment);
+            InvokeAsync(StateHasChanged);
+        });
+
+        await HubInitialize();
+    }
+
+    private async Task HubInitialize()
+    {
+        if (hubConnection == null) return;
+
+        await OnHubStart();
+        hubConnection.Closed += async (exception) =>
+        {
+            if (exception == null)
+            {
+                Console.WriteLine("Connection closed without error.");
+                await OnHubStart();
+                Console.WriteLine("Reconnected.");
+            }
+            else
+            {
+                Console.WriteLine($"Connection closed due to an error: {exception}");
+            }
+        };
+    }
+
+    private async Task OnHubStart()
+    {
+        if (hubConnection == null) return;
+
+        await hubConnection.StartAsync();
+        await hubConnection.SendAsync("AddToGroup", ItemId);
+    }
+
+
+    private async Task Send()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.SendAsync("AddComment", UserId, ItemId, textInput);
+        }
+    }
+
+    public bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}

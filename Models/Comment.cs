@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace CatalogR.Models
 {
@@ -19,6 +21,8 @@ namespace CatalogR.Models
         public User? User { get; set; }
 
         public int ItemId { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Item? Item { get; set; }
 
         public Comment()
