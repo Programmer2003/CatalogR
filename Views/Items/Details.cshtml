@@ -24,7 +24,20 @@
         }
     </ul>
 </div>
+
+@{
+    var UserId = UserManager.GetUserId(User);
+    var Auth = SignInManager.IsSignedIn(User);
+}
+
+@(await Html.RenderComponentAsync<CatalogR.Views.Components.CommentsList>(RenderMode.ServerPrerendered, new { Model.Comments, UserId, ItemId = Model.Id, Auth}))
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+    <base href="~/" />
+    <script src="_framework/blazor.server.js"></script>
+}

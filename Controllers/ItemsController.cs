@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using CatalogR.Data;
 using CatalogR.Models;
 using System.Data;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CatalogR.Controllers
 {
@@ -26,7 +27,10 @@ namespace CatalogR.Controllers
         {
             if (id == null || _context.Items == null) return NotFound();
 
-            var item = await _context.Items.Include(i => i.Tags)
+            var item = await _context.Items
+                .Include(i => i.Tags)
+                .Include(i => i.Comments)
+                    .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (item == null) return NotFound();
 

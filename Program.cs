@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Syncfusion.Blazor;
-using System.Data;
 using System.Globalization;
+using CatalogR.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -92,6 +92,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ItemHub>("/itemhub");
+});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
@@ -160,28 +165,5 @@ using (var scope = app.Services.CreateAsyncScope())
 
     await db.SaveChangesAsync();
 }
-/*
-using (var scope = app.Services.CreateAsyncScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var items = new[] { "Item 1", "Book Hawking", "J.K. Rowling", "Stop Sign" };
-    List<Tag> allTags = db.Tags.ToList();
-    foreach (var item in items)
-    {
-        if (!await db.Items.AnyAsync(c => c.Name == item))
-        {
-            Item newItem = new Item() { Name = item };
-            for (int i = 0; i < (new Random()).Next(0, allTags.Count); i++)
-            {
-                newItem.Tags.Add(allTags[i]);
-            }
-
-            await db.Items.AddAsync(newItem);
-        }
-    }
-
-    await db.SaveChangesAsync();
-}
-*/
 
 app.Run();
