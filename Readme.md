@@ -31,7 +31,7 @@
 	    - [x] 3 text
 	    - [x] 3 checkbox
 	    - [x] 3 dateb 
-  - [ ] Items List
+  - [x] Items List
     - [x] Render custom fields (string, date)
     - [x] CRUD
 	  - [x] Name
@@ -41,15 +41,15 @@
 	- [x] Table manipulations
 	  - [x] Sorting
 	  - [x] Filtering
-	- [ ] Item page
+	- [x] Item page
 	  - [x] Auth check
 	  - [x] Comments
 	    - [x] Add comment
 		- [x] Auto Update
-	  - [ ] Likes
-	    - [ ] Like item
-		- [ ] Auto Update
-		- [ ] One like from one user
+	  - [x] Likes
+	    - [x] Like item
+		- [x] Auto Update
+		- [x] One like from one user
 		
 - [ ] Admin Profile
   - [ ] User List
