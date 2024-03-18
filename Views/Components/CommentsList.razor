@@ -41,7 +41,7 @@
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("/itemhub"))
+            .WithUrl(Navigation.ToAbsoluteUri("/commentshub"))
             .Build();
 
         hubConnection.On<Comment>("CommentAdded", (comment) =>

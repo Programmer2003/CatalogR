@@ -13,6 +13,7 @@ namespace CatalogR.Data
         public DbSet<Item> Items { get; set; } = null!;
         public DbSet<Tag> Tags { get; set; } = null!;
         public DbSet<Comment> Comments { get; set; } = null!;
+        public DbSet<Like> Likes { get; set; } = null!;
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -41,6 +42,11 @@ namespace CatalogR.Data
             builder.Entity<Comment>()
                 .Property(b => b.TimeStamp)
                 .HasDefaultValueSql("getdate()");
+
+            builder.Entity<Like>().HasKey(table => new {
+                table.ItemId,
+                table.UserId
+            });
         }
     }
 }

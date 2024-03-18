@@ -94,7 +94,8 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<ItemHub>("/itemhub");
+    endpoints.MapHub<CommentsHub>("/commentshub");
+    endpoints.MapHub<LikesHub>("/likeshub");
 });
 
 app.MapControllerRoute(
