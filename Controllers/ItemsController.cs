@@ -31,6 +31,7 @@ namespace CatalogR.Controllers
                 .Include(i => i.Tags)
                 .Include(i => i.Comments)
                     .ThenInclude(c => c.User)
+                .Include(i => i.Likes)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (item == null) return NotFound();
 

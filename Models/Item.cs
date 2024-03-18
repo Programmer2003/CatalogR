@@ -20,6 +20,9 @@ namespace CatalogR.Models
 
         public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+        [NotMapped]
+        public int LikesCount { get => Likes.Count; }
 
         public int? CustomInt1 { get; set; }
         public int? CustomInt2 { get; set; }

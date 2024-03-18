@@ -1,0 +1,99 @@
+﻿@using CatalogR.Models
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+@implements IAsyncDisposable
+
+<h3>Likes</h3>
+<div>Likes count: @LikesCount</div>
+
+<button class="btn btn-primary" @onclick="Like">
+    @if (Liked)
+    {
+        <div>Dislike!</div>
+    }
+    else
+    {
+        <div>Like! </div>
+    }
+</button>
+
+
+@code {
+    [Parameter]
+    public string UserId { get; set; } = string.Empty;
+
+    [Parameter]
+    public int ItemId { get; set; }
+
+    [Parameter]
+    public int LikesCount { get; set; }
+
+    [Parameter]
+    public bool Auth { get; set; }
+
+    [Parameter]
+    public bool Liked { get; set; }
+
+    private HubConnection? hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("/likeshub"))
+            .Build();
+
+        hubConnection.On("Liked", () =>
+        {
+            ++LikesCount;
+            InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On("Disliked", () =>
+        {
+            --LikesCount;
+            InvokeAsync(StateHasChanged);
+        });
+
+        await HubInitialize();
+    }
+
+    private async Task HubInitialize()
+    {
+        if (hubConnection == null) return;
+
+        await OnHubStart();
+        hubConnection.Closed += async (exception) =>
+        {
+            if (exception == null) await OnHubStart();
+        };
+    }
+
+    private async Task OnHubStart()
+    {
+        if (hubConnection == null) return;
+
+        await hubConnection.StartAsync();
+        await hubConnection.SendAsync("AddToGroup", ItemId);
+    }
+
+    private async Task Like()
+    {
+        if (hubConnection is not null)
+        {
+            if (Liked)
+                await hubConnection.SendAsync("DislikeItem", UserId, ItemId);
+            else
+                await hubConnection.SendAsync("LikeItem", UserId, ItemId);
+
+            Liked = !Liked;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+}
