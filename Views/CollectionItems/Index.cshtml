@@ -17,8 +17,3 @@
     <a asp-action="Create" asp-route-collectionId="@collectionId">Create New</a>
 </p>
 @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection}))
-
-@section Scripts {
-    <base href="~/" />
-    <script src="_framework/blazor.server.js"></script>
-}
