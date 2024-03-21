@@ -43,6 +43,10 @@ namespace CatalogR.Data
                 .Property(b => b.TimeStamp)
                 .HasDefaultValueSql("getdate()");
 
+            builder.Entity<Item>()
+                .Property(i => i.TimeStamp)
+                .HasDefaultValueSql("getdate()");
+
             builder.Entity<Like>().HasKey(table => new {
                 table.ItemId,
                 table.UserId
