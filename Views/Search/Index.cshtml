@@ -1,0 +1,71 @@
+﻿@model SearchModel
+@inject LinkGenerator LinkGenerator
+
+<div>Result found by: @Model.Query</div>
+
+<div>Collections: </div>
+<div class="list-group">
+    @foreach (var Collection in Model.Collections)
+    {
+        <a href="@LinkGenerator.GetPathByAction("Index", "CollectionItems", new { CollectionId = Collection.Id })" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <h6 class="mb-0">@Collection.Name</h6>
+                    <p class="mb-0 opacity-75">@GetCollectionText(Collection)</p>
+                </div>
+                <small class="opacity-50 text-nowrap">now</small>
+            </div>
+        </a>
+    }
+</div>
+<div>Items: </div>
+<div class="list-group">
+    @foreach (var Item in Model.Items)
+    {
+        <a href="@LinkGenerator.GetPathByAction("Details", "Items", new { Item.Id })" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <h6 class="mb-0">@Item.Name</h6>
+                    <p class="mb-0 opacity-75">@GetItemText(Item)</p>
+                </div>
+                <small class="opacity-50 text-nowrap">now</small>
+            </div>
+        </a>
+    }
+</div>
+
+<div>Comments: </div>
+<div class="list-group">
+    @foreach (var Comment in Model.Comments)
+    {
+        <a href="@LinkGenerator.GetPathByAction("Details", "Items", new { Id = Comment.ItemId })#comments" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+            <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                    <h6 class="mb-0">@Comment.Item?.Name</h6>
+                    <p class="mb-0 opacity-75">@GetCommentText(Comment)</p>
+                </div>
+                <small class="opacity-50 text-nowrap">now</small>
+            </div>
+        </a>
+    }
+</div>
+
+@{
+    string GetItemText(Item item)
+    {
+        var result = item.FullTextIndexPropetries.FirstOrDefault(p => p != null && p.ToLower().Contains(Model.Query.ToLower()));
+        return string.IsNullOrWhiteSpace(result) ? item.Name : result;
+    }
+
+    string GetCollectionText(Collection collection)
+    {
+        var result = collection.FullTextIndexPropetries.FirstOrDefault(p => p != null && p.ToLower().Contains(Model.Query.ToLower()));
+        return string.IsNullOrWhiteSpace(result) ? collection.Name : result;
+    }
+
+    string GetCommentText(Comment comment)
+    {
+        var result = comment.FullTextIndexPropetries.FirstOrDefault(p => p != null && p.ToLower().Contains(Model.Query.ToLower()));
+        return string.IsNullOrWhiteSpace(result) ? comment.Text : result;
+    }
+}

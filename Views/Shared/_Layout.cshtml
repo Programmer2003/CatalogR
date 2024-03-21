@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="~/lib/syncfusion/dist/css/dark.css" id="syncfusion-css-link" />
     <script src="~/js/themes.js"></script>
     <script src="~/lib/syncfusion/dist/js/ej2.min.js"></script>
+    <base href="~/" />
     @RenderSection("Head", required: false)
 </head>
 <body>
@@ -31,6 +32,7 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
                         </li>
                     </ul>
+                    <partial name="_SearchPartial" />
                     <partial name="_SelectLanguagePartial" />
                     <div class="nav-item dropdown me-2">
                         <a class="nav-link dropdown-toggle link-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -76,6 +78,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist-5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/search.js" asp-append-version="true"></script>
+    <script src="_framework/blazor.server.js"></script>
+    
     @await RenderSectionAsync("Scripts", required: false)
     <ejs-scripts></ejs-scripts>
 </body>

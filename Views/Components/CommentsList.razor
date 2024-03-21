@@ -4,7 +4,7 @@
 @implements IAsyncDisposable
 
 
-<ul class="list-group">
+<ul class="list-group" id="comments">
     @foreach (var comment in Comments)
     {
         <li class="list-group-item">@comment.Text - @comment.User?.UserName</li>

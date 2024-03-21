@@ -2,13 +2,14 @@
 @using Syncfusion.Blazor.Grids
 @inject LinkGenerator LinkGenerator
 
-<SfGrid DataSource="@Items" AllowPaging="true" AllowSorting="true" AllowFiltering="true">
+<SfGrid DataSource="@Items" AllowPaging AllowSorting AllowFiltering AllowGrouping AllowResizing>
     <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
     <GridPageSettings PageSizes="@(new string[] { "5", "10" , "20" })" PageSize="5"></GridPageSettings>
+    <GridGroupSettings ShowGroupedColumn=true EnableLazyLoading="true"></GridGroupSettings>
     <GridColumns>
-        <GridColumn Field=@nameof(Item.Id) HeaderText="ID" Width="120"></GridColumn>
-        <GridColumn Field=@nameof(Item.Name) HeaderText="Name" Width="120"></GridColumn>
-        <GridColumn Field=@nameof(Item.Tags) HeaderText="Tags" Width="50" AllowFiltering="false" AllowSorting="false">
+        <GridColumn Field=@nameof(Item.Id) HeaderText="ID" Width="120" AllowGrouping="false"></GridColumn>
+        <GridColumn Field=@nameof(Item.Name) HeaderText="Name" Width="120" AllowGrouping="false"></GridColumn>
+        <GridColumn Field=@nameof(Item.Tags) HeaderText="Tags" Width="50" AllowFiltering="false" AllowSorting="false" AllowGrouping="false">
             <Template>
                 @{
                     var item = (context as Item);
@@ -28,23 +29,23 @@
                 }
             </Template>
         </GridColumn>
-        <GridColumn HeaderText="Actions" Width="50">
-            <Template>
-                @{
-                    var item = (context as Item);
-                    var routeValues = new { collectionId = Collection.Id, id = item?.Id };
-                    <a href="@LinkGenerator.GetPathByAction("Edit", "CollectionItems", routeValues)"> Edit </a>
-                    <a href="@LinkGenerator.GetPathByAction("Details", "CollectionItems", routeValues)"> Details </a>
-                    <a href="@LinkGenerator.GetPathByAction("Delete", "CollectionItems", routeValues)"> Delete </a>
-                }
-            </Template>
-        </GridColumn>
         <GridColumn Field=@nameof(Item.CustomString1) HeaderText="@Collection.CustomString1_Name" Width="60" Visible="@(Collection.CustomString1_State)"></GridColumn>
         <GridColumn Field=@nameof(Item.CustomString2) HeaderText="@Collection.CustomString2_Name" Width="60" Visible="@(Collection.CustomString2_State)"></GridColumn>
         <GridColumn Field=@nameof(Item.CustomString3) HeaderText="@Collection.CustomString3_Name" Width="60" Visible="@(Collection.CustomString3_State)"></GridColumn>
         <GridColumn Field=@nameof(Item.CustomDate1) HeaderText="@Collection.CustomDate1_Name" Width="60" Visible="@(Collection.CustomDate1_State)"></GridColumn>
         <GridColumn Field=@nameof(Item.CustomDate2) HeaderText="@Collection.CustomDate2_Name" Width="60" Visible="@(Collection.CustomDate2_State)"></GridColumn>
         <GridColumn Field=@nameof(Item.CustomDate3) HeaderText="@Collection.CustomDate3_Name" Width="60" Visible="@(Collection.CustomDate3_State)"></GridColumn>
+        <GridColumn HeaderText="Actions" Width="75">
+            <Template>
+                @{
+                    var item = (context as Item);
+                    var routeValues = new { collectionId = Collection.Id, id = item?.Id };
+                    <a href="@LinkGenerator.GetPathByAction("Edit", "CollectionItems", routeValues)"> Edit </a>
+                    <a href="@LinkGenerator.GetPathByAction("Details", "Items", routeValues)"> Details </a>
+                    <a href="@LinkGenerator.GetPathByAction("Delete", "CollectionItems", routeValues)"> Delete </a>
+                }
+            </Template>
+        </GridColumn>
     </GridColumns>
 </SfGrid>
 @code {
