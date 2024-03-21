@@ -1,0 +1,20 @@
+﻿<div class="dropdown w-100 mx-2">
+    @using (Html.BeginForm("Index", "Search", FormMethod.Get))
+    {
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search..." id="search-input" autocomplete="off" name="query">
+            <button class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+        </div>
+    }
+    <div class="dropdown-menu p-0 w-100" id="searchMenu" style="display: none;">
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border my-2" role="status" id="loader" style="display: none;">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+        <div class="list-group" id="searchResult">
+            <div class="list-group-item list-group-item-action d-flex gap-3 py-3">Start Searching</div>
+        </div>
+    </div>
+
+</div>

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using System.Xml.Linq;
 
 namespace CatalogR.Models
 {
@@ -11,7 +12,7 @@ namespace CatalogR.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Text is required")]
-        [Column(TypeName = "TEXT")]
+        [Column(TypeName = "varchar(MAX)")]
         public string Text { get; set; } = string.Empty;
 
         [DataType(DataType.DateTime)]
@@ -29,5 +30,10 @@ namespace CatalogR.Models
         {
             TimeStamp = DateTime.Now;
         }
+
+        public List<string?> FullTextIndexPropetries => new List<string?>()
+        {
+            Text,
+        };
     }
 }

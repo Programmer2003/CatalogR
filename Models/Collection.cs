@@ -22,8 +22,8 @@ namespace CatalogR.Models
         public string? ImageUrl { get; set; }
 
         [Display(Name = "Collection Image")]
-        [MaxFileSize(1*1024*1024)]
-        [PermittedExtensions(new string[] {".jpg", ".png", ".jpeg", ".webp"})]
+        [MaxFileSize(1 * 1024 * 1024)]
+        [PermittedExtensions(new string[] { ".jpg", ".png", ".jpeg", ".webp" })]
         [NotMapped]
         public virtual IFormFile? ImageFile { get; set; }
 
@@ -42,7 +42,7 @@ namespace CatalogR.Models
         [ForeignKey(nameof(Topic))]
         public int? CollectionTopicId { get; set; }
         public virtual CollectionTopic? Topic { get; set; }
-        
+
         [JsonIgnore]
         [IgnoreDataMember]
         public ICollection<Item> Items { get; set; } = new List<Item>();
@@ -161,5 +161,10 @@ namespace CatalogR.Models
             if (CustomText3_State && CustomText3_Name != null) dates.Add(CustomText3_Name);
             return dates;
         }
+
+        public List<string?> FullTextIndexPropetries => new List<string?>()
+        {
+            Name
+        };
     }
 }

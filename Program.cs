@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Syncfusion.Blazor;
 using System.Globalization;
 using CatalogR.Hubs;
+using CatalogR.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +67,7 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 });
 
 builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
+builder.Services.AddTransient<FullTextSearchService>();
 
 var app = builder.Build();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(builder.Configuration.GetValue<string>("SyncfusionLicenseKey"));

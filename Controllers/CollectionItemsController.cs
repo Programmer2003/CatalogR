@@ -39,19 +39,6 @@ namespace CatalogR.Controllers
             return View(model);
         }
 
-        [HttpGet("Details/{id?}")]
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Items == null) return NotFound();
-
-            var item = await _context.Items
-                .Include(i => i.Collection)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (item == null) return NotFound();
-
-            return View(item);
-        }
-
         [HttpGet("Create")]
         public IActionResult Create(int collectionId)
         {
@@ -92,6 +79,7 @@ namespace CatalogR.Controllers
 
             ItemModel model = new ItemModel() { Item = item };
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
+            model.collectionId = collectionId;
             model.SelectedTags = item.Tags.Select(t => t.Name).ToArray();
             return View(model);
         }

@@ -58,5 +58,13 @@ namespace CatalogR.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "MM/dd/yyyy")]
         public DateTime? CustomDate3 { get; set; }
+
+        public List<string?> FullTextIndexPropetries => new List<string?>()
+        {
+            Name,
+            CustomString1,
+            CustomString2,
+            CustomString3,
+        };
     }
 }
