@@ -59,6 +59,13 @@ namespace CatalogR.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "MM/dd/yyyy")]
         public DateTime? CustomDate3 { get; set; }
 
+        [DataType(DataType.DateTime)]
+        public DateTime TimeStamp { get; set; }
+        public Item()
+        {
+            TimeStamp = DateTime.Now;
+        }
+
         public List<string?> FullTextIndexPropetries => new List<string?>()
         {
             Name,
