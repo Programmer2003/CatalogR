@@ -25,4 +25,8 @@
     <PackageReference Include="Syncfusion.Licensing" Version="25.1.35" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\locale\" />
+  </ItemGroup>
+
 </Project>

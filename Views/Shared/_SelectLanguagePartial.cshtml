@@ -8,19 +8,29 @@
 
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
-    var currentCulture = string.Empty;
-    if (requestCulture != null) currentCulture = requestCulture.RequestCulture.UICulture.Name;
-    else currentCulture = LocaleOptions.Value.DefaultRequestCulture.UICulture.Name;
+    var currentCulture = LocaleOptions.Value.DefaultRequestCulture.UICulture;
+    if (requestCulture != null) currentCulture = requestCulture.RequestCulture.UICulture;
 
     var cultureItems = LocaleOptions.Value.SupportedUICultures?
         .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName.IndexOf('(') != -1 ? c.DisplayName.Substring(0, c.DisplayName.IndexOf('(')) : c.DisplayName })
         .ToList();
 }
-<div class="nav-item me-4">
-    <form id="localeForm" asp-controller="Home" asp-action="SetLanguage"
-          asp-route-returnUrl="@Context.Request.Path" method="post">
-        <ejs-dropdownlist value="@currentCulture" id="icons" change="changeLocale" name="culture" dataSource="cultureItems" placeholder="Select a social media">
-            <e-dropdownlist-fields text="Text" value="Value"></e-dropdownlist-fields>
-        </ejs-dropdownlist>
-    </form>
-</div>
+<form class="nav-item dropdown" id="localeForm" asp-controller="Home" 
+      asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path" method="post">
+    <input type="hidden" name="culture" id="culture"/>
+    <a class="nav-link" role="button" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="true">
+        <img src="img/locale/@(currentCulture.Name).png" class="flag-width" alt="flag">
+        <span class="d-lg-none ms-2">@currentCulture.DisplayName</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end">
+        @foreach (var locale in cultureItems!)
+        {
+            <li>
+                <button type="button" class="dropdown-item d-flex align-items-center gap-1" aria-pressed="false" onclick="changeLocale('@(locale.Value)')">
+                    <img src="img/locale/@(locale.Value).png" class="flag-width" alt="flag">
+                    @locale.Text
+                </button>
+            </li>
+        }
+    </ul>
+</form>
