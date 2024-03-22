@@ -1,10 +1,6 @@
 ﻿@model CollectionListModel
-@using Syncfusion.Blazor.Grids
-
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @{
     ViewData["Title"] = "Index";
-    var collectionId = ViewContext.RouteData.Values["collectionId"];
 }
 
 @section Head{
@@ -14,6 +10,6 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create" asp-route-collectionId="@collectionId">Create New</a>
+    <a asp-action="Create" asp-route-collectionId="@Model.collectionId">Create New</a>
 </p>
 @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection}))

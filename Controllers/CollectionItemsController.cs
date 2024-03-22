@@ -32,9 +32,9 @@ namespace CatalogR.Controllers
 
             var collection = await _context.Collections.Include(c => c.Items).ThenInclude(i => i.Tags).FirstOrDefaultAsync(c => c.Id == collectionId);
             if (collection == null) return NotFound();
-
             var model = new CollectionListModel();
             model.Items = collection.Items.ToList();
+            model.collectionId = collectionId;
             model.Collection = collection;
             return View(model);
         }

@@ -29,6 +29,7 @@ namespace CatalogR.Services
             if (currentPage <= 0) currentPage = 1;
 
             return GetAll(query, _context.Items, searchItem)
+                .OrderBy(i => i.TimeStamp)
                 .Skip((currentPage - 1) * pageSize)
                 .Take(pageSize);
         }
