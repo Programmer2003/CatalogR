@@ -1,6 +1,7 @@
 ﻿using CatalogR.CloudStorage;
 using CatalogR.Data;
 using CatalogR.Models;
+using CatalogR.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +15,13 @@ namespace CatalogR.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly HtmlSanitizationService _sanitizer;
         private readonly ICloudStorage _cloudStorage;
-        public UserCollectionsController(ApplicationDbContext context, UserManager<User> userManager, ICloudStorage cloudStorage)
+        public UserCollectionsController(ApplicationDbContext context, UserManager<User> userManager, ICloudStorage cloudStorage, HtmlSanitizationService sanitizer)
         {
             _context = context;
             _userManager = userManager;
+            _sanitizer = sanitizer;
             _cloudStorage = cloudStorage;
         }
 
@@ -47,8 +50,8 @@ namespace CatalogR.Controllers
             collection.UserId = _userManager.GetUserId(User);
             if (ModelState.IsValid)
             {
+                collection.Description = _sanitizer.Sanitize(collection.Description);
                 await UpdateImage(collection);
-
                 _context.Add(collection);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -80,8 +83,8 @@ namespace CatalogR.Controllers
             {
                 try
                 {
+                    collection.Description = _sanitizer.Sanitize(collection.Description);
                     await UpdateImage(collection);
-
                     _context.Update(collection);
                     await _context.SaveChangesAsync();
                 }

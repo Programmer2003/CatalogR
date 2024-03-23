@@ -12,6 +12,7 @@ using System.Globalization;
 using CatalogR.Hubs;
 using CatalogR.Services;
 using Microsoft.AspNetCore.SignalR;
+using Ganss.Xss;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,6 +74,7 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 
 builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 builder.Services.AddTransient<FullTextSearchService>();
+builder.Services.AddTransient<HtmlSanitizationService>();
 
 var app = builder.Build();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(builder.Configuration.GetValue<string>("SyncfusionLicenseKey"));
