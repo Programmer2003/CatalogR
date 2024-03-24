@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace CatalogR.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -21,17 +22,30 @@ namespace CatalogR.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var items = await _context.Items.OrderByDescending(i => i.TimeStamp).Take(5).ToListAsync();
             var collections = await _context.Items
                 .Include(i => i.Collection)
                     .ThenInclude(c => c!.User)
                 .GroupBy(i => new { i.CollectionId, i.Collection!.Name, i.Collection.ImageUrl })
-                .Select(c => new CollectionPreviewModel(){ Id = c.Key.CollectionId, Name = c.Key.Name, ImageUrl = c.Key.ImageUrl, ItemsCount = c.Count() })
-                .OrderBy(c => c.ItemsCount)
+                .Select(c => new CollectionPreviewModel() { Id = c.Key.CollectionId, Name = c.Key.Name, ImageUrl = c.Key.ImageUrl, ItemsCount = c.Count() })
+                .OrderByDescending(c => c.ItemsCount)
                 .Take(5)
                 .ToListAsync();
-            var model = new MainPageModel() { Collections = collections };
-            return View(model);
+
+            var items = await _context.Items
+                .Include(i => i.Collection)
+                    .ThenInclude(c => c!.User)
+                .OrderByDescending(i => i.TimeStamp)
+                .Take(5)
+                .ToListAsync();
+
+            var tags = await _context.Tags
+                .Select(t => new { t.Id, t.Name, t.Items.Count })
+                .OrderByDescending(t => t.Count)
+                .Select(t => new Tag { Id = t.Id, Name = t.Name })
+                .Take(10)
+                .ToListAsync();
+
+            return View(new MainPageModel() { Collections = collections, Items = items, Tags = tags });
         }
 
         public IActionResult Privacy()

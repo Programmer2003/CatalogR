@@ -1,8 +1,54 @@
-﻿@{
+﻿@using CatalogR.Services;
+@model MainPageModel
+@inject TimeManagerService timeService 
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section Head{
+    <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
+    <style>
+        .db-carousel .e-carousel-indicators.e-default .e-indicator-bar .e-indicator div {
+            background-color: #e7e7e7;
+        }
+    </style>
+}
+
+@(await Html.RenderComponentAsync<CatalogR.Views.Components.Home.BiggestCollections>(RenderMode.Server, new { Model.Collections, ItemsCountLocalized = Localizer["Items count"].Value }))
+
+<div class="row g-5 mt-2">
+    <div class="col-md-9 d-flex flex-column gap-3">
+        @foreach (var item in Model.Items)
+        {
+            <div class="card">
+                <div class="card-header">
+                    @item.Collection?.Name
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
+                    @if (item.Collection?.User != null)
+                    {
+                        <p class="card-text">
+                            @Localizer["Created by"]
+                            <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@item.Collection?.User.Id">
+                                @item.Collection?.User?.GetName
+                            </a>
+                        </p>
+                    }
+                    <p class="card-text"><small class="text-body-secondary">@timeService.AsTimeAgo(item.TimeStamp)</small></p>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-3">
+        <div class="card mb-3">
+            <div class="card-header">Tag Cloud</div>
+            <div class="p-3">
+                @foreach (var tag in Model.Tags)
+                {
+                    <a asp-action="Tag" asp-controller="Search" asp-route-tag="@tag.Name" class="btn btn-sm btn-outline-primary rounded-pill me-2 mb-2">@tag.Name</a>
+                }
+            </div>
+        </div>
+    </div>
 </div>
