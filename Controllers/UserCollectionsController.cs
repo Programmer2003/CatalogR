@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CatalogR.Controllers
 {
     [Authorize]
+    [Authorize(Policy = "UserCollectionPolicy")]
     public class UserCollectionsController : Controller
     {
         private readonly ApplicationDbContext _context;

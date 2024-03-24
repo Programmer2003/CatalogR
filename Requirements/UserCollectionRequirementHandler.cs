@@ -39,7 +39,7 @@ namespace CatalogR.Data.Migrations
                     return;
                 }
 
-                var collection = await _context.Collections.FirstOrDefaultAsync(c => c.Id == id);
+                var collection = await _context.Collections.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
                 if(collection == null || collection.UserId != userId) context.Fail();
                 else context.Succeed(requirement);
             }
