@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<CatalogR.Models.Collection>
-
+@inject LinkGenerator LinkGenerator
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,9 +7,8 @@
 <h1>Index</h1>
 
 <p><a asp-action="Create">Create New</a></p>
-<ejs-grid dataSource="Model" id="Grid" dataBound="dataBound" enableStickyHeader="true" allowResizing="true" allowPaging="true" allowSorting="true" allowFiltering="true" allowGrouping="true" rowHeight="180" allowSelection="true">
+<ejs-grid dataSource="Model" id="Grid" toolbarTemplate="#template" dataBound="dataBound" enableStickyHeader="true" allowResizing="true" allowPaging="true" allowSorting="true" allowFiltering="true" allowGrouping="true" rowHeight="180" allowSelection="true">
     <e-grid-pagesettings pageSizes="@(new string[] { "5", "10" , "20" })" pageSize="5"></e-grid-pagesettings>
-    <e-data-manager json="@Model.ToArray()" adaptor="RemoteSaveAdaptor" insertUrl="/UserCollections/Create" updateUrl="/UserCollections/Edit" removeUrl="/UserCollections/Delete"></e-data-manager>
     <e-grid-loadingIndicator indicatorType="Shimmer"></e-grid-loadingIndicator>
     <e-grid-filterSettings type="Menu"></e-grid-filterSettings>
     <e-grid-groupsettings enableLazyLoading="true"></e-grid-groupsettings>
@@ -18,9 +17,69 @@
         <e-grid-column field="Name" headerText="Name" allowGrouping="false" width="100"></e-grid-column>
         <e-grid-column template="#markdown-template" headerText="Description" width="200"></e-grid-column>
         <e-grid-column field="Topic.Name" headerText="Topic" filter="@(new { type="CheckBox"})" textAlign="Left" width="100"></e-grid-column>
-        <e-grid-column template="#actions-template" headerText="Actions" textAlign="Center" width="50"></e-grid-column>
     </e-grid-columns>
 </ejs-grid>
+
+<div id="template">
+    <ejs-toolbar id="defaultToolbar" clicked="clickHandler">
+        <e-toolbar-items>
+            <e-content-template>
+                <div>
+                    <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-eye"></i></button> </div>
+                    <div><button class='e-btn e-tbar-btn' id="edit"><i class="bi bi-pencil-square"></i></button></div>
+                    <div><button class='e-btn e-tbar-btn' id="edit"><i class="bi bi-trash3"></i></button> </div>
+                </div>
+            </e-content-template>
+        </e-toolbar-items>
+    </ejs-toolbar>
+</div>
+
+<div class="modal" tabindex="-1" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-warning">@Localizer["Warning"]</h5>
+            </div>
+            <div class="modal-body">
+                <p>@Localizer["No records selected"]</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function clickHandler(args) {
+        var target = args.originalEvent.target.closest('button'); //find clicked button
+        var gridInstance = document.getElementById("Grid").ej2_instances[0];
+        var selectedrecords = gridInstance.getSelectedRecords();
+        if(selectedrecords.length == 0){
+            $('#myModal').modal('show')
+            console.log($('#myModal'));
+            return;
+        }
+
+        var id = selectedrecords[0].Id;
+
+        if (target.id === 'edit') {
+            let editUrl = '@(LinkGenerator.GetPathByAction("Edit", "UserCollections", new { id = "PLACEHOLDER" }))';
+            window.open(editUrl.replace('PLACEHOLDER', id));
+        }
+
+        if (target.id === 'view') {
+            let viewUrl = '@(LinkGenerator.GetPathByAction("Details", "Collections", new { id = "PLACEHOLDER" }))';
+            window.open(viewUrl.replace('PLACEHOLDER', id));
+        }
+
+        if (target.id === 'delete') {
+            let deleteUrl = '@(LinkGenerator.GetPathByAction("Delete", "UserCollections", new { id = "PLACEHOLDER" }))';
+            window.open(deleteUrl.replace('PLACEHOLDER', id));
+        }
+    };
+</script>
 
 <script id="img-template" type="text/x-template">
     ${if(ImageUrl)}
@@ -33,20 +92,6 @@
 <script id="markdown-template" type="text/x-template">
     <div class="overflow-auto scrollable-div py-2" style="max-height: 150px; margin: 0 !important; line-height: 1 !important">
         ${DescriptionMarkdown}
-    </div>
-</script>
-
-<script id="actions-template" type="text/x-template">
-    <div class="fs-3 pe-2 d-flex gap-2">
-        <a href='@Url.Action("Edit")/${Id}' class="link-warning" title="Edit">
-            <i class="bi bi-pencil-square"></i>
-        </a>
-        <a href='@Url.Action("Index","CollectionItems")/${Id}' vclass="link-info" title="Details">
-            <i class="bi bi-eye"></i>
-        </a>
-        <a href='@Url.Action("Delete")/${Id}' class="link-danger" title="Delete">
-            <i class="bi bi-trash3"></i>
-        </a>
     </div>
 </script>
 

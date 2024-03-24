@@ -63,9 +63,14 @@ builder.Services.AddAuthorization(options =>
     {
         policyBuilder.AddRequirements(new CollectionAccessRequirement());
     });
+    options.AddPolicy("UserCollectionPolicy", policyBuilder =>
+    {
+        policyBuilder.AddRequirements(new UserCollectionRequirement());
+    });
 });
 builder.Services.AddTransient<IAuthorizationHandler, ActiveUserRequirementHandler>();
 builder.Services.AddTransient<IAuthorizationHandler, CollectionAccessRequirementHandler>();
+builder.Services.AddTransient<IAuthorizationHandler, UserCollectionRequirementHandler>();
 
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {

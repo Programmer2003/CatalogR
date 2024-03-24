@@ -17,6 +17,7 @@
         let current = document.getElementById('current-theme');
         if (current) {
             current.classList = 'bi';
+            current.classList.add('h5');
         }
         if (theme === 'auto') {
             let name = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
