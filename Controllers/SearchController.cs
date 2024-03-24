@@ -35,5 +35,14 @@ namespace CatalogR.Controllers
             var model = new SearchModel() { Items = items, Collections = collections, Comments = comments, Query = query };
             return View(model);
         }
+
+        public async Task<IActionResult> Tag(string? tag)
+        {
+            if (tag == null) return NotFound();
+
+            var items = await _searchService.SearchByTag(tag).ToListAsync();
+            var model = new SearchModel() { Items = items, Query = tag};
+            return View(nameof(Index), model);
+        }
     }
 }
