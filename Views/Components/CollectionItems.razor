@@ -15,16 +15,19 @@
                             <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-eye"></i></button> </div>
                         </Template>
                     </ToolbarItem>
-                    <ToolbarItem Text="Edit">
-                        <Template>
-                            <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-pencil-square"></i></button> </div>
-                        </Template>
-                    </ToolbarItem>
-                    <ToolbarItem Text="Delete">
-                        <Template>
+                    @if (Owns)
+                    {
+                        <ToolbarItem Text="Edit">
+                            <Template>
+                                <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-pencil-square"></i></button> </div>
+                            </Template>
+                        </ToolbarItem>
+                        <ToolbarItem Text="Delete">
+                            <Template>
                             <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-trash3"></i></button> </div>
                         </Template>
                     </ToolbarItem>
+                    }
                 </ToolbarItems>
             </SfToolbar>
         </ToolbarTemplate>
@@ -69,6 +72,9 @@
 
     [Parameter]
     public Collection Collection { get; set; } = new Collection();
+
+    [Parameter]
+    public bool Owns { get; set; } = false;
 
     SfGrid<Item> Grid = null!;
 

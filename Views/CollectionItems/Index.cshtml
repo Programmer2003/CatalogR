@@ -1,15 +1,17 @@
 ﻿@model CollectionListModel
 @{
     ViewData["Title"] = "Index";
+    var check = ViewData["OwnsCollection"] as bool?;
+    var owns = check != null ? check.Value : false;
 }
 
 @section Head{
     <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
 }
 
-<h1>Index</h1>
+<h1>@Model.Collection.Name</h1>
 
 <p>
     <a asp-action="Create" asp-route-collectionId="@Model.collectionId">Create New</a>
 </p>
-@(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection}))
+@(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection, Owns = owns }))
