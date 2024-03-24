@@ -28,24 +28,29 @@ namespace CatalogR.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(int collectionId)
         {
-            if (_context.Items == null) return NotFound();
+            if (_context.Collections == null) return NotFound();
 
             var collection = await _context.Collections.Include(c => c.Items).ThenInclude(i => i.Tags).FirstOrDefaultAsync(c => c.Id == collectionId);
             if (collection == null) return NotFound();
-            var model = new CollectionListModel();
-            model.Items = collection.Items.ToList();
-            model.collectionId = collectionId;
-            model.Collection = collection;
+            var model = new CollectionListModel()
+            {
+                Items = collection.Items.ToList(),
+                collectionId = collectionId,
+                Collection = collection
+            };
+            ViewData["OwnsCollection"] = true;
             return View(model);
         }
 
         [HttpGet("Create")]
         public IActionResult Create(int collectionId)
         {
-            ItemModel model = new ItemModel();
-            model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
-            model.collectionId = collectionId;
-            model.Item.Collection =  _context.Collections.FirstOrDefault(c=> c.Id == collectionId);
+            ItemModel model = new ItemModel()
+            {
+                TagsListItems = _context.Tags.Select(t => t.Name).ToArray(),
+                collectionId = collectionId
+            };
+            model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == collectionId);
             return View(model);
         }
 

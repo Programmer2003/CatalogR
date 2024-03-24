@@ -13,7 +13,7 @@
                             @{
                                 var image = string.IsNullOrWhiteSpace(collection.ImageUrl) ? "/img/no-image.png" : collection.ImageUrl;
                             }
-                            <img src="@image" class="card-img-top object-fit-cover" alt=@collection.Name style="height:450px;width:100%;" />
+                            <img src="@image" class="card-img-top object-fit-scale" alt=@collection.Name style="height:450px;width:100%;" />
                             <div class="card-body" style="padding: 1rem;">
                                 <h5 class="card-title">@collection.Name</h5>
                                 <p class="card-text">&nbsp;</p>
