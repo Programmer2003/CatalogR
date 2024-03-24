@@ -80,6 +80,7 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 builder.Services.AddTransient<FullTextSearchService>();
 builder.Services.AddTransient<HtmlSanitizationService>();
+builder.Services.AddTransient<TimeManagerService>();
 
 var app = builder.Build();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(builder.Configuration.GetValue<string>("SyncfusionLicenseKey"));
