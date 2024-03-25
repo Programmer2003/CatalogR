@@ -26,7 +26,7 @@
             <li>
                 <button type="button" class="dropdown-item d-flex align-items-center gap-1" aria-pressed="false" onclick="changeLocale('@(locale.Value)')">
                     <img src="img/locale/@(locale.Value).png" class="flag-width" alt="flag">
-                    @locale.Text
+                    @System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(locale.Text)
                 </button>
             </li>
         }
