@@ -30,6 +30,7 @@
                         <div><button class='e-btn e-tbar-btn' id="edit"><i class="bi bi-pencil-square h4"></i></button></div>
                         <div><button class='e-btn e-tbar-btn' id="delete"><i class="bi bi-trash3 h4"></i></button> </div>
                     }
+                    <div><button class='e-btn e-tbar-btn' id="list"><i class="bi bi-card-list h4"></i></button> </div>
                 </div>
             </e-content-template>
         </e-toolbar-items>
@@ -62,15 +63,13 @@
     function clickHandler(args) {
         var target = args.originalEvent.target.closest('button'); //find clicked button
         var gridInstance = document.getElementById("Grid").ej2_instances[0];
-        var selectedrecords = gridInstance.getSelectedRecords();
-        if (selectedrecords.length == 0) {
+        var selected = gridInstance.getSelectedRecords();
+        if (selected.length == 0) {
             $('#myModal').modal('show')
-            console.log($('#myModal'));
             return;
         }
 
-        var id = selectedrecords[0].Id;
-
+        var id = selected[0].Id;
         if (target.id === 'edit') {
             let editUrl = '@(LinkGenerator.GetPathByAction("Edit", "UserCollections", new { id = "PLACEHOLDER" }))';
             window.open(editUrl.replace('PLACEHOLDER', id));
@@ -84,6 +83,12 @@
         if (target.id === 'delete') {
             let deleteUrl = '@(LinkGenerator.GetPathByAction("Delete", "UserCollections", new { id = "PLACEHOLDER" }))';
             window.open(deleteUrl.replace('PLACEHOLDER', id));
+        }
+        if (target.id === 'list') {
+            let listLink = '@(owns ?
+                LinkGenerator.GetPathByAction("Index", "CollectionItems", new { collectionId  = "PLACEHOLDER" }) :
+                LinkGenerator.GetPathByAction("Items", "Collections", new { id = "PLACEHOLDER" }))';
+            window.open(listLink.replace('PLACEHOLDER', id));
         }
     };
 </script>
