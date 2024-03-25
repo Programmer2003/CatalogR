@@ -26,7 +26,7 @@ namespace CatalogR.Controllers
                 .Include(i=>i.Collection)
                     .ThenInclude(c => c!.User)
                 .Include(i => i.Tags)
-                .Include(i => i.Comments.OrderBy(c=>c.TimeStamp))
+                .Include(i => i.Comments.OrderByDescending(c=>c.TimeStamp))
                     .ThenInclude(c => c.User)
                 .Include(i => i.Likes)
                 .FirstOrDefaultAsync(m => m.Id == id);

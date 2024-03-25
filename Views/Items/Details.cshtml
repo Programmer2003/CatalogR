@@ -1,37 +1,93 @@
-﻿@model CatalogR.Models.Item
+﻿@using CatalogR.Models;
+@model Item
 
 @{
     ViewData["Title"] = "Details";
-}
-
-<h1>Details</h1>
-
-<div>
-    <h4>Item</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-    </dl>
-    <ul class="list-group list-group-horizontal">
-        @foreach (var tag in Model.Tags)
-        {
-            <li class="list-group-item">@tag.Name</li>
-        }
-    </ul>
-</div>
-
-@{
+    var check = ViewData["OwnsItem"] as bool?;
+    var owns = check != null ? check.Value : false;
     var UserId = UserManager.GetUserId(User);
     var Auth = SignInManager.IsSignedIn(User);
 }
 
-@(await Html.RenderComponentAsync<CatalogR.Views.Components.CommentsList>(RenderMode.ServerPrerendered, new { Model.Comments, UserId, ItemId = Model.Id, Auth }))
-@(await Html.RenderComponentAsync<CatalogR.Views.Components.Likes>(RenderMode.ServerPrerendered, new { UserId, ItemId = Model.Id, Model.LikesCount, Auth, Liked = Model.Likes.Any(l=>l.UserId == UserId) }))
+<div>
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex flex-column">
+            <h4>@Model.Name</h4>
+            @if (Model.Collection != null)
+            {
+                if (owns)
+                {
+                    <span>
+                        <a asp-action="Index" asp-controller="UserCollections" class="link-primary link-underline link-underline-opacity-0 fw-bold">
+                            Your Collection
+                        </a>
+                    </span>
+                }
+                else
+                {
+                    <span>
+                        @Localizer["by"] <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@Model.Collection.User?.Id" class="link-primary link-underline link-underline-opacity-0 fw-bold">
+                            @Model.Collection.User?.UserName
+                        </a>
+                    </span>
+                }
+            }
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+            @if (owns)
+            {
+                <a class="btn btn-primary" asp-action="Edit" asp-controller="CollectionItems" asp-route-collectionId="@Model.CollectionId" asp-route-id="@Model?.Id">
+                    @Localizer["Edit"]
+                </a>
+            }
+            @if (owns)
+            {
+                <a class="btn btn-primary" asp-action="Index" asp-controller="CollectionItems" asp-route-collectionId="@Model!.Id">
+                    @Localizer["Collection"]
+                </a>
+            }
+            else
+            {
+                <a class="btn btn-primary" asp-action="Items" asp-controller="Collections" asp-route-id="@Model!.Id">
+                    @Localizer["Collection"]
+                </a>
+            }
+
+        </div>
+    </div>
+    <hr />
+    <div class="d-flex flex-column gap-4">
+        @if (Model.Collection != null)
+        {
+            <div class="row">
+                <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomString1_State, Model.Collection.CustomString1_Name, Model.CustomString1)" />
+                <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomString2_State, Model.Collection.CustomString2_Name, Model.CustomString2)" />
+                <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomString3_State, Model.Collection.CustomString3_Name, Model.CustomString3)" />
+            </div>
+
+            <div class="row">
+                <div class="col-md">
+                    <ul class="list-group">
+                        <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(Model.Collection.CustomInt1_State, Model.Collection.CustomInt1_Name, Model.CustomInt1)" />
+                        <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(Model.Collection.CustomInt2_State, Model.Collection.CustomInt2_Name, Model.CustomInt2)" />
+                        <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(Model.Collection.CustomInt3_State, Model.Collection.CustomInt3_Name, Model.CustomInt3)" />
+                    </ul>
+                </div>
+                <div class="col-md">
+                    <ul class="list-group">
+                        <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(Model.Collection.CustomDate1_State, Model.Collection.CustomDate1_Name, Model.CustomDate1)" />
+                        <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(Model.Collection.CustomDate2_State, Model.Collection.CustomDate2_Name, Model.CustomDate2)" />
+                        <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(Model.Collection.CustomDate3_State, Model.Collection.CustomDate3_Name, Model.CustomDate3)" />
+                    </ul>
+                </div>
+            </div>
+        }
+        <hr />
+        @(await Html.RenderComponentAsync<CatalogR.Views.Components.CommentsList>(RenderMode.ServerPrerendered, new { Comments = new LinkedList<Comment>(Model.Comments), UserId, ItemId = Model.Id, Auth }))
+    </div>
+</div>
+
+@(await Html.RenderComponentAsync<CatalogR.Views.Components.Likes>(RenderMode.ServerPrerendered, new { UserId, ItemId = Model.Id, Model.LikesCount, Auth, Liked = Model.Likes.Any(l => l.UserId == UserId) }))
 
 <div>
     <a asp-action="Edit" asp-controller="CollectionItems" asp-route-collectionId="@Model?.CollectionId" asp-route-id="@Model?.Id">Edit</a> |
