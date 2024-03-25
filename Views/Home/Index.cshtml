@@ -1,6 +1,4 @@
-﻿@using CatalogR.Services;
-@model MainPageModel
-@inject TimeManagerService timeService 
+﻿@model MainPageModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -20,33 +18,19 @@
     <div class="col-md-9 d-flex flex-column gap-3">
         @foreach (var item in Model.Items)
         {
-            <div class="card">
-                <div class="card-header">
-                    @item.Collection?.Name
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">@item.Name</h5>
-                    @if (item.Collection?.User != null)
-                    {
-                        <p class="card-text">
-                            @Localizer["Created by"]
-                            <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@item.Collection?.User.Id">
-                                @item.Collection?.User?.GetName
-                            </a>
-                        </p>
-                    }
-                    <p class="card-text"><small class="text-body-secondary">@timeService.AsTimeAgo(item.TimeStamp)</small></p>
-                </div>
-            </div>
+            <partial name="Home/_ItemCardPartial" model="item" />
         }
     </div>
     <div class="col-md-3">
-        <div class="card mb-3">
+        <div class="card mb-3 border-info">
             <div class="card-header">Tag Cloud</div>
-            <div class="p-3">
+            <div class="p-3"> 
+                @{
+                    ViewData["TagClassList"] = "me-2 mb-2";
+                }
                 @foreach (var tag in Model.Tags)
                 {
-                    <a asp-action="Tag" asp-controller="Search" asp-route-tag="@tag.Name" class="btn btn-sm btn-outline-primary rounded-pill me-2 mb-2">@tag.Name</a>
+                    <partial name="_TagLinkPartial" model="tag" view-data="ViewData" />
                 }
             </div>
         </div>
