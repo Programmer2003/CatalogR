@@ -19,7 +19,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionString, opts =>
+        opts.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery)
+    ));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -155,7 +157,7 @@ using (var scope = app.Services.CreateAsyncScope())
 using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var topics = new[] { "Books", "Signs", "Silverware" };
+    var topics = new[] { "Books", "Signs", "Silverware", "Other" };
     foreach (var topic in topics)
     {
         if (!await db.CollectionTopics.AnyAsync(c => c.Name == topic))
