@@ -1,24 +1,24 @@
 # Catalog
 ### Course Project for Itransition by Christian Repnik
 
-- [ ] Site
-  - [ ] Multi Languages
+- [x] Site
+  - [x] Multi Languages
     - [x] Russian
 	- [x] English
 	- [x] Save Choice
-	- [ ] Adaptive
-  - [ ] Themes
+	- [x] Adaptive
+  - [x] Themes
     - [x] Light
 	- [x] Dark
 	- [x] Save Choice
-	- [ ] Adaptive
-  - [ ] Full text search
-  - [ ] Main page
-    - [ ] Last added items (name, collection, author)
-	- [ ] 5 biggest collections
-	- [ ] Tags List
+	- [x] Adaptive
+  - [x] Full text search
+  - [x] Main page
+    - [x] Last added items (name, collection, author)
+	- [x] 5 biggest collections
+	- [x] Tags List
 
-- [ ] User Profile
+- [x] User Profile
   - [x] Collections list
     - [x] CRUD
       - [x] Name
