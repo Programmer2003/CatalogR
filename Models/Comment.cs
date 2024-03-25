@@ -26,11 +26,6 @@ namespace CatalogR.Models
         [IgnoreDataMember]
         public Item? Item { get; set; }
 
-        public Comment()
-        {
-            TimeStamp = DateTime.Now;
-        }
-
         public List<string?> FullTextIndexPropetries => new List<string?>()
         {
             Text,

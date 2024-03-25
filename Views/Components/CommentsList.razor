@@ -1,26 +1,51 @@
 ﻿@using CatalogR.Models
 @using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager Navigation
+@inject LinkGenerator LinkGenerator
 @implements IAsyncDisposable
 
 
-<ul class="list-group" id="comments">
-    @foreach (var comment in Comments)
-    {
-        <li class="list-group-item">@comment.Text - @comment.User?.UserName</li>
-    }
-</ul>
+<h4>Comments</h4>
 
 @if (Auth)
 {
-    <div class="form-group">
-        <label>
-            Message:
-            <input @bind="textInput" size="50" />
-        </label>
+    <div class="input-group">
+        <input @bind="textInput" @bind:event="oninput" type="text" class="form-control" placeholder="Your message">
+        <button class="btn btn-primary" type="button" @onclick="Send" disabled="@(!IsConnected || string.IsNullOrWhiteSpace(textInput))">Send</button>
     </div>
-    <button @onclick="Send" class="btn btn-primary" disabled="@(!IsConnected)">Send</button>
 }
+
+<div id="comments" class="d-flex flex-column gap-3">
+    @for (int i = Comments.Count - 1; i >= 0; i--)
+    {
+        <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="user d-flex flex-column">
+                    @{
+                        var comment = Comments[i];
+                    }
+                    <div>
+                        @if(UserId == comment.UserId){
+                            <a href="@LinkGenerator.GetPathByAction("Index","UserCollections")">
+                                <small class="font-weight-bold text-primary">You</small>
+                            </a>
+                        }
+                        else{
+                            <a href="@LinkGenerator.GetPathByAction("ByUser","Collections", new {id = comment.UserId})">
+                                <small class="font-weight-bold text-primary">@comment.User?.UserName</small>
+                            </a>
+                        }
+                        <small> , @comment.TimeStamp.ToLocalTime().ToString("f")</small>
+                    </div>
+                    <span>
+                        <small class="font-weight-bold">@comment.Text</small>
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
 
 @code {
     [Parameter]
@@ -62,9 +87,7 @@
         {
             if (exception == null)
             {
-                Console.WriteLine("Connection closed without error.");
                 await OnHubStart();
-                Console.WriteLine("Reconnected.");
             }
             else
             {
@@ -87,6 +110,7 @@
         if (hubConnection is not null)
         {
             await hubConnection.SendAsync("AddComment", UserId, ItemId, textInput);
+            textInput = string.Empty;
         }
     }
 
