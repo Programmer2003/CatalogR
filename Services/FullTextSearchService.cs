@@ -23,6 +23,11 @@ namespace CatalogR.Services
             searchCollection = new SearchCollection();
         }
 
+        public IQueryable<Item> SearchByTag(string tagName)
+        {
+            return _context.Items.Where(i => i.Tags.Any(t=>t.Name == tagName));
+        }
+
         public IQueryable<Item> FastSearch(string query, int currentPage = 1, int pageSize = 5)
         {
             if (pageSize <= 0) pageSize = 5;

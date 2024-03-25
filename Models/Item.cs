@@ -42,11 +42,11 @@ namespace CatalogR.Models
         public bool CustomBool2 { get; set; } = false;
         public bool CustomBool3 { get; set; } = false;
 
-        [Column(TypeName = "TEXT")]
+        [Column(TypeName = "NTEXT")]
         public string? CustomText1 { get; set; }
-        [Column(TypeName = "TEXT")]
+        [Column(TypeName = "NTEXT")]
         public string? CustomText2 { get; set; }
-        [Column(TypeName = "TEXT")]
+        [Column(TypeName = "NTEXT")]
         public string? CustomText3 { get; set; }
 
         [DataType(DataType.Date)]
@@ -58,6 +58,9 @@ namespace CatalogR.Models
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "MM/dd/yyyy")]
         public DateTime? CustomDate3 { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime TimeStamp { get; set; }
 
         public List<string?> FullTextIndexPropetries => new List<string?>()
         {

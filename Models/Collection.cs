@@ -1,4 +1,5 @@
 ﻿using CatalogR.CustomValidationAttributes;
+using CatalogR.Services;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -34,7 +35,7 @@ namespace CatalogR.Models
         public string? Description { get; set; }
 
         [NotMapped]
-        public string DescriptionMarkdown { get => Markdown.Parse(Description); }
+        public string DescriptionMarkdown { get => MarkdownService.Parse(Description); }
 
         public string UserId { get; set; } = string.Empty;
         public User? User { get; set; }

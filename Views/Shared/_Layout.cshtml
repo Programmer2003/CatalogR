@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CatalogR</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist-5.3.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist-5.3.3/css/bootstrap-test.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CatalogR.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
@@ -15,57 +15,31 @@
     @RenderSection("Head", required: false)
 </head>
 <body>
-    <header class="bd-navbar">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3">
-            <div class="container-fluid text-primary">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CatalogR</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">@Localizer["Home"]</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">@Localizer["Privacy"]</a>
-                        </li>
-                    </ul>
-                    <partial name="_SearchPartial" />
-                    <partial name="_SelectLanguagePartial" />
-                    <div class="nav-item dropdown me-2">
-                        <a class="nav-link dropdown-toggle link-secondary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i id="current-theme" class="bi bi-circle-half"></i>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+            <a class="navbar-brand" href="#">CatalogR</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse" id="navbarColor04">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="UserCollections">
+                            <i class="bi bi-house"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li>
-                                <button href="#" type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
-                                    <i class="bi bi-sun-fill me-2"></i>
-                                    @Localizer["Light"]
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="true">
-                                    <i class="bi bi-moon-stars-fill me-2"></i>
-                                    @Localizer["Dark"]
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
-                                    <i class="bi bi-circle-half me-2"></i>
-                                    @Localizer["Auto"]
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                    <partial name="_LoginPartial" />
-                </div>
+                    </li>
+                </ul>
+                 <partial name="_SearchPartial" />
+                <ul class="navbar-nav">
+                    <partial name="_SelectLanguagePartial" />
+                    <partial name="_SelectThemePartial" />
+                </ul>
+                <partial name="_LoginPartial" />
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="py-3">
             @RenderBody()
         </main>
     </div>
@@ -80,7 +54,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/search.js" asp-append-version="true"></script>
     <script src="_framework/blazor.server.js"></script>
-    
+
     @await RenderSectionAsync("Scripts", required: false)
     <ejs-scripts></ejs-scripts>
 </body>

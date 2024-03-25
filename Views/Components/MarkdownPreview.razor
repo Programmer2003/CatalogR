@@ -1,4 +1,4 @@
-﻿@using Markdig;
+﻿@using CatalogR.Services;
 @using Microsoft.AspNetCore.Components
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor
@@ -48,7 +48,7 @@
 
     protected void OnTextChanged(string value)
     {
-        Html = (MarkupString)Markdown.ToHtml(value ?? string.Empty);
+        Html = (MarkupString)MarkdownService.Parse(value);
         InvokeAsync(() => StateHasChanged());
     }
 

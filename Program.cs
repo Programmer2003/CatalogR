@@ -11,6 +11,8 @@ using Syncfusion.Blazor;
 using System.Globalization;
 using CatalogR.Hubs;
 using CatalogR.Services;
+using Microsoft.AspNetCore.SignalR;
+using Ganss.Xss;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +27,10 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddServerSideBlazor();
+builder.Services.Configure<HubOptions>(options =>
+{
+    options.MaximumReceiveMessageSize = 1024 * 1024; // 1MB or use null
+});
 builder.Services.AddSyncfusionBlazor();
 builder.Services.AddControllersWithViews()
     .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
@@ -57,9 +63,14 @@ builder.Services.AddAuthorization(options =>
     {
         policyBuilder.AddRequirements(new CollectionAccessRequirement());
     });
+    options.AddPolicy("UserCollectionPolicy", policyBuilder =>
+    {
+        policyBuilder.AddRequirements(new UserCollectionRequirement());
+    });
 });
 builder.Services.AddTransient<IAuthorizationHandler, ActiveUserRequirementHandler>();
 builder.Services.AddTransient<IAuthorizationHandler, CollectionAccessRequirementHandler>();
+builder.Services.AddTransient<IAuthorizationHandler, UserCollectionRequirementHandler>();
 
 builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 {
@@ -68,6 +79,8 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
 
 builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 builder.Services.AddTransient<FullTextSearchService>();
+builder.Services.AddTransient<HtmlSanitizationService>();
+builder.Services.AddTransient<TimeManagerService>();
 
 var app = builder.Build();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(builder.Configuration.GetValue<string>("SyncfusionLicenseKey"));

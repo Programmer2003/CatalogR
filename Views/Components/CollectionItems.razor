@@ -1,8 +1,37 @@
 ﻿@using CatalogR.Models;
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
 @inject LinkGenerator LinkGenerator
+@inject IJSRuntime JSRuntime
 
-<SfGrid DataSource="@Items" AllowPaging AllowSorting AllowFiltering AllowGrouping AllowResizing>
+<SfGrid @ref="Grid" DataSource="@Items" AllowPaging AllowSorting AllowFiltering AllowGrouping AllowResizing>
+    <GridTemplates>
+        <ToolbarTemplate>
+            <SfToolbar>
+                <ToolbarEvents Clicked="ToolbarClickHandler"></ToolbarEvents>
+                <ToolbarItems>
+                    <ToolbarItem Text="View">
+                        <Template>
+                            <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-eye"></i></button> </div>
+                        </Template>
+                    </ToolbarItem>
+                    @if (Owns)
+                    {
+                        <ToolbarItem Text="Edit">
+                            <Template>
+                                <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-pencil-square"></i></button> </div>
+                            </Template>
+                        </ToolbarItem>
+                        <ToolbarItem Text="Delete">
+                            <Template>
+                            <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-trash3"></i></button> </div>
+                        </Template>
+                    </ToolbarItem>
+                    }
+                </ToolbarItems>
+            </SfToolbar>
+        </ToolbarTemplate>
+    </GridTemplates>
     <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
     <GridPageSettings PageSizes="@(new string[] { "5", "10" , "20" })" PageSize="5"></GridPageSettings>
     <GridGroupSettings ShowGroupedColumn=true EnableLazyLoading="true"></GridGroupSettings>
@@ -35,17 +64,6 @@
         <GridColumn Field=@nameof(Item.CustomDate1) HeaderText="@Collection.CustomDate1_Name" Width="60" Visible="@(Collection.CustomDate1_State)"></GridColumn>
         <GridColumn Field=@nameof(Item.CustomDate2) HeaderText="@Collection.CustomDate2_Name" Width="60" Visible="@(Collection.CustomDate2_State)"></GridColumn>
         <GridColumn Field=@nameof(Item.CustomDate3) HeaderText="@Collection.CustomDate3_Name" Width="60" Visible="@(Collection.CustomDate3_State)"></GridColumn>
-        <GridColumn HeaderText="Actions" Width="75">
-            <Template>
-                @{
-                    var item = (context as Item);
-                    var routeValues = new { collectionId = Collection.Id, id = item?.Id };
-                    <a href="@LinkGenerator.GetPathByAction("Edit", "CollectionItems", routeValues)"> Edit </a>
-                    <a href="@LinkGenerator.GetPathByAction("Details", "Items", routeValues)"> Details </a>
-                    <a href="@LinkGenerator.GetPathByAction("Delete", "CollectionItems", routeValues)"> Delete </a>
-                }
-            </Template>
-        </GridColumn>
     </GridColumns>
 </SfGrid>
 @code {
@@ -54,4 +72,29 @@
 
     [Parameter]
     public Collection Collection { get; set; } = new Collection();
+
+    [Parameter]
+    public bool Owns { get; set; } = false;
+
+    SfGrid<Item> Grid = null!;
+
+    public async Task ToolbarClickHandler(ClickEventArgs args)
+    {
+        var selected = await Grid.GetSelectedRecordsAsync();
+        if (selected.Count == 0) return;
+        var item = selected.First();
+        var routeValues = new { collectionId = Collection.Id, id = item.Id };
+        string? link = null;
+        if (args.Item.Text == "View")
+            link = LinkGenerator.GetPathByAction("Details", "Items", routeValues);
+
+        if (args.Item.Text == "Edit")
+            link = LinkGenerator.GetPathByAction("Edit", "CollectionItems", routeValues);
+
+        if (args.Item.Text == "Delete")
+            link = LinkGenerator.GetPathByAction("Delete", "CollectionItems", routeValues);
+
+        if (link != null) 
+            await JSRuntime.InvokeAsync<string>("open", link, "_blank");
+    }
 }

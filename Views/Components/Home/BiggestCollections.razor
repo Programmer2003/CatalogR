@@ -1,0 +1,36 @@
+﻿@using CatalogR.Models;
+@using Syncfusion.Blazor.Navigations
+@inject LinkGenerator LinkGenerator
+
+<div class="control-section db-carousel-section">
+    <div class="col-lg-12 content-wrapper">
+        <div class="carousel-sample">
+            <SfCarousel CssClass="db-carousel" ButtonsVisibility="CarouselButtonVisibility.VisibleOnHover" Interval="3000" AnimationEffect="CarouselAnimationEffect.Slide">
+                @foreach (var collection in Collections)
+                {
+                    <CarouselItem>
+                        <a class="card" href="@LinkGenerator.GetPathByAction("Details", "Collections", new { collection.Id })">
+                            @{
+                                var image = string.IsNullOrWhiteSpace(collection.ImageUrl) ? "/img/no-image.png" : collection.ImageUrl;
+                            }
+                            <img src="@image" class="card-img-top object-fit-scale" alt=@collection.Name style="height:450px;width:100%;" />
+                            <div class="card-body" style="padding: 1rem;">
+                                <h5 class="card-title">@collection.Name</h5>
+                                <p class="card-text">@ItemsCountLocalized : @collection.ItemsCount</p>
+                                <p></p>
+                            </div>
+                        </a>
+                    </CarouselItem>
+                }
+            </SfCarousel>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public IEnumerable<CollectionPreviewModel> Collections { get; set; } = new List<CollectionPreviewModel>();
+
+    [Parameter]
+    public string ItemsCountLocalized { get; set; } = string.Empty;
+}

@@ -1,0 +1,26 @@
+﻿<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="javascript:;" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i id="current-theme" class="bi bi-circle-half h5" style="line-height: inherit !important"></i>
+        <span class="d-lg-none ms-2">@Localizer["Toggle theme"]</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+                <i class="bi bi-sun-fill me-2"></i>
+                @Localizer["Light"]
+            </button>
+        </li>
+        <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="true">
+                <i class="bi bi-moon-stars-fill me-2"></i>
+                @Localizer["Dark"]
+            </button>
+        </li>
+        <li>
+            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+                <i class="bi bi-circle-half me-2"></i>
+                @Localizer["Auto"]
+            </button>
+        </li>
+    </ul>
+</li>
