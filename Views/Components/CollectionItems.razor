@@ -24,9 +24,9 @@
                         </ToolbarItem>
                         <ToolbarItem Text="Delete">
                             <Template>
-                            <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-trash3"></i></button> </div>
-                        </Template>
-                    </ToolbarItem>
+                                <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-trash3"></i></button> </div>
+                            </Template>
+                        </ToolbarItem>
                     }
                 </ToolbarItems>
             </SfToolbar>
@@ -51,7 +51,9 @@
                         <div class="d-flex gap-1">
                             @foreach (var tag in item.Tags)
                             {
-                                <a class="btn btn-sm btn-outline-primary rounded-pill" href="#">@tag.Name</a>
+                                <a href="@LinkGenerator.GetPathByAction("Tag","Search",new {tag = tag.Name})" class="btn btn-sm btn-outline-primary rounded-pill">
+                                    @tag.Name
+                                </a>
                             }
                         </div>
                     }
@@ -94,7 +96,7 @@
         if (args.Item.Text == "Delete")
             link = LinkGenerator.GetPathByAction("Delete", "CollectionItems", routeValues);
 
-        if (link != null) 
+        if (link != null)
             await JSRuntime.InvokeAsync<string>("open", link, "_blank");
     }
 }

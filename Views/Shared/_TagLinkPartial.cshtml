@@ -1,0 +1,4 @@
+﻿@model CatalogR.Models.Tag
+<a asp-action="Tag" asp-controller="Search" asp-route-tag="@Model.Name" class="btn btn-sm btn-outline-primary rounded-pill @(ViewData["TagClassList"] ?? string.Empty)">
+    @Model.Name
+</a>

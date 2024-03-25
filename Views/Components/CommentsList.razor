@@ -1,30 +1,63 @@
 ﻿@using CatalogR.Models
 @using Microsoft.AspNetCore.SignalR.Client
+@using Syncfusion.Blazor.Navigations;
 @inject NavigationManager Navigation
+@inject LinkGenerator LinkGenerator
 @implements IAsyncDisposable
 
 
-<ul class="list-group" id="comments">
-    @foreach (var comment in Comments)
-    {
-        <li class="list-group-item">@comment.Text - @comment.User?.UserName</li>
-    }
-</ul>
+<h4>Comments</h4>
 
 @if (Auth)
 {
-    <div class="form-group">
-        <label>
-            Message:
-            <input @bind="textInput" size="50" />
-        </label>
+    <div class="input-group">
+        <input @bind="textInput" @bind:event="oninput" type="text" class="form-control" placeholder="Your message">
+        <button class="btn btn-primary" type="button" @onclick="Send" disabled="@(!IsConnected || string.IsNullOrWhiteSpace(textInput))">Send</button>
     </div>
-    <button @onclick="Send" class="btn btn-primary" disabled="@(!IsConnected)">Send</button>
 }
+
+<div id="comments" class="d-flex flex-column gap-3">
+    @foreach (var comment in Comments.Skip(SkipValue).Take(TakeValue))
+    {
+        <div class="card p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="user d-flex flex-column">
+                    <div>
+                        @if (UserId == comment.UserId)
+                        {
+                            <a href="@LinkGenerator.GetPathByAction("Index","UserCollections")">
+                                <small class="font-weight-bold text-primary">You</small>
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@LinkGenerator.GetPathByAction("ByUser","Collections", new {id = comment.UserId})">
+                                <small class="font-weight-bold text-primary">@comment.User?.UserName</small>
+                            </a>
+                        }
+                        <small> , @comment.TimeStamp.ToLocalTime().ToString("f")</small>
+                    </div>
+                    <span>
+                        <small class="font-weight-bold">@comment.Text</small>
+                    </span>
+                </div>
+            </div>
+        </div>
+    }
+
+    <SfPager @ref="@Page" PageSize=5 NumericItemsCount=4 TotalItemsCount=@Comments.Count ItemClick="Click" CssClass=PagerCss>
+    </SfPager>
+</div>
+
+<style>
+    .PagerCss, .e-pager.PagerCss .e-currentitem.e-numericitem.e-focused, .e-pager.PagerCss .e-currentitem {
+        background: unset;
+    }
+</style>
 
 @code {
     [Parameter]
-    public List<Comment> Comments { get; set; } = new List<Comment>();
+    public LinkedList<Comment> Comments { get; set; } = new LinkedList<Comment>();
 
     [Parameter]
     public string UserId { get; set; } = string.Empty;
@@ -38,6 +71,15 @@
     private HubConnection? hubConnection;
     private string? textInput;
 
+    SfPager Page = new SfPager();
+    public int SkipValue = 0;
+    public int TakeValue = 5;
+    public void Click(PagerItemClickEventArgs args)
+    {
+        TakeValue = Page.PageSize;
+        SkipValue = (args.CurrentPage * TakeValue) - TakeValue;
+    }
+
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
@@ -46,7 +88,7 @@
 
         hubConnection.On<Comment>("CommentAdded", (comment) =>
         {
-            Comments.Add(comment);
+            Comments.AddFirst(comment);
             InvokeAsync(StateHasChanged);
         });
 
@@ -62,9 +104,7 @@
         {
             if (exception == null)
             {
-                Console.WriteLine("Connection closed without error.");
                 await OnHubStart();
-                Console.WriteLine("Reconnected.");
             }
             else
             {
@@ -87,6 +127,7 @@
         if (hubConnection is not null)
         {
             await hubConnection.SendAsync("AddComment", UserId, ItemId, textInput);
+            textInput = string.Empty;
         }
     }
 

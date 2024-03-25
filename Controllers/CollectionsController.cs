@@ -61,6 +61,8 @@ namespace CatalogR.Controllers
 
             var collection = await _context.Collections.Include(c => c.Items).ThenInclude(i => i.Tags).FirstOrDefaultAsync(c => c.Id == id);
             if (collection == null) return NotFound();
+            if (collection.UserId == _userManager.GetUserId(User)) return RedirectToAction("Index", "CollectionItems", new { collectionId = collection.Id });
+
             var model = new CollectionListModel()
             {
                 collectionId = id,

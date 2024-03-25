@@ -1,0 +1,8 @@
+﻿@model CatalogR.Models.CustomFieldValues<DateTime?>
+@if (Model.Value != null && Model.State)
+{
+    <li class="list-group-item">
+        @Model.Name :
+        <b> @Model.Value.Value.ToShortDateString()</b>
+    </li>
+}

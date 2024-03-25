@@ -1,0 +1,24 @@
+﻿@model CatalogR.Models.Item
+@inject CatalogR.Services.TimeManagerService timeService
+<div class="card border-info">
+    <a class="card-header link-danger" asp-action="Details" asp-controller="Collections" asp-route-id="@Model.CollectionId">
+        @Model.Collection?.Name
+    </a>
+    <div class="card-body">
+        <h5 class="card-title">
+            <a class="link-underline link-underline-opacity-0" asp-action="Details" asp-controller="Items" asp-route-id="@Model.Id">
+                @Model.Name
+            </a>
+        </h5>
+        @if (Model.Collection?.User != null)
+        {
+            <p class="card-text">
+                @Localizer["Created by"]
+                <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@Model.Collection?.User.Id">
+                    @Model.Collection?.User?.GetName
+                </a>
+            </p>
+        }
+        <p class="card-text"><small class="text-body-secondary">@timeService.AsTimeAgo(Model.TimeStamp)</small></p>
+    </div>
+</div>
