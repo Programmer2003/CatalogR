@@ -1,11 +1,15 @@
 ﻿@model CatalogR.Models.Item
 @inject CatalogR.Services.TimeManagerService timeService
-<div class="card">
-    <div class="card-header">
+<div class="card border-info">
+    <a class="card-header link-danger" asp-action="Details" asp-controller="Collections" asp-route-id="@Model.CollectionId">
         @Model.Collection?.Name
-    </div>
+    </a>
     <div class="card-body">
-        <h5 class="card-title">@Model.Name</h5>
+        <h5 class="card-title">
+            <a class="link-underline link-underline-opacity-0" asp-action="Details" asp-controller="Items" asp-route-id="@Model.Id">
+                @Model.Name
+            </a>
+        </h5>
         @if (Model.Collection?.User != null)
         {
             <p class="card-text">
