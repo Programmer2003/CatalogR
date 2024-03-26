@@ -7,14 +7,14 @@
     var owns = check != null ? check.Value : false;
     var UserId = UserManager.GetUserId(User);
     var Auth = SignInManager.IsSignedIn(User);
+    var collection = Model.Collection;
 }
 
 <div>
     <div class="d-flex justify-content-between align-items-center">
-        
         <div class="d-flex flex-column">
             <h4>@Model.Name</h4>
-            @if (Model.Collection != null)
+            @if (collection != null)
             {
                 if (owns)
                 {
@@ -27,8 +27,8 @@
                 else
                 {
                     <span>
-                        @Localizer["by"] <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@Model.Collection.User?.Id" class="link-primary link-underline link-underline-opacity-0 fw-bold">
-                            @Model.Collection.User?.UserName
+                        @Localizer["by"] <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@collection.User?.Id" class="link-primary link-underline link-underline-opacity-0 fw-bold">
+                            @collection.User?.UserName
                         </a>
                     </span>
                 }
@@ -58,42 +58,60 @@
     </div>
     <hr />
     <div class="d-flex flex-column gap-4">
-        @if (Model.Collection != null)
+        <div class="row">
+            <div class="col-md">
+                @(await Html.RenderComponentAsync<CatalogR.Views.Components.Likes>(RenderMode.ServerPrerendered, new { UserId, ItemId = Model.Id, Model.LikesCount, Auth, Liked = Model.Likes.Any(l => l.UserId == UserId) }))
+            </div>
+            <div class="col-md">
+                <nav>
+                    <h4>Tags</h4>
+                    @foreach (var tag in Model.Tags)
+                    {
+                        <partial name="_TagLinkPartial" model="tag" />
+                    }
+                </nav>
+            </div>
+        </div>
+        @if (collection != null)
         {
-            <div class="row">
-                <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomString1_State, Model.Collection.CustomString1_Name, Model.CustomString1)" />
-                <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomString2_State, Model.Collection.CustomString2_Name, Model.CustomString2)" />
-                <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomString3_State, Model.Collection.CustomString3_Name, Model.CustomString3)" />
-            </div>
+            if (collection.CustomString1_State || collection.CustomString2_State || collection.CustomString3_State)
+            {
+                <div class="row">
+                    <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(collection.CustomString1_State, collection.CustomString1_Name, Model.CustomString1)" />
+                    <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(collection.CustomString2_State, collection.CustomString2_Name, Model.CustomString2)" />
+                    <partial name="Items/_CustomStringCardPartial" model="new CustomFieldValues<string?>(collection.CustomString3_State, collection.CustomString3_Name, Model.CustomString3)" />
+                </div>
+            }
 
-            <div class="row">
-                <div class="col-md">
-                    <ul class="list-group">
-                        <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(Model.Collection.CustomInt1_State, Model.Collection.CustomInt1_Name, Model.CustomInt1)" />
-                        <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(Model.Collection.CustomInt2_State, Model.Collection.CustomInt2_Name, Model.CustomInt2)" />
-                        <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(Model.Collection.CustomInt3_State, Model.Collection.CustomInt3_Name, Model.CustomInt3)" />
-                    </ul>
+            if (collection.CustomInt1_State || collection.CustomInt2_State || collection.CustomInt3_State ||
+            collection.CustomDate1_State || collection.CustomDate2_State || collection.CustomDate3_State)
+            {
+                <div class="row">
+                    <div class="col-md">
+                        <ul class="list-group">
+                            <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(collection.CustomInt1_State, collection.CustomInt1_Name, Model.CustomInt1)" />
+                            <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(collection.CustomInt2_State, collection.CustomInt2_Name, Model.CustomInt2)" />
+                            <partial name="Items/_CustomIntCardPartial" model="new CustomFieldValues<int?>(collection.CustomInt3_State, collection.CustomInt3_Name, Model.CustomInt3)" />
+                        </ul>
+                    </div>
+                    <div class="col-md">
+                        <ul class="list-group">
+                            <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(collection.CustomDate1_State, collection.CustomDate1_Name, Model.CustomDate1)" />
+                            <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(collection.CustomDate2_State, collection.CustomDate2_Name, Model.CustomDate2)" />
+                            <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(collection.CustomDate3_State, collection.CustomDate3_Name, Model.CustomDate3)" />
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md">
-                    <ul class="list-group">
-                        <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(Model.Collection.CustomDate1_State, Model.Collection.CustomDate1_Name, Model.CustomDate1)" />
-                        <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(Model.Collection.CustomDate2_State, Model.Collection.CustomDate2_Name, Model.CustomDate2)" />
-                        <partial name="Items/_CustomDateCardPartial" model="new CustomFieldValues<DateTime?>(Model.Collection.CustomDate3_State, Model.Collection.CustomDate3_Name, Model.CustomDate3)" />
-                    </ul>
+            }
+            if (collection.CustomText1_State || collection.CustomText2_State || collection.CustomText3_State)
+            {
+                <div class="col">
+                    <partial name="Items/_CustomTextCardPartial" model="new CustomFieldValues<string?>(collection.CustomText1_State, collection.CustomText1_Name, Model.CustomText1)" />
+                    <partial name="Items/_CustomTextCardPartial" model="new CustomFieldValues<string?>(collection.CustomText2_State, collection.CustomText2_Name, Model.CustomText2)" />
+                    <partial name="Items/_CustomTextCardPartial" model="new CustomFieldValues<string?>(collection.CustomText3_State, collection.CustomText3_Name, Model.CustomText3)" />
                 </div>
-            </div>
-            <div class="col">
-                <partial name="Items/_CustomTextCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomText1_State, Model.Collection.CustomText1_Name, Model.CustomText1)" />
-                <partial name="Items/_CustomTextCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomText2_State, Model.Collection.CustomText2_Name, Model.CustomText2)" />
-                <partial name="Items/_CustomTextCardPartial" model="new CustomFieldValues<string?>(Model.Collection.CustomText3_State, Model.Collection.CustomText3_Name, Model.CustomText3)" />
-            </div>
+            }
         }
-        <hr />
         @(await Html.RenderComponentAsync<CatalogR.Views.Components.CommentsList>(RenderMode.ServerPrerendered, new { Comments = new LinkedList<Comment>(Model.Comments), UserId, ItemId = Model.Id, Auth }))
     </div>
-</div>
-
-<div>
-    <a asp-action="Edit" asp-controller="CollectionItems" asp-route-collectionId="@Model?.CollectionId" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index" asp-controller="CollectionItems" asp-route-collectionId="@Model?.CollectionId">Back to List</a>
 </div>

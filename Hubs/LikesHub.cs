@@ -17,7 +17,7 @@ namespace CatalogR.Hubs
 
             var like = await CreateLike(userId, itemId);
             like.User = user;
-            await Clients.Group(itemId.ToString()).SendAsync("Liked");
+            await Clients.GroupExcept(itemId.ToString(), Context.ConnectionId).SendAsync("Liked");
         }
 
         private async Task<Like> CreateLike(string userId, int itemId)
@@ -32,7 +32,7 @@ namespace CatalogR.Hubs
         {
             if (await DeleteLike(userId, itemId))
             {
-                await Clients.Group(itemId.ToString()).SendAsync("Disliked");
+                await Clients.GroupExcept(itemId.ToString(), Context.ConnectionId).SendAsync("Disliked");
             }
         }
 
