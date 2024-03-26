@@ -2,20 +2,46 @@
 
 @section Head{
     <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
+    <style>
+        .e-input-group.e-control-wrapper {
+            background-color: unset;
+        }
+    </style>
 }
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Collection</h4>
+<h4>Create Collection</h4>
 <hr />
 <div class="row">
-    <form asp-action="Create" enctype="multipart/form-data">
-        @(await Html.RenderComponentAsync<CatalogR.Views.Components.MarkdownPreview>(RenderMode.ServerPrerendered))
+    <form asp-action="Create" enctype="multipart/form-data" class="d-flex flex-column gap-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="CollectionTopicId" class="control-label"></label>
+                    <ejs-dropdownlist ejs-for="CollectionTopicId" dataSource="ViewBag.Topics.Items"
+                                      allowFiltering filtering="onfiltering" placeholder="Select a game"
+                                      popupHeight="220px" cssClass="e-bigger">
+                        <e-dropdownlist-fields text="Name" value="Id"></e-dropdownlist-fields>
+                    </ejs-dropdownlist>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <ejs-uploader name="ImageFile" id="ImageFile" multiple="false" allowedExtensions=".jpg,.png,.jpeg,.webp" maxFileSize="1024*1024"></ejs-uploader>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row mb-2">
             <div class="col-md">
                 @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionCustomFields.CustomFields>(RenderMode.ServerPrerendered, new { Values = Model == null ? new List<string>() : Model.GetCustomString(), Title = "String Fields", Field = "String" }))
             </div>
@@ -35,34 +61,26 @@
             </div>
             <div class="col-md"></div>
         </div>
-        <div class="col-md-4">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CollectionTopicId" class="control-label"></label>
-                <select asp-for="CollectionTopicId" class="form-control" asp-items="ViewBag.Topics"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" type="file" class="form-control" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
+        @(await Html.RenderComponentAsync<CatalogR.Views.Components.MarkdownPreview>(RenderMode.ServerPrerendered))
+        <div class="d-flex gap-1">
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+            <div>
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
             </div>
         </div>
     </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
+    <script>
+        function onfiltering(e) {
+            var query = new ej.data.Query();
+            query = (e.text !== '') ? query.where('Name', 'contains', e.text, true) : query;
+            e.updateData(@Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.Topics.Items)), query);
+        }
+    </script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

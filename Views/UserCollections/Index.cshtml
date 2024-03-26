@@ -4,7 +4,7 @@
     ViewData["OwnsCollection"] = true;
 }
 
-<h1>Index</h1>
+<h1>Your Collections</h1>
 
-<p><a asp-action="Create">Create New</a></p>
+<p><a asp-action="Create" class="btn btn-primary">Create New</a></p>
 <partial name="Collections/_ListPartial" model="Model" view-data="ViewData" />

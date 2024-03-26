@@ -12,6 +12,6 @@
 <h1>@Model.Collection.Name</h1>
 
 <p>
-    <a asp-action="Create" asp-route-collectionId="@Model.collectionId">Create New</a>
+    <a asp-action="Create" asp-route-collectionId="@Model.collectionId" class="btn btn-primary">Create New</a>
 </p>
 @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection, Owns = owns }))
