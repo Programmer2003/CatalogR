@@ -60,7 +60,7 @@
     <div class="d-flex flex-column gap-4">
         <div class="row">
             <div class="col-md">
-                @(await Html.RenderComponentAsync<CatalogR.Views.Components.Likes>(RenderMode.ServerPrerendered, new { UserId, ItemId = Model.Id, Model.LikesCount, Auth, Liked = Model.Likes.Any(l => l.UserId == UserId) }))
+                @(await Html.RenderComponentAsync<CatalogR.Views.Components.Items.Likes>(RenderMode.ServerPrerendered, new { UserId, ItemId = Model.Id, Model.LikesCount, Auth, Liked = Model.Likes.Any(l => l.UserId == UserId) }))
             </div>
             <div class="col-md">
                 <nav>
@@ -112,6 +112,6 @@
                 </div>
             }
         }
-        @(await Html.RenderComponentAsync<CatalogR.Views.Components.CommentsList>(RenderMode.ServerPrerendered, new { Comments = new LinkedList<Comment>(Model.Comments), UserId, ItemId = Model.Id, Auth }))
+        @(await Html.RenderComponentAsync<CatalogR.Views.Components.Items.CommentsList>(RenderMode.ServerPrerendered, new { Comments = new LinkedList<Comment>(Model.Comments), UserId, ItemId = Model.Id, Auth }))
     </div>
 </div>
