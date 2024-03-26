@@ -46,7 +46,7 @@ namespace CatalogR.Controllers
             if (id == null || _context.Collections == null) return NotFound();
             if (id == _userManager.GetUserId(User)) return RedirectToAction("Index", "UserCollections");
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
             if (user == null) return NotFound();
 
             var collection = await _context.Collections
