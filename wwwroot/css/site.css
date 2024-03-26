@@ -37,6 +37,14 @@ body {
     border-radius: 5px;
 }
 
+.scrollable-div:hover::-webkit-scrollbar-thumb {
+    background: rgba(68, 68, 68, 1);
+}
+
+.scrollable-div::-webkit-scrollbar-corner {
+    background: unset;
+}
+
 .flag-width{
     width: 20px;
     height: 20px;

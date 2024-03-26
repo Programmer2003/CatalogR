@@ -46,12 +46,16 @@ namespace CatalogR.Controllers
             if (id == null || _context.Collections == null) return NotFound();
             if (id == _userManager.GetUserId(User)) return RedirectToAction("Index", "UserCollections");
 
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == _userManager.GetUserId(User));
+            if (user == null) return NotFound();
+
             var collection = await _context.Collections
                 .Where(c => c.UserId == id)
                 .Include(c => c.Topic)
                 .ToListAsync();
             if (collection == null) return NotFound();
 
+            ViewData["UserName"] = user.GetName;
             return View(collection);
         }
 

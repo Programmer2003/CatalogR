@@ -14,9 +14,18 @@
         {
             <p class="card-text">
                 @Localizer["Created by"]
-                <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@Model.Collection?.User.Id">
-                    @Model.Collection?.User?.GetName
-                </a>
+                @if (Model.Collection.User.Id == UserManager.GetUserId(User))
+                {
+                    <a asp-action="Index" asp-controller="UserCollections">
+                        You
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@Model.Collection.UserId">
+                        @Model.Collection.User.GetName
+                    </a>
+                }
             </p>
         }
         <p class="card-text"><small class="text-body-secondary">@timeService.AsTimeAgo(Model.TimeStamp)</small></p>

@@ -8,13 +8,16 @@
     <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
 }
 
-<h1>@Model.Collection.Name</h1>
-
-@if (owns)
-{
-    <p>
-        <a asp-action="Create" asp-controller="CollectionItems" asp-route-collectionId="@Model.collectionId">Create New</a>
-    </p>
-}
-@(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection, Owns = owns}))
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h1>@Model.Collection.Name</h1>
+    @if (owns)
+    {
+        <div class="align-self-end">
+            <a asp-action="Create" asp-controller="CollectionItems" asp-route-collectionId="@Model.collectionId">
+                Create New
+            </a>
+        </div>
+    }
+</div>
+@(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection, Owns = owns }))
 
