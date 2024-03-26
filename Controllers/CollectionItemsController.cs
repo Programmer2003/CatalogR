@@ -179,7 +179,7 @@ namespace CatalogR.Controllers
             {
                 if (!CheckTag(selectedTag)) return false;
 
-                var newTag = new Tag { Name = selectedTag };
+                var newTag = new Tag { Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(selectedTag) };
                 _context.Tags.Attach(newTag);
                 tags.Add(newTag);
             }
