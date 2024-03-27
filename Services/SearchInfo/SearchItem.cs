@@ -9,7 +9,7 @@ namespace CatalogR.Services.SearchInfo
     {
         public override List<Expression<Func<Item, bool>>> GetPredicates(string query)
         {
-            var search = $"\"{query}\"";
+            var search = GetSearchString(query);
             return new List<Expression<Func<Item, bool>>>
             {
                 i => EF.Functions.Contains(i.Name, search),
