@@ -11,6 +11,7 @@ namespace CatalogR.Models
         [IgnoreDataMember]
         public virtual ICollection<Collection> Collections { get; } = new List<Collection>();
         public bool IsLocked { get; set; } = false;
+        public bool IsAdmin { get; set; } = false;
 
         [NotMapped]
         public string GetName => UserName;
