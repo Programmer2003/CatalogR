@@ -2,10 +2,7 @@
 using CatalogR.Models;
 using CatalogR.Services.SearchInfo;
 using LinqKit;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq.Expressions;
 
 namespace CatalogR.Services
 {
@@ -25,17 +22,28 @@ namespace CatalogR.Services
 
         public IQueryable<Item> SearchByTag(string tagName)
         {
-            return _context.Items.Where(i => i.Tags.Any(t=>t.Name == tagName));
+            return _context.Items.Where(i => i.Tags.Any(t => t.Name == tagName));
         }
 
-        public IQueryable<Item> FastSearch(string query, int currentPage = 1, int pageSize = 5)
+        public IQueryable<T> FastSearch<T>(string query, DbSet<T> dbSet, Searchable<T> searchable, int currentPage = 1, int pageSize = 5)
+        where T : class
         {
             if (pageSize <= 0) pageSize = 5;
             if (currentPage <= 0) currentPage = 1;
 
-            return GetAll(query, _context.Items, searchItem)
+            return GetAll(query, dbSet, searchable)
+                .OrderBy(c => "Id")
                 .Skip((currentPage - 1) * pageSize)
                 .Take(pageSize);
+        }
+
+        public IQueryable<Item> FastItems(string query)
+        {
+            return FastSearch(query, _context.Items, searchItem, 1, 3);
+        }
+        public IQueryable<Collection> FastCollections(string query)
+        {
+            return FastSearch(query, _context.Collections, searchCollection, 1, 3);
         }
 
         private IQueryable<T> GetAll<T>(string query, DbSet<T> dbSet, Searchable<T> searchable)
@@ -53,7 +61,7 @@ namespace CatalogR.Services
         {
             return GetAll(query, _context.Items, searchItem);
         }
-        public IQueryable<Collection> GetAllCollections(string query) 
+        public IQueryable<Collection> GetAllCollections(string query)
         {
             return GetAll(query, _context.Collections, searchCollection);
         }

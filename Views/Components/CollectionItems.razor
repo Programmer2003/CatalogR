@@ -50,7 +50,7 @@
                         <div class="d-flex gap-1">
                             @foreach (var tag in item.Tags)
                             {
-                                <a href="@LinkGenerator.GetPathByAction("Tag","Search",new {tag = tag.Name})" class="btn btn-sm btn-outline-primary rounded-pill">
+                                <a href="@LinkGenerator.GetPathByAction("Index","Search",new {tag = tag.Name})" class="btn btn-sm btn-outline-primary rounded-pill">
                                     @tag.Name
                                 </a>
                             }
