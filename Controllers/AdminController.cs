@@ -1,6 +1,8 @@
 ﻿using CatalogR.Data;
 using CatalogR.Models;
+using Markdig.Syntax;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -8,19 +10,26 @@ using System.Net;
 
 namespace CatalogR.Controllers
 {
-    [Authorize(Roles = "admin,Admin")]
+    [Authorize]
+    [Authorize(Policy = "AdminPolicy")]
     public class AdminController : Controller
     {
+        private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
         {
-            var users = await _context.Users.AsNoTracking().ToListAsync();
+            var users = await _context.Users
+                .AsNoTracking()
+                .OrderBy(u=>u.Id)
+                .ToListAsync();
+
             return View(users);
         }
 
@@ -44,6 +53,17 @@ namespace CatalogR.Controllers
 
             _context.Comments.RemoveRange(_context.Comments.Where(c => list.Contains(c.UserId!)));
             _context.Users.RemoveRange(_context.Users.Where(u => list.Contains(u.Id)));
+            await _context.SaveChangesAsync();
+            return Json(HttpStatusCode.OK);
+        }
+
+        public async Task<JsonResult> UsersChangeRole(string data, bool admin)
+        {
+            var list = JsonConvert.DeserializeObject<List<string>>(data);
+            if (list == null) return Json(HttpStatusCode.OK);
+
+            var users = await _context.Users.Where(u => list.Contains(u.Id)).ToListAsync();
+            users.ForEach(u => u.IsAdmin = admin);
             await _context.SaveChangesAsync();
             return Json(HttpStatusCode.OK);
         }
