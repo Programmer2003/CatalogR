@@ -51,14 +51,15 @@
 		- [x] Auto Update
 		- [x] One like from one user
 		
-- [ ] Admin Profile
-  - [ ] User List
+- [] Admin Profile
+  - [] User List
     - [ ] Show User
 	  - [ ] Collections List
-	- [ ] Update User
-	  - [ ] Block & Unblock
-	  - [ ] Delete
-	  - [ ] Add Admin Role
+	  - [ ] Manipulate Like Use
+	- [x] Update User
+	  - [x] Block & Unblock
+	  - [x] Delete
+	  - [x] Add Admin Role
 
 
 - [ ] *Optional requirements
