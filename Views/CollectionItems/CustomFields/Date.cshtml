@@ -1,27 +1,38 @@
 ﻿@model ItemModel
 @{
     var item = Model.Item;
+    var collection = item.Collection;
 }
-@if (item.Collection != null)
+@if (collection != null && (collection.CustomDate1_State || collection.CustomDate2_State || collection.CustomDate3_State))
 {
-    @if (item.Collection.CustomDate1_State)
-    {
-        <label class="control-label">@item.Collection.CustomDate1_Name</label>
-        <ejs-datepicker id="format" ejs-for="Item.CustomDate1" enableMask="true" format="M/d/yyyy"></ejs-datepicker>
-        <span asp-validation-for="Item.CustomDate1" class="text-danger"></span>
-    }
+    <div class="row">
+        @if (collection.CustomDate1_State)
+        {
+            <div class="col-md-4">
+                <label class="control-label">@collection.CustomDate1_Name</label>
+                <ejs-datepicker id="format" ejs-for="Item.CustomDate1" enableMask="true" format="M/d/yyyy" cssClass="e-bigger"></ejs-datepicker>
+                <span asp-validation-for="Item.CustomDate1" class="text-danger"></span>
+            </div>
 
-    @if (item.Collection.CustomDate2_State)
-    {
-        <label class="control-label">@item.Collection.CustomDate2_Name</label>
-        <ejs-datepicker id="format2" ejs-for="Item.CustomDate2" enableMask="true" format="M/d/yyyy"></ejs-datepicker>
-        <span asp-validation-for="Item.CustomDate2" class="text-danger"></span>
-    }
+        }
 
-    @if (item.Collection.CustomDate3_State)
-    {
-        <label class="control-label">@item.Collection.CustomDate3_Name</label>
-        <ejs-datepicker id="format3" ejs-for="Item.CustomDate3" enableMask="true" format="M/d/yyyy"></ejs-datepicker>
-        <span asp-validation-for="Item.CustomDate3" class="text-danger"></span>
-    }
+        @if (collection.CustomDate2_State)
+        {
+            <div class="col-md-4">
+                <label class="control-label">@collection.CustomDate2_Name</label>
+                <ejs-datepicker id="format2" ejs-for="Item.CustomDate2" enableMask="true" format="M/d/yyyy" cssClass="e-bigger"></ejs-datepicker>
+                <span asp-validation-for="Item.CustomDate2" class="text-danger"></span>
+            </div>
+
+        }
+
+        @if (collection.CustomDate3_State)
+        {
+            <div class="col-md-4">
+                <label class="control-label">@collection.CustomDate3_Name</label>
+                <ejs-datepicker id="format3" ejs-for="Item.CustomDate3" enableMask="true" format="M/d/yyyy" cssClass="e-bigger"></ejs-datepicker>
+                <span asp-validation-for="Item.CustomDate3" class="text-danger"></span>
+            </div>
+        }
+    </div>
 }

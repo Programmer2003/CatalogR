@@ -1,33 +1,42 @@
 ﻿@model ItemModel
 @{
     var item = Model.Item;
+    var collection = item.Collection;
 }
-@if (item.Collection != null)
+@if (collection != null && (collection.CustomString1_State || collection.CustomString2_State || collection.CustomString3_State))
 {
-    @if (item.Collection.CustomString1_State)
-    {
-        <div class="form-group">
-            <label class="control-label">@item.Collection.CustomString1_Name</label>
-            <input type="text" class="form-control" asp-for="Item.CustomString1" />
-            <span asp-validation-for="Item.CustomString1" class="text-danger"></span>
-        </div>
-    }
+    <div class="row">
+        @if (collection.CustomString1_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">@collection.CustomString1_Name</label>
+                    <input type="text" class="form-control" asp-for="Item.CustomString1" />
+                    <span asp-validation-for="Item.CustomString1" class="text-danger"></span>
+                </div>
+            </div>
+        }
 
-    @if (item.Collection.CustomString2_State)
-    {
-        <div class="form-group">
-            <label class="control-label">@item.Collection.CustomString2_Name</label>
-            <input type="text" class="form-control" asp-for="Item.CustomString2" />
-            <span asp-validation-for="Item.CustomString2" class="text-danger"></span>
-        </div>
-    }
+        @if (collection.CustomString2_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">@collection.CustomString2_Name</label>
+                    <input type="text" class="form-control" asp-for="Item.CustomString2" />
+                    <span asp-validation-for="Item.CustomString2" class="text-danger"></span>
+                </div>
+            </div>
+        }
 
-    @if (item.Collection.CustomString3_State)
-    {
-        <div class="form-group">
-            <label class="control-label">@item.Collection.CustomString3_Name</label>
-            <input type="text" class="form-control" asp-for="Item.CustomString3" />
-            <span asp-validation-for="Item.CustomString3" class="text-danger"></span>
-        </div>
-    }
+        @if (collection.CustomString3_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">@collection.CustomString3_Name</label>
+                    <input type="text" class="form-control" asp-for="Item.CustomString3" />
+                    <span asp-validation-for="Item.CustomString3" class="text-danger"></span>
+                </div>
+            </div>
+        }
+    </div>
 }
