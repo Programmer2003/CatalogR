@@ -1,8 +1,5 @@
 ﻿using CatalogR.Data;
-using CatalogR.Models;
-using Markdig.Syntax;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -14,13 +11,11 @@ namespace CatalogR.Controllers
     [Authorize(Policy = "AdminPolicy")]
     public class AdminController : Controller
     {
-        private readonly UserManager<User> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public AdminController(ApplicationDbContext context, UserManager<User> userManager)
+        public AdminController(ApplicationDbContext context)
         {
             _context = context;
-            _userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -57,6 +52,7 @@ namespace CatalogR.Controllers
             return Json(HttpStatusCode.OK);
         }
 
+        [HttpPost]
         public async Task<JsonResult> UsersChangeRole(string data, bool admin)
         {
             var list = JsonConvert.DeserializeObject<List<string>>(data);
