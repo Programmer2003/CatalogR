@@ -25,12 +25,18 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="UserCollections">
+                            <a class="nav-link" asp-action="Index" asp-controller="UserCollections" style="padding-top: 10px">
                                 <i class="bi bi-person-lines-fill h4"></i>
                                 <span class="d-lg-none ms-2">My Collections</span>
                             </a>
                         </li>
                     }
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Collections" style="padding-top: 10px">
+                            <i class="bi bi-collection h4"></i>
+                            <span class="d-lg-none ms-2">All Collections</span>
+                        </a>
+                    </li>
                     <partial name="_SelectLanguagePartial" />
                     <partial name="_SelectThemePartial" />
                 </ul>

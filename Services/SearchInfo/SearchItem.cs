@@ -29,7 +29,8 @@ namespace CatalogR.Services.SearchInfo
                 Collection = i.Collection,
                 CustomString1 = i.CustomString1,
                 CustomString2 = i.CustomString2,
-                CustomString3 = i.CustomString3
+                CustomString3 = i.CustomString3,
+                TimeStamp = i.TimeStamp
             };
 
             return selector;

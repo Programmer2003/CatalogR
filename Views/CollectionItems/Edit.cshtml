@@ -37,14 +37,15 @@
     @await Html.PartialAsync("CustomFields/Date", Model)
     @await Html.PartialAsync("CustomFields/Int", Model)
     @await Html.PartialAsync("CustomFields/Text", Model)
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+    <div class="d-flex gap-1">
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+        <div>
+            <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.collectionId" class="btn btn-primary">Back to List</a>
+        </div>
     </div>
 </form>
-
-<div>
-    <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.collectionId">Back to List</a>
-</div>
 
 @section Scripts {
     @{

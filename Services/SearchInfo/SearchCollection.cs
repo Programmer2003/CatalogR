@@ -22,6 +22,7 @@ namespace CatalogR.Services.SearchInfo
             {
                 Id = c.Id,
                 Name = c.Name,
+                TimeStamp = c.TimeStamp
             };
 
             return selector;
