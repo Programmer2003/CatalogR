@@ -17,36 +17,39 @@
 }
 
 <div id="comments" class="d-flex flex-column gap-3">
-    @foreach (var comment in Comments.Skip(SkipValue).Take(TakeValue))
+    @if (Comments.Count != 0)
     {
-        <div class="card p-3">
-            <div class="d-flex justify-content-between align-items-center">
-                <div class="user d-flex flex-column">
-                    <div>
-                        @if (UserId == comment.UserId)
-                        {
-                            <a href="@LinkGenerator.GetPathByAction("Index","UserCollections")">
-                                <small class="font-weight-bold text-primary">You</small>
-                            </a>
-                        }
-                        else
-                        {
-                            <a href="@LinkGenerator.GetPathByAction("ByUser","Collections", new {id = comment.UserId})">
-                                <small class="font-weight-bold text-primary">@comment.User?.UserName</small>
-                            </a>
-                        }
-                        <small> , @comment.TimeStamp.ToLocalTime().ToString("f")</small>
+        @foreach (var comment in Comments.Skip(SkipValue).Take(TakeValue))
+        {
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="user d-flex flex-column">
+                        <div>
+                            @if (UserId == comment.UserId)
+                            {
+                                <a href="@LinkGenerator.GetPathByAction("Index","UserCollections")">
+                                    <small class="font-weight-bold text-primary">You</small>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="@LinkGenerator.GetPathByAction("ByUser","Collections", new {id = comment.UserId})">
+                                    <small class="font-weight-bold text-primary">@comment.User?.UserName</small>
+                                </a>
+                            }
+                            <small> , @comment.TimeStamp.ToLocalTime().ToString("f")</small>
+                        </div>
+                        <span>
+                            <small class="font-weight-bold">@comment.Text</small>
+                        </span>
                     </div>
-                    <span>
-                        <small class="font-weight-bold">@comment.Text</small>
-                    </span>
                 </div>
             </div>
-        </div>
-    }
+        }
 
-    <SfPager @ref="@Page" PageSize=5 NumericItemsCount=4 TotalItemsCount=@Comments.Count ItemClick="Click" CssClass=PagerCss>
-    </SfPager>
+        <SfPager @ref="@Page" PageSize=5 NumericItemsCount=4 TotalItemsCount=@Comments.Count ItemClick="Click" CssClass=PagerCss>
+        </SfPager>
+    }
 </div>
 
 <style>
