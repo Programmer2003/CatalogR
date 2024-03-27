@@ -1,8 +1,7 @@
 ﻿using CatalogR.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
-using System.Reflection.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CatalogR.Data
 {
@@ -41,13 +40,24 @@ namespace CatalogR.Data
 
             builder.Entity<Comment>()
                 .Property(b => b.TimeStamp)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("getdate()")
+                .ValueGeneratedOnAddOrUpdate()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
             builder.Entity<Item>()
                 .Property(i => i.TimeStamp)
-                .HasDefaultValueSql("getdate()");
+                .HasDefaultValueSql("getdate()")
+                .ValueGeneratedOnAddOrUpdate()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
-            builder.Entity<Like>().HasKey(table => new {
+            builder.Entity<Collection>()
+                .Property(c => c.TimeStamp)
+                .HasDefaultValueSql("getdate()")
+                .ValueGeneratedOnAddOrUpdate()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
+            builder.Entity<Like>().HasKey(table => new
+            {
                 table.ItemId,
                 table.UserId
             });

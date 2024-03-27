@@ -18,6 +18,9 @@ namespace CatalogR.Models
         [DataType(DataType.Text)]
         public string Name { get; set; } = string.Empty;
 
+        [DataType(DataType.DateTime)]
+        public DateTime TimeStamp { get; set; }
+
         [DataType(DataType.ImageUrl)]
         [Display(Name = "Image")]
         public string? ImageUrl { get; set; }
