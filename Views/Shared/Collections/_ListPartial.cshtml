@@ -84,10 +84,9 @@
             let deleteUrl = '@(LinkGenerator.GetPathByAction("Delete", "UserCollections", new { id = "PLACEHOLDER" }))';
             window.open(deleteUrl.replace('PLACEHOLDER', id));
         }
+
         if (target.id === 'list') {
-            let listLink = '@(owns ?
-                LinkGenerator.GetPathByAction("Index", "CollectionItems", new { collectionId  = "PLACEHOLDER" }) :
-                LinkGenerator.GetPathByAction("Items", "Collections", new { id = "PLACEHOLDER" }))';
+            let listLink = '@(LinkGenerator.GetPathByAction("Items", "Collections", new { id = "PLACEHOLDER" }))';
             window.open(listLink.replace('PLACEHOLDER', id));
         }
     };
@@ -97,7 +96,7 @@
     ${if(ImageUrl)}
         <img class="img-thumbnail" style="max-height: 180px" src="${ImageUrl}" alt="..." />
     ${else}
-
+        <div class="bg-info bg-opacity-10" style="height: 180px"></div>
     ${/if}
 </script>
 

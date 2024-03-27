@@ -22,12 +22,15 @@
             <div class="navbar-collapse collapse" id="navbarColor04">
                  <partial name="_SearchPartial" />
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-controller="UserCollections">
-                            <i class="bi bi-person-lines-fill h4"></i>
-                            <span class="d-lg-none ms-2">My Collections</span>
-                        </a>
-                    </li>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="UserCollections">
+                                <i class="bi bi-person-lines-fill h4"></i>
+                                <span class="d-lg-none ms-2">My Collections</span>
+                            </a>
+                        </li>
+                    }
                     <partial name="_SelectLanguagePartial" />
                     <partial name="_SelectThemePartial" />
                 </ul>
