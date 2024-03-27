@@ -1,0 +1,14 @@
+﻿@model CatalogR.Models.CustomFieldValues<string?>
+@if (Model.State)
+{
+    <div class="row">
+        <div class="col">
+            <div class="card border-info mb-3">
+                <div class="card-header">@Model.Name</div>
+                <div class="card-body">
+                    <h4 class="card-title">@Model.Value</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+}

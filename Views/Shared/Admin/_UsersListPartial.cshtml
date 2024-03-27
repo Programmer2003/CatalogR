@@ -1,0 +1,147 @@
+﻿@model IEnumerable<CatalogR.Models.User>
+@inject LinkGenerator LinkGenerator
+
+<ejs-grid dataSource="Model" id="Grid" toolbarTemplate="#template" dataBound="dataBound" enableStickyHeader="true" allowResizing="true" allowPaging="true" allowSorting="true" allowFiltering="true" allowGrouping="true" allowSelection="true">
+    <e-grid-selectionsettings checkboxMode="Default" type="Multiple"></e-grid-selectionsettings>
+    <e-grid-pagesettings pageSizes="@(new string[] { "5", "10" , "20" })" pageSize="5"></e-grid-pagesettings>
+    <e-grid-loadingIndicator indicatorType="Shimmer"></e-grid-loadingIndicator>
+    <e-grid-filterSettings type="Menu"></e-grid-filterSettings>
+    <e-grid-groupsettings enableLazyLoading="true"></e-grid-groupsettings>
+    <e-grid-editSettings allowDeleting="true"></e-grid-editSettings>
+    <e-grid-columns>
+        <e-grid-column field="Id" headerText="Id" isPrimaryKey="true" visible="false" width="100"></e-grid-column>
+        <e-grid-column type="checkbox" width="50"></e-grid-column>
+        <e-grid-column field="GetName" headerText="UserName" allowGrouping="false" width="100"></e-grid-column>
+        <e-grid-column field="Email" headerText="Email" allowGrouping="false" width="100"></e-grid-column>
+        <e-grid-column field="IsLocked" headerText="Locked" displayAsCheckBox filter="@(new { type="CheckBox"})" width="50"></e-grid-column>
+        <e-grid-column field='IsAdmin' headerText="Admin" displayAsCheckBox filter="@(new { type="CheckBox"})" width="50"></e-grid-column>
+    </e-grid-columns>
+</ejs-grid>
+
+<div id="template">
+    <ejs-toolbar id="defaultToolbar" clicked="clickHandler">
+        <e-toolbar-items>
+            <e-content-template>
+                <div>
+                    <div><button class='e-btn e-tbar-btn' id="block"><i class="bi bi-lock h4"></i></button> </div>
+                    <div><button class='e-btn e-tbar-btn' id="unblock"><i class="bi bi-unlock h4"></i></button></div>
+                    <div><button class='e-btn e-tbar-btn' id="delete"><i class="bi bi-trash3 h4"></i></button></div>
+                    <div><button class='e-btn e-tbar-btn' id="admin"><i class="bi bi-person-fill-up h4"></i></button></div>
+                    <div><button class='e-btn e-tbar-btn' id="user"><i class="bi bi-person-fill-down h4"></i></button></div>
+                </div>
+            </e-content-template>
+        </e-toolbar-items>
+    </ejs-toolbar>
+</div>
+
+<div class="modal" tabindex="-1" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-warning">@Localizer["Warning"]</h5>
+            </div>
+            <div class="modal-body">
+                <p>@Localizer["No records selected"]</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="liveToast" class="toast bg-info" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Success!</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body text-secondary">
+            <span id="toast-text"></span> successfully
+        </div>
+    </div>
+</div>
+
+<script>
+    const toastLiveExample = document.getElementById('liveToast');
+    function dataBound() {
+        var grid = document.getElementById('Grid').ej2_instances[0];
+        grid.hideScroll();
+    }
+
+    function clickHandler(args) {
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+        var target = args.originalEvent.target.closest('button'); //find clicked button
+        var grid = document.getElementById("Grid").ej2_instances[0];
+        var selected = grid.getSelectedRecords();
+        if (selected.length == 0) {
+            $('#myModal').modal('show')
+            return;
+        }
+
+        if (target === null) return;
+        var userIds = JSON.stringify(selected.map(a => a.Id));
+
+        if (target.id === 'admin' || target.id === 'user') {
+            let admin = target.id === 'admin' ? true : false;
+            $.ajax({
+                type: "POST",
+                data: {
+                    data: userIds,
+                    admin: admin
+                },
+                url: "/Admin/UsersChangeRole",
+                success: function (content) {
+                    selected.forEach((row) => grid.setCellValue(row.Id, 'IsAdmin', admin));
+                    let text = admin ? '@Localizer["Upgraded to admin"]' : '@Localizer["Downgraded to user"]';
+                    $('#toast-text').text(text);
+                    toastBootstrap.show();
+                },
+                error: onError
+            });
+        }
+
+        if (target.id === 'block' || target.id === 'unblock') {
+            let block = target.id === 'block' ? true : false;
+            $.ajax({
+                type: "POST",
+                data: {
+                    data: userIds,
+                    block: block
+                },
+                url: "/Admin/UsersChangeBlockStatus",
+                success: function (content) {
+                    selected.forEach((row) => grid.setCellValue(row.Id, 'IsLocked', block));
+                    let text = block ? '@Localizer["Blocked"]' : '@Localizer["Unblocked"]';
+                    $('#toast-text').text(text);
+                    toastBootstrap.show();
+                },
+                error: onError
+            });
+        }
+
+        if (target.id === 'delete') {
+            $.ajax({
+                type: "POST",
+                data: {
+                    data: userIds
+                },
+                url: "/Admin/DeleteUsers",
+                success: function (content) {
+                    grid.deleteRecord();
+                    let text = '@Localizer["Deleted"]';
+                    $('#toast-text').text(text);
+                    toastBootstrap.show();
+                },
+                error: onError
+            });
+        }
+    };
+
+    var onError = function (xhr, status) {
+        if (xhr.status == 403) {
+            console.log("reload");
+            location.reload();
+        }
+    }
+</script>

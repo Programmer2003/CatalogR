@@ -36,7 +36,6 @@
     <GridPageSettings PageSizes="@(new string[] { "5", "10" , "20" })" PageSize="5"></GridPageSettings>
     <GridGroupSettings ShowGroupedColumn=true EnableLazyLoading="true"></GridGroupSettings>
     <GridColumns>
-        <GridColumn Field=@nameof(Item.Id) HeaderText="ID" Width="120" AllowGrouping="false"></GridColumn>
         <GridColumn Field=@nameof(Item.Name) HeaderText="Name" Width="120" AllowGrouping="false"></GridColumn>
         <GridColumn Field=@nameof(Item.Tags) HeaderText="Tags" Width="50" AllowFiltering="false" AllowSorting="false" AllowGrouping="false">
             <Template>
@@ -60,12 +59,12 @@
                 }
             </Template>
         </GridColumn>
-        <GridColumn Field=@nameof(Item.CustomString1) HeaderText="@Collection.CustomString1_Name" Width="60" Visible="@(Collection.CustomString1_State)"></GridColumn>
-        <GridColumn Field=@nameof(Item.CustomString2) HeaderText="@Collection.CustomString2_Name" Width="60" Visible="@(Collection.CustomString2_State)"></GridColumn>
-        <GridColumn Field=@nameof(Item.CustomString3) HeaderText="@Collection.CustomString3_Name" Width="60" Visible="@(Collection.CustomString3_State)"></GridColumn>
-        <GridColumn Field=@nameof(Item.CustomDate1) HeaderText="@Collection.CustomDate1_Name" Width="60" Visible="@(Collection.CustomDate1_State)"></GridColumn>
-        <GridColumn Field=@nameof(Item.CustomDate2) HeaderText="@Collection.CustomDate2_Name" Width="60" Visible="@(Collection.CustomDate2_State)"></GridColumn>
-        <GridColumn Field=@nameof(Item.CustomDate3) HeaderText="@Collection.CustomDate3_Name" Width="60" Visible="@(Collection.CustomDate3_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomString1) HeaderText="@Collection.CustomString1_Name" HideAtMedia='(min-width: 576px)' Width="60" Visible="@(Collection.CustomString1_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomString2) HeaderText="@Collection.CustomString2_Name" HideAtMedia='(min-width: 768px)' Width="60" Visible="@(Collection.CustomString2_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomString3) HeaderText="@Collection.CustomString3_Name" HideAtMedia='(min-width: 768px)' Width="60" Visible="@(Collection.CustomString3_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomDate1) HeaderText="@Collection.CustomDate1_Name" Width="60" HideAtMedia='(min-width: 992px)' Visible="@(Collection.CustomDate1_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomDate2) HeaderText="@Collection.CustomDate2_Name" Width="60" HideAtMedia='(min-width: 992px)' Visible="@(Collection.CustomDate2_State)"></GridColumn>
+        <GridColumn Field=@nameof(Item.CustomDate3) HeaderText="@Collection.CustomDate3_Name" Width="60" HideAtMedia='(min-width: 992px)' Visible="@(Collection.CustomDate3_State)"></GridColumn>
     </GridColumns>
 </SfGrid>
 @code {

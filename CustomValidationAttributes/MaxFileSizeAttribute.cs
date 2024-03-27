@@ -31,7 +31,7 @@ namespace CatalogR.CustomValidationAttributes
 
         public string GetErrorMessage()
         {
-            return $"Maximum allowed file size is {maxFileSize} bytes.";
+            return $"Maximum allowed file size is {maxFileSize/1024.0/1024.0} MBytes.";
         }
     }
 }

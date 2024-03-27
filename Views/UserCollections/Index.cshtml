@@ -1,10 +1,18 @@
 ﻿@model IEnumerable<CatalogR.Models.Collection>
+@section Head{
+    <script src="~/lib/syncfusion/dist/js/grid.min.js"></script>
+}
 @{
     ViewData["Title"] = "Index";
     ViewData["OwnsCollection"] = true;
 }
 
-<h1>Index</h1>
-
-<p><a asp-action="Create">Create New</a></p>
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h1>Your Collections</h1>
+    <div class="align-self-end">
+        <a asp-action="Create" class="btn btn-primary">
+            Create New
+        </a>
+    </div>
+</div>
 <partial name="Collections/_ListPartial" model="Model" view-data="ViewData" />

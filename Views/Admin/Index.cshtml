@@ -1,0 +1,11 @@
+﻿@model IEnumerable<CatalogR.Models.User>
+@section Head{
+    <script src="~/lib/syncfusion/dist/js/grid.min.js"></script>
+}
+@{
+    ViewData["Title"] = "Index";
+}
+
+<partial name="Admin/_UsersListPartial" model="Model"/>
+
+

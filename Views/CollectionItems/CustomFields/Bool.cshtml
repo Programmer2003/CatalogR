@@ -1,33 +1,42 @@
 ﻿@model ItemModel
 @{
     var item = Model.Item;
+    var collection = item.Collection;
 }
-@if (item.Collection != null)
+@if (collection != null && (collection.CustomBool1_State || collection.CustomBool2_State || collection.CustomBool3_State))
 {
-    @if (item.Collection.CustomBool1_State)
-    {
-        <div class="form-group">
-            <label asp-for="Item.CustomBool1" class="control-label">@item.Collection.CustomBool1_Name</label>
-            <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool1" />
-            <span asp-validation-for="Item.CustomBool1" class="text-danger"></span>
-        </div>
-    }
+    <div class="row">
+        @if (collection.CustomBool1_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Item.CustomBool1" class="control-label">@collection.CustomBool1_Name</label>
+                    <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool1" />
+                    <span asp-validation-for="Item.CustomBool1" class="text-danger"></span>
+                </div>
+            </div>
+        }
 
-    @if (item.Collection.CustomBool2_State)
-    {
-        <div class="form-group">
-            <label asp-for="Item.CustomBool2" class="control-label">@item.Collection.CustomBool2_Name</label>
-            <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool2" />
-            <span asp-validation-for="Item.CustomBool2" class="text-danger"></span>
-        </div>
-    }
+        @if (collection.CustomBool2_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Item.CustomBool2" class="control-label">@collection.CustomBool2_Name</label>
+                    <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool2" />
+                    <span asp-validation-for="Item.CustomBool2" class="text-danger"></span>
+                </div>
+            </div>
+        }
 
-    @if (item.Collection.CustomBool3_State)
-    {
-        <div class="form-group">
-            <label asp-for="Item.CustomBool3" class="control-label">@item.Collection.CustomBool3_Name</label>
-            <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool3" />
-            <span asp-validation-for="Item.CustomBool3" class="text-danger"></span>
-        </div>
-    }
+        @if (collection.CustomBool3_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Item.CustomBool3" class="control-label">@collection.CustomBool3_Name</label>
+                    <input type="checkbox" class="form-check-input" asp-for="Item.CustomBool3" />
+                    <span asp-validation-for="Item.CustomBool3" class="text-danger"></span>
+                </div>
+            </div>
+        }
+    </div>
 }

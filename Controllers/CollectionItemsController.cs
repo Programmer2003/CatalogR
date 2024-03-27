@@ -25,23 +25,6 @@ namespace CatalogR.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index(int collectionId)
-        {
-            if (_context.Collections == null) return NotFound();
-
-            var collection = await _context.Collections.Include(c => c.Items).ThenInclude(i => i.Tags).FirstOrDefaultAsync(c => c.Id == collectionId);
-            if (collection == null) return NotFound();
-            var model = new CollectionListModel()
-            {
-                Items = collection.Items.ToList(),
-                collectionId = collectionId,
-                Collection = collection
-            };
-            ViewData["OwnsCollection"] = true;
-            return View(model);
-        }
-
         [HttpGet("Create")]
         public IActionResult Create(int collectionId)
         {
@@ -66,7 +49,8 @@ namespace CatalogR.Controllers
                 if (!UpdateTags(model)) return View(model);
 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { model.collectionId });
+                ViewData["OwnsCollection"] = true;
+                return RedirectToAction("Items", "Collections", new { id = model.collectionId });
             }
 
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
@@ -117,7 +101,8 @@ namespace CatalogR.Controllers
                     else throw;
                 }
 
-                return RedirectToAction(nameof(Index), new { model.collectionId });
+                ViewData["OwnsCollection"] = true;
+                return RedirectToAction("Items", "Collections", new { id = model.collectionId });
             }
 
             return View(model);
@@ -146,7 +131,8 @@ namespace CatalogR.Controllers
             if (item != null) _context.Items.Remove(item);
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index), new { collectionId });
+            ViewData["OwnsCollection"] = true;
+            return RedirectToAction("Items", "Collections", new { id = collectionId });
         }
 
         private bool ItemExists(int id)
@@ -179,7 +165,7 @@ namespace CatalogR.Controllers
             {
                 if (!CheckTag(selectedTag)) return false;
 
-                var newTag = new Tag { Name = selectedTag };
+                var newTag = new Tag { Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(selectedTag) };
                 _context.Tags.Attach(newTag);
                 tags.Add(newTag);
             }

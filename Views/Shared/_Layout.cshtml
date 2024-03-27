@@ -9,28 +9,28 @@
     <link rel="stylesheet" href="~/CatalogR.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/lib/syncfusion/dist/css/dark.css" id="syncfusion-css-link" />
-    <script src="~/js/themes.js"></script>
-    <script src="~/lib/syncfusion/dist/js/ej2.min.js"></script>
     <base href="~/" />
     @RenderSection("Head", required: false)
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
-            <a class="navbar-brand" href="#">CatalogR</a>
+            <a class="navbar-brand link-primary"  href="#">CatalogR</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor04" aria-controls="navbarColor04" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse" id="navbarColor04">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-controller="UserCollections">
-                            <i class="bi bi-house"></i>
-                        </a>
-                    </li>
-                </ul>
                  <partial name="_SearchPartial" />
                 <ul class="navbar-nav">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="UserCollections">
+                                <i class="bi bi-person-lines-fill h4"></i>
+                                <span class="d-lg-none ms-2">My Collections</span>
+                            </a>
+                        </li>
+                    }
                     <partial name="_SelectLanguagePartial" />
                     <partial name="_SelectThemePartial" />
                 </ul>
@@ -51,10 +51,10 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist-5.3.3/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/themes.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/search.js" asp-append-version="true"></script>
     <script src="_framework/blazor.server.js"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
     <ejs-scripts></ejs-scripts>
 </body>

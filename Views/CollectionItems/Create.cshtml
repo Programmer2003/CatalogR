@@ -1,39 +1,51 @@
 ﻿@model ItemModel
-
+@section Head{
+    <script src="~/lib/syncfusion/dist/js/multiselect.min.js"></script>
+    <script src="~/lib/syncfusion/dist/js/datepicker.min.js"></script>
+    <style>
+        .e-multiselect.e-input-group.e-control-wrapper {
+            background-color: unset;
+        }
+    </style>
+}
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Item</h4>
+<h4>Create Item</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <input type="hidden" asp-for="collectionId" />
+<form asp-action="Create" class="d-flex flex-column gap-3">
+    <input type="hidden" asp-for="collectionId" />
+    <div class="row">
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Item.Name" class="control-label"></label>
                 <input asp-for="Item.Name" class="form-control" />
                 <span asp-validation-for="Item.Name" class="text-danger"></span>
             </div>
-            <ejs-multiselect name="SelectedTags" dataSource="Model.TagsListItems" value="Model.SelectedTags" id="SelectedTags" allowFiltering="true" floatLabelType="Auto" allowCustomValue="true" placeholder="Tags" MaximumSelectionLength="10">
-                <e-multiselect-fields value="Text"></e-multiselect-fields>
-            </ejs-multiselect>
-            @await Html.PartialAsync("CustomFields/String", Model)
-            @await Html.PartialAsync("CustomFields/Bool", Model)
-            @await Html.PartialAsync("CustomFields/Date", Model)
-            @await Html.PartialAsync("CustomFields/Int", Model)
-            @await Html.PartialAsync("CustomFields/Text", Model)
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <ejs-multiselect name="SelectedTags" dataSource="Model.TagsListItems" value="Model.SelectedTags"
+                                 id="SelectedTags" allowFiltering floatLabelType="Auto" allowCustomValue placeholder="Tags"
+                                 MaximumSelectionLength="10" cssClass="e-bigger">
+                    <e-multiselect-fields value="Text"></e-multiselect-fields>
+                </ejs-multiselect>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+    @await Html.PartialAsync("CustomFields/Bool", Model)
+    @await Html.PartialAsync("CustomFields/String", Model)
+    @await Html.PartialAsync("CustomFields/Date", Model)
+    @await Html.PartialAsync("CustomFields/Int", Model)
+    @await Html.PartialAsync("CustomFields/Text", Model)
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
 
 <div>
-    <a asp-action="Index" asp-route-collectionId="@Model.collectionId">Back to List</a>
+    <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.collectionId">Back to List</a>
 </div>
 
 @section Scripts {

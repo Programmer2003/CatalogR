@@ -1,30 +1,41 @@
 ﻿@model ItemModel
 @{
     var item = Model.Item;
+    var collection = item.Collection;
 }
-@if (item.Collection != null)
+@if (collection != null && (collection.CustomText1_State || collection.CustomText2_State || collection.CustomText3_State))
 {
-    @if (item.Collection.CustomText1_State)
-    {
-        <div class="form-group">
-            <label class="control-label">@item.Collection.CustomText1_Name</label>
-            <textarea asp-for="Item.CustomText1"></textarea>
-            <span asp-validation-for="Item.CustomText1" class="text-danger"></span>
-        </div>
-    }
+    <div class="row">
+        @if (collection.CustomText1_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">@collection.CustomText1_Name</label>
+                    <textarea rows="3" class="form-control" asp-for="Item.CustomText1"></textarea>
+                    <span asp-validation-for="Item.CustomText1" class="text-danger"></span>
+                </div>
+            </div>
+        }
 
-    @if (item.Collection.CustomText2_State)
-    {
-        <label class="control-label">@item.Collection.CustomText2_Name</label>
-        <textarea asp-for="Item.CustomText2"></textarea>
-        <span asp-validation-for="Item.CustomText2" class="text-danger"></span>
-    }
-    @if (item.Collection.CustomText3_State)
-    {
-        <div class="form-group">
-            <label class="control-label">@item.Collection.CustomText3_Name</label>
-            <textarea asp-for="Item.CustomText3"></textarea>
-            <span asp-validation-for="Item.CustomText3" class="text-danger"></span>
-        </div>
-    }
+        @if (collection.CustomText2_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">@collection.CustomText2_Name</label>
+                    <textarea rows="3" class="form-control" asp-for="Item.CustomText2"></textarea>
+                    <span asp-validation-for="Item.CustomText2" class="text-danger"></span>
+                </div>
+            </div>
+        }
+        @if (collection.CustomText3_State)
+        {
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">@collection.CustomText3_Name</label>
+                    <textarea rows="3" class="form-control" asp-for="Item.CustomText3"></textarea>
+                    <span asp-validation-for="Item.CustomText3" class="text-danger"></span>
+                </div>
+            </div>
+        }
+    </div>
 }

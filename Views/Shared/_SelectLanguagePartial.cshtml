@@ -13,22 +13,24 @@
         .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName.IndexOf('(') != -1 ? c.DisplayName.Substring(0, c.DisplayName.IndexOf('(')) : c.DisplayName })
         .ToList();
 }
-<form class="nav-item dropdown" id="localeForm" asp-controller="Home" 
-      asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path" method="post">
-    <input type="hidden" name="culture" id="culture"/>
-    <a class="nav-link" role="button" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="true">
-        <img src="img/locale/@(currentCulture.Name).png" class="flag-width" alt="flag">
-        <span class="d-lg-none ms-2">@currentCulture.DisplayName</span>
-    </a>
-    <ul class="dropdown-menu dropdown-menu-end">
-        @foreach (var locale in cultureItems!)
-        {
-            <li>
-                <button type="button" class="dropdown-item d-flex align-items-center gap-1" aria-pressed="false" onclick="changeLocale('@(locale.Value)')">
-                    <img src="img/locale/@(locale.Value).png" class="flag-width" alt="flag">
-                    @locale.Text
-                </button>
-            </li>
-        }
-    </ul>
-</form>
+<li class="nav-item">
+    <form class="dropdown" id="localeForm" asp-controller="Home"
+          asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path" method="post">
+        <input type="hidden" name="culture" id="culture" />
+        <a class="nav-link" role="button" href="javascript:;" data-bs-toggle="dropdown" aria-expanded="true">
+            <img src="img/locale/@(currentCulture.Name).png" class="flag-width" alt="flag">
+            <span class="d-lg-none ms-2">@currentCulture.DisplayName</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+            @foreach (var locale in cultureItems!)
+            {
+                <li>
+                    <button type="button" class="dropdown-item d-flex align-items-center gap-1" aria-pressed="false" onclick="changeLocale('@(locale.Value)')">
+                        <img src="img/locale/@(locale.Value).png" class="flag-width" alt="flag">
+                        @System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(locale.Text)
+                    </button>
+                </li>
+            }
+        </ul>
+    </form>
+</li>

@@ -46,22 +46,28 @@ namespace CatalogR.Controllers
             if (id == null || _context.Collections == null) return NotFound();
             if (id == _userManager.GetUserId(User)) return RedirectToAction("Index", "UserCollections");
 
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            if (user == null) return NotFound();
+
             var collection = await _context.Collections
                 .Where(c => c.UserId == id)
                 .Include(c => c.Topic)
                 .ToListAsync();
             if (collection == null) return NotFound();
 
+            ViewData["UserName"] = user.GetName;
             return View(collection);
         }
 
         public async Task<IActionResult> Items(int id)
         {
-            if (_context.Items == null) return NotFound();
+            if (_context.Collections == null) return NotFound();
 
-            var collection = await _context.Collections.Include(c => c.Items).ThenInclude(i => i.Tags).FirstOrDefaultAsync(c => c.Id == id);
+            var collection = await _context.Collections
+                .Include(c => c.Items)
+                    .ThenInclude(i => i.Tags)
+                 .FirstOrDefaultAsync(c => c.Id == id);
             if (collection == null) return NotFound();
-            if (collection.UserId == _userManager.GetUserId(User)) return RedirectToAction("Index", "CollectionItems", new { collectionId = collection.Id });
 
             var model = new CollectionListModel()
             {

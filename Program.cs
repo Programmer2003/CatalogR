@@ -57,6 +57,10 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("AdminPolicy", policyBuilder =>
+    {
+        policyBuilder.AddRequirements(new AdminRequirement());
+    });
     options.AddPolicy("ActiveUserPolicy", policyBuilder =>
     {
         policyBuilder.AddRequirements(new ActiveUserRequirement());
@@ -70,6 +74,7 @@ builder.Services.AddAuthorization(options =>
         policyBuilder.AddRequirements(new UserCollectionRequirement());
     });
 });
+builder.Services.AddTransient<IAuthorizationHandler, AdminRequirementHandler>();
 builder.Services.AddTransient<IAuthorizationHandler, ActiveUserRequirementHandler>();
 builder.Services.AddTransient<IAuthorizationHandler, CollectionAccessRequirementHandler>();
 builder.Services.AddTransient<IAuthorizationHandler, UserCollectionRequirementHandler>();

@@ -46,19 +46,9 @@
             <a asp-action="Index">
                 <i class="bi bi-collection h3"></i>
             </a>
-            @if (owns)
-            {
-                <a class="btn btn-primary" asp-action="Index" asp-controller="CollectionItems" asp-route-collectionId="@Model!.Id">
-                    @Localizer["Items"]
-                </a>
-            }
-            else
-            {
-                <a class="btn btn-primary" asp-action="Items" asp-controller="Collections" asp-route-id="@Model!.Id">
-                    @Localizer["Items"]
-                </a>
-            }
-            
+            <a class="btn btn-primary" asp-action="Items" asp-controller="Collections" asp-route-id="@Model!.Id">
+                @Localizer["Items"]
+            </a>
         </div>
     </div>
     <hr />

@@ -3,20 +3,25 @@
 @inject NavigationManager Navigation
 @implements IAsyncDisposable
 
-<h3>Likes</h3>
-<div>Likes count: @LikesCount</div>
-
-<button class="btn btn-primary" @onclick="Like">
-    @if (Liked)
+<div class="d-flex gap-3 align-items-center">
+    <div class="d-flex align-items-center">
+        <h3>Likes</h3>
+        <span class="h3"> : @LikesCount</span>
+    </div>
+    @if (Auth)
     {
-        <div>Dislike!</div>
+        <a href="javascript:;" @onclick="Like">
+            @if (Liked)
+            {
+                <i class="bi bi-heart-fill h4"></i>
+            }
+            else
+            {
+                <i class="bi bi-heart h4"></i>
+            }
+        </a>
     }
-    else
-    {
-        <div>Like! </div>
-    }
-</button>
-
+</div>
 
 @code {
     [Parameter]
@@ -80,12 +85,17 @@
     {
         if (hubConnection is not null)
         {
-            if (Liked)
-                await hubConnection.SendAsync("DislikeItem", UserId, ItemId);
-            else
-                await hubConnection.SendAsync("LikeItem", UserId, ItemId);
-
             Liked = !Liked;
+            if (!Liked)
+            {
+                await hubConnection.SendAsync("DislikeItem", UserId, ItemId);
+                --LikesCount;
+            }
+            else
+            {
+                await hubConnection.SendAsync("LikeItem", UserId, ItemId);
+                ++LikesCount;
+            }
         }
     }
 

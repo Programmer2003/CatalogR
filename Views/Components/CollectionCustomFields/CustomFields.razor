@@ -1,18 +1,22 @@
-﻿<div class="container border">
-    <h3>@Title</h3>
-    <hr />
-    <button type="button" @onclick="AddValue" class="btn btn-primary" disabled="@(Values.Count >= 3)">Add Field</button>
-
+﻿<div class="d-flex flex-column border rounded p-2 gap-2">
+    <div class="d-flex justify-content-between mb-2">
+        <h3>@Title</h3>
+        <div @onclick="AddValue" class="btn btn-primary" disabled="@(Values.Count >= 3)">
+            <i class="bi bi-plus"></i>
+        </div>
+    </div>
     @for (int i = 0; i < Values.Count; i++)
     {
         int index = i;
         var name = string.Concat("Custom", Field, i + 1, "_Name");
         var state = string.Concat("Custom", Field, i + 1, "_State");
-        <div class="input-group mb-3">
-            <input @onchange="(e) => UpdateValue(index, e.Value?.ToString())" value="@Values[i]" type="text" class="form-control" name="@name">
-            <button @onclick="() => RemoveValue(index)" class="btn btn-outline-danger" type="button"><i class="bi bi-trash3"></i></button>
+        <div>
+            <div class="input-group">
+                <input @onchange="(e) => UpdateValue(index, e.Value?.ToString())" value="@Values[i]" type="text" class="form-control" name="@name">
+                <button @onclick="() => RemoveValue(index)" class="btn btn-outline-danger" type="button"><i class="bi bi-trash3"></i></button>
+            </div>
+            <input type="checkbox" name="@state" value="@(string.IsNullOrWhiteSpace(Values[i]) ? "false": "true")" checked="checked" style="display: none">
         </div>
-        <input type="checkbox" name="@state" value="@(string.IsNullOrWhiteSpace(Values[i]) ? "false": "true")" checked="checked" style="display: none">
     }
 </div>
 @code {
