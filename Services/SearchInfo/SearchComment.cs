@@ -24,6 +24,7 @@ namespace CatalogR.Services.SearchInfo
                 Text = c.Text,
                 Item = c.Item,
                 ItemId = c.ItemId,
+                TimeStamp = c.TimeStamp
             };
 
             return selector;
