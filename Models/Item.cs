@@ -68,5 +68,11 @@ namespace CatalogR.Models
             CustomString2,
             CustomString3,
         };
+
+        [NotMapped]
+        public string TagsString
+        {
+            get => string.Join(",", Tags.Select(t=>t.Name));
+        }
     }
 }

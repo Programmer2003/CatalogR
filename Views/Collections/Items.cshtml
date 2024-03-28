@@ -14,9 +14,6 @@
                 @Localizer["Create New"]
             </a>
         }
-        <a asp-action="Index" class="btn btn-primary">
-            @Localizer["Collections"]
-        </a>
     </div>
 </div>
 @(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model, Owns = owns }))

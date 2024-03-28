@@ -5,8 +5,9 @@
 @inject LinkGenerator LinkGenerator
 @inject RazorLocalizerService Localizer
 @inject IJSRuntime JSRuntime
-
-<SfGrid @ref="Grid" DataSource="@Items" AllowPaging AllowSorting AllowFiltering AllowGrouping AllowResizing>
+@{
+}
+<SfGrid @ref="Grid" DataSource="@Items" AllowPaging AllowSorting AllowFiltering AllowGrouping AllowResizing AllowExcelExport AllowPdfExport>
     <GridTemplates>
         <ToolbarTemplate>
             <SfToolbar>
@@ -14,22 +15,32 @@
                 <ToolbarItems>
                     <ToolbarItem Text="View">
                         <Template>
-                            <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-eye"></i></button> </div>
+                            <div title="@Localizer.GetString("Item Details")"><button class='e-btn e-tbar-btn'><i class="bi bi-eye"></i></button> </div>
                         </Template>
                     </ToolbarItem>
                     @if (Owns)
                     {
                         <ToolbarItem Text="Edit">
                             <Template>
-                                <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-pencil-square"></i></button> </div>
+                                <div title="@Localizer.GetString("Edit Item")"><button class='e-btn e-tbar-btn'><i class="bi bi-pencil-square"></i></button> </div>
                             </Template>
                         </ToolbarItem>
                         <ToolbarItem Text="Delete">
                             <Template>
-                                <div><button class='e-btn e-tbar-btn' id="view"><i class="bi bi-trash3"></i></button> </div>
+                                <div title="@Localizer.GetString("Delete Item")"><button class='e-btn e-tbar-btn'><i class="bi bi-trash3"></i></button> </div>
                             </Template>
                         </ToolbarItem>
                     }
+                    <ToolbarItem Id="Grid_excelexport">
+                        <Template>
+                            <div title="@Localizer.GetString("Export") CSV"><button class='e-btn e-tbar-btn'><i class="bi bi-file-earmark-excel"></i></button> </div>
+                        </Template>
+                    </ToolbarItem>
+                    <ToolbarItem Id="Grid_pdfexport">
+                        <Template>
+                            <div title="@Localizer.GetString("Export") PDF"><button class='e-btn e-tbar-btn'><i class="bi bi-filetype-pdf"></i></button> </div>
+                        </Template>
+                    </ToolbarItem>
                 </ToolbarItems>
             </SfToolbar>
         </ToolbarTemplate>
@@ -83,6 +94,30 @@
 
     public async Task ToolbarClickHandler(ClickEventArgs args)
     {
+
+        if (args.Item.Id == "Grid_excelexport")
+        {
+#pragma warning disable BL0005
+            ExcelExportProperties ExportProperties = new ExcelExportProperties();
+            var columns = await Grid.GetColumnsAsync();
+            columns.Add(new GridColumn() { Field = nameof(Item.TagsString), HeaderText = Localizer.GetString("Tags") });
+            ExportProperties.Columns = columns;
+            await Grid.ExportToCsvAsync(ExportProperties);
+            return;
+        }
+
+        if (args.Item.Id == "Grid_pdfexport")
+        {
+            PdfExportProperties ExportProperties = new PdfExportProperties();
+            var columns = await Grid.GetColumnsAsync();
+            columns.Add(new GridColumn() { Field = nameof(Item.TagsString), HeaderText = Localizer.GetString("Tags") });
+            ExportProperties.Columns = columns;
+            await Grid.ExportToPdfAsync(ExportProperties);
+            return;
+#pragma warning restore BL0005
+
+        }
+
         var selected = await Grid.GetSelectedRecordsAsync();
         if (selected.Count == 0) return;
         var item = selected.First();
