@@ -10,7 +10,7 @@ namespace CatalogR.Models
         [Key]
         public int Id { get; set; }
 
-        [Column(TypeName = "varchar(MAX)")]
+        [Column(TypeName = "nvarchar(MAX)")]
         [Required(ErrorMessage = "Text is required")]
         public string Text { get; set; } = string.Empty;
 

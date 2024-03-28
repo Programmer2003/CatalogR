@@ -6,10 +6,7 @@ namespace CatalogR.Services
     {
         private readonly IStringLocalizer<TimeManagerService> _localizer;
 
-        public TimeManagerService(IStringLocalizer<TimeManagerService> localizer)
-        {
-            _localizer = localizer;
-        }
+        public TimeManagerService(IStringLocalizer<TimeManagerService> localizer) => _localizer = localizer;
 
         public string AsTimeAgo(DateTime dateTime)
         {
