@@ -84,6 +84,14 @@ builder.Services.Configure<SecurityStampValidatorOptions>(options =>
     options.ValidationInterval = TimeSpan.Zero;
 });
 
+builder.Services
+    .AddAuthentication()
+    .AddGoogle(options =>
+    {
+        options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+    });
+
 builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 builder.Services.AddTransient<FullTextSearchService>();
 builder.Services.AddTransient<HtmlSanitizationService>();
