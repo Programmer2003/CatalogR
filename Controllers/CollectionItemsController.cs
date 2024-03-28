@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using CatalogR.Data;
+﻿using CatalogR.Data;
 using CatalogR.Models;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace CatalogR.Controllers
 {
@@ -20,15 +13,12 @@ namespace CatalogR.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public CollectionItemsController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public CollectionItemsController(ApplicationDbContext context) => _context = context;
 
         [HttpGet("Create")]
         public IActionResult Create(int collectionId)
         {
-            ItemModel model = new ItemModel()
+            ItemModel model = new()
             {
                 TagsListItems = _context.Tags.Select(t => t.Name).ToArray(),
                 CollectionId = collectionId
@@ -66,10 +56,13 @@ namespace CatalogR.Controllers
             var item = await _context.Items.Include(i => i.Tags).FirstOrDefaultAsync(i => i.Id == id);
             if (item == null) return NotFound();
 
-            ItemModel model = new ItemModel() { Item = item };
-            model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
-            model.CollectionId = collectionId;
-            model.SelectedTags = item.Tags.Select(t => t.Name).ToArray();
+            ItemModel model = new()
+            {
+                Item = item,
+                TagsListItems = _context.Tags.Select(t => t.Name).ToArray(),
+                CollectionId = collectionId,
+                SelectedTags = item.Tags.Select(t => t.Name).ToArray()
+            };
             return View(model);
         }
 
@@ -165,7 +158,7 @@ namespace CatalogR.Controllers
             {
                 if (!CheckTag(selectedTag)) return false;
 
-                var newTag = new Tag { Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(selectedTag) };
+                Tag newTag = new(){ Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(selectedTag) };
                 _context.Tags.Attach(newTag);
                 tags.Add(newTag);
             }

@@ -11,8 +11,8 @@ namespace CatalogR.Services
 
         public async Task<List<User>> GetUsersAsync() =>
             await _context.Users
-                .AsNoTracking()
                 .OrderBy(u => u.Id)
+                .AsNoTracking()
                 .ToListAsync();
 
         public async Task ChangeBlockStatus(List<string> userIds, bool block)

@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using Newtonsoft.Json;
+using CatalogR.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using CatalogR.Services;
 
 namespace CatalogR.Controllers
 {

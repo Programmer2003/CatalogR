@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using CatalogR.Data;
+﻿using CatalogR.Data;
 using CatalogR.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 namespace CatalogR.Controllers
@@ -23,7 +18,7 @@ namespace CatalogR.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var collections = _context.Collections.Include(c => c.Topic).Include(c => c.User);
+            var collections = _context.Collections.Include(c => c.Topic).Include(c => c.User).AsNoTracking();
             return View(await collections.ToListAsync());
         }
 
@@ -34,6 +29,7 @@ namespace CatalogR.Controllers
             var collection = await _context.Collections
                 .Include(c => c.Topic)
                 .Include(c => c.User)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (collection == null) return NotFound();
 
@@ -53,6 +49,7 @@ namespace CatalogR.Controllers
             var collection = await _context.Collections
                 .Where(c => c.UserId == id)
                 .Include(c => c.Topic)
+                .AsNoTracking()
                 .ToListAsync();
             if (collection == null) return NotFound();
 
@@ -67,6 +64,7 @@ namespace CatalogR.Controllers
             var collection = await _context.Collections
                 .Include(c => c.Items)
                     .ThenInclude(i => i.Tags)
+                .AsNoTracking()
                  .FirstOrDefaultAsync(c => c.Id == id);
             if (collection == null) return NotFound();
 

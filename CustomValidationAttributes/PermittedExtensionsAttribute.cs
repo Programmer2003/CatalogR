@@ -9,8 +9,6 @@ namespace CatalogR.CustomValidationAttributes
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (value == null) return new ValidationResult(GetErrorMessage());
-
             if (value is IFormFile file)
             {
                 var extension = Path.GetExtension(file.FileName);

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Data;
 using CatalogR.Data;
 using CatalogR.Models;
-using System.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
 namespace CatalogR.Controllers
@@ -29,10 +29,11 @@ namespace CatalogR.Controllers
                 .Include(i => i.Comments.OrderByDescending(c=>c.TimeStamp))
                     .ThenInclude(c => c.User)
                 .Include(i => i.Likes)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (item == null) return NotFound();
-            ViewData["OwnsItem"] = item.Collection?.UserId == _userManager.GetUserId(User);
 
+            ViewData["OwnsItem"] = item.Collection?.UserId == _userManager.GetUserId(User);
             return View(item);
         }
     }
