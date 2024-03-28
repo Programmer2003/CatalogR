@@ -32,6 +32,8 @@ namespace CatalogR.Services
         public async Task RemoveUsers(List<string> userIds)
         {
             _context.Comments.RemoveRange(_context.Comments.Where(c => userIds.Contains(c.UserId!)));
+            _context.Likes.RemoveRange(_context.Likes.Where(l => userIds.Contains(l.UserId!)));
+            await _context.SaveChangesAsync();
             _context.Users.RemoveRange(_context.Users.Where(u => userIds.Contains(u.Id)));
             await _context.SaveChangesAsync();
         }

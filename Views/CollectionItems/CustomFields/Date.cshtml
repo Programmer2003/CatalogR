@@ -1,7 +1,17 @@
-﻿@model ItemModel
+﻿@using Microsoft.AspNetCore.Localization;
+@using Microsoft.Extensions.Options;
+@model ItemModel
+@inject IOptions<RequestLocalizationOptions> LocaleOptions
+
 @{
     var item = Model.Item;
     var collection = item.Collection;
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var currentCulture = LocaleOptions.Value.DefaultRequestCulture.UICulture;
+    if (requestCulture != null) currentCulture = requestCulture.RequestCulture.UICulture;
+
+    var format = currentCulture.Name == "ru-RU" ? "d/M/yyyy" : "M/d/yyyy";
 }
 @if (collection != null && (collection.CustomDate1_State || collection.CustomDate2_State || collection.CustomDate3_State))
 {
@@ -10,7 +20,7 @@
         {
             <div class="col-md-4">
                 <label class="control-label">@collection.CustomDate1_Name</label>
-                <ejs-datepicker id="format" ejs-for="Item.CustomDate1" enableMask="true" format="M/d/yyyy" cssClass="e-bigger"></ejs-datepicker>
+                <ejs-datepicker id="format" ejs-for="Item.CustomDate1" format=@format enableMask cssClass="e-bigger"></ejs-datepicker>
                 <span asp-validation-for="Item.CustomDate1" class="text-danger"></span>
             </div>
 
@@ -20,7 +30,7 @@
         {
             <div class="col-md-4">
                 <label class="control-label">@collection.CustomDate2_Name</label>
-                <ejs-datepicker id="format2" ejs-for="Item.CustomDate2" enableMask="true" format="M/d/yyyy" cssClass="e-bigger"></ejs-datepicker>
+                <ejs-datepicker id="format2" ejs-for="Item.CustomDate2" format=@format enableMask  cssClass="e-bigger"></ejs-datepicker>
                 <span asp-validation-for="Item.CustomDate2" class="text-danger"></span>
             </div>
 
@@ -30,7 +40,7 @@
         {
             <div class="col-md-4">
                 <label class="control-label">@collection.CustomDate3_Name</label>
-                <ejs-datepicker id="format3" ejs-for="Item.CustomDate3" enableMask="true" format="M/d/yyyy" cssClass="e-bigger"></ejs-datepicker>
+                <ejs-datepicker id="format3" ejs-for="Item.CustomDate3" format=@format enableMask cssClass="e-bigger"></ejs-datepicker>
                 <span asp-validation-for="Item.CustomDate3" class="text-danger"></span>
             </div>
         }

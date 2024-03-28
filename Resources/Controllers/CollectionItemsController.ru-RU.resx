@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Tag Cloud" xml:space="preserve">
-    <value>Облако Тегов</value>
+  <data name="Tag cannot be empty" xml:space="preserve">
+    <value>Тег не может быть пустым</value>
+  </data>
+  <data name="Tag name cannot be less than 3 characters" xml:space="preserve">
+    <value>Тег не может быть короче 3 символов</value>
+  </data>
+  <data name="Tag name cannot be longer than 10 characters" xml:space="preserve">
+    <value>Тег не может быть длиннее 10 символов</value>
   </data>
 </root>

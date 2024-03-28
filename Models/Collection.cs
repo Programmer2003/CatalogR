@@ -43,6 +43,7 @@ namespace CatalogR.Models
         public string UserId { get; set; } = string.Empty;
         public User? User { get; set; }
 
+        [Display(Name = "Topic")]
         [ForeignKey(nameof(Topic))]
         public int? CollectionTopicId { get; set; }
         public virtual CollectionTopic? Topic { get; set; }

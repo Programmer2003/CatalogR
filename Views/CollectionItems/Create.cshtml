@@ -1,8 +1,8 @@
 ﻿@model ItemModel
 @section Head{
     <style>
-        .e-multiselect.e-input-group.e-control-wrapper {
-            background-color: unset;
+        .e-multiselect.e-control-wrapper, .e-date-wrapper {
+            background-color: unset !important
         }
     </style>
 }
@@ -14,6 +14,7 @@
 <hr />
 <form asp-action="Create" class="d-flex flex-column gap-3">
     <input type="hidden" asp-for="CollectionId" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -26,7 +27,7 @@
             <div class="form-group">
                 <ejs-multiselect name="SelectedTags" dataSource="Model.TagsListItems" value="Model.SelectedTags"
                                  id="SelectedTags" allowFiltering floatLabelType="Auto" allowCustomValue placeholder="@Localizer["Tags"].Value"
-                                 MaximumSelectionLength="10" cssClass="e-bigger">
+                                 MaximumSelectionLength="10" cssClass="e-bigger" popupHeight="220px">
                     <e-multiselect-fields value="Text"></e-multiselect-fields>
                 </ejs-multiselect>
             </div>

@@ -67,5 +67,5 @@
   - [ ] Custom fields, one from List. 
     - [ ] Editable List
   - [ ] Any number of fields
-  - [ ] Collections export
+  - [x] Collections export
   

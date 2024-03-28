@@ -3,6 +3,8 @@ using CatalogR.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using CatalogR.Services;
+using Microsoft.Extensions.Localization;
 
 namespace CatalogR.Controllers
 {
@@ -12,8 +14,13 @@ namespace CatalogR.Controllers
     public class CollectionItemsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IStringLocalizer<CollectionItemsController> _localizer;
 
-        public CollectionItemsController(ApplicationDbContext context) => _context = context;
+        public CollectionItemsController(ApplicationDbContext context, IStringLocalizer<CollectionItemsController> localizer)
+        {
+            _context = context;
+            _localizer = localizer;
+        }
 
         [HttpGet("Create")]
         public IActionResult Create(int collectionId)
@@ -36,11 +43,12 @@ namespace CatalogR.Controllers
                 model.Item = _context.Add(model.Item).Entity;
                 model.Item.Tags = await _context.Entry(model.Item).Collection(i => i.Tags).Query().ToListAsync();
                 model.Item.CollectionId = model.CollectionId;
-                if (!UpdateTags(model)) return View(model);
-
-                await _context.SaveChangesAsync();
-                ViewData["OwnsCollection"] = true;
-                return RedirectToAction("Items", "Collections", new { id = model.CollectionId });
+                if (UpdateTags(model))
+                {
+                    await _context.SaveChangesAsync();
+                    ViewData["OwnsCollection"] = true;
+                    return RedirectToAction("Items", "Collections", new { id = model.CollectionId });
+                }
             }
 
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
@@ -158,7 +166,7 @@ namespace CatalogR.Controllers
             {
                 if (!CheckTag(selectedTag)) return false;
 
-                Tag newTag = new(){ Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(selectedTag) };
+                Tag newTag = new() { Name = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(selectedTag) };
                 _context.Tags.Attach(newTag);
                 tags.Add(newTag);
             }
@@ -166,11 +174,16 @@ namespace CatalogR.Controllers
             return true;
         }
 
-        private bool CheckTag(string tagName)
+        private bool CheckTag(string? tagName)
         {
+            if (string.IsNullOrWhiteSpace(tagName))
+            {
+                ModelState.AddModelError("", _localizer["Tag cannot be empty"]);
+                return false;
+            }
             if (tagName.Length <= 10 && tagName.Length > 2) return true;
-            if (tagName.Length > 10) ModelState.AddModelError("", "Tag name cannot be longer than 10 characters");
-            else ModelState.AddModelError("", "Tag name cannot be less than 3 characters");
+            if (tagName.Length > 10) ModelState.AddModelError("", _localizer["Tag name cannot be longer than 10 characters"]);
+            else ModelState.AddModelError("", _localizer["Tag name cannot be less than 3 characters"]);
             return false;
         }
     }
