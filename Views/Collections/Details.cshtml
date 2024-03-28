@@ -23,14 +23,19 @@
                 if (owns)
                 {
                     <span>
-                        <a asp-action="Index" asp-controller="UserCollections" class="link-primary link-underline link-underline-opacity-0 fw-bold">Your collection</a>
+                        <a asp-action="Index" asp-controller="UserCollections" class="link-primary link-underline link-underline-opacity-0 fw-bold">
+                            @Localizer["Your collection"]
+                        </a>
                     </span>
                 }
                 else
                 {
 
                     <span>
-                        @Localizer["by"] <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@Model.User.Id" class="link-primary link-underline link-underline-opacity-0 fw-bold">@Model.User.UserName</a>
+                        @Localizer["by"]
+                        <a asp-action="ByUser" asp-controller="Collections" asp-route-id="@Model.User.Id" class="link-primary link-underline link-underline-opacity-0 fw-bold">
+                            @Model.User.UserName
+                        </a>
                     </span>
                 }
             }

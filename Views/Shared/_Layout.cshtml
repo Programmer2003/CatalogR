@@ -27,7 +27,9 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-action="Index" asp-controller="UserCollections" style="padding-top: 10px">
                                 <i class="bi bi-person-lines-fill h4"></i>
-                                <span class="d-lg-none ms-2">My Collections</span>
+                                <span class="d-lg-none ms-2">
+                                    @Localizer["My Collections"]
+                                </span>
                             </a>
                         </li>
                         @if ((await UserManager.GetUserAsync(User)).IsAdmin)
@@ -35,7 +37,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-action="Index" asp-controller="Admin" style="padding-top: 10px">
                                     <i class="bi bi-person-gear h4"></i>
-                                    <span class="d-lg-none ms-2">Admin Panel</span>
+                                    <span class="d-lg-none ms-2">
+                                        @Localizer["Admin Panel"]
+                                    </span>
                                 </a>
                             </li>
                         }
@@ -44,7 +48,9 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-action="Index" asp-controller="Collections" style="padding-top: 10px">
                             <i class="bi bi-collection h4"></i>
-                            <span class="d-lg-none ms-2">All Collections</span>
+                            <span class="d-lg-none ms-2">
+                                @Localizer["All Collections"]
+                            </span>
                         </a>
                     </li>
                     <partial name="_SelectLanguagePartial" />

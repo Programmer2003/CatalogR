@@ -3,18 +3,20 @@
         @using (Html.BeginForm("Index", "Search", FormMethod.Get))
         {
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search..." id="search-input" autocomplete="off" name="query">
+                <input type="text" class="form-control" placeholder="@Localizer["Search"]..." id="search-input" autocomplete="off" name="query">
                 <button class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
             </div>
         }
         <div class="dropdown-menu p-0 w-100 border rounded" id="searchMenu" style="display: none; border: unset;">
             <div class="d-flex justify-content-center">
                 <div class="spinner-border my-3" role="status" id="loader" style="display: none;">
-                    <span class="visually-hidden">Loading...</span>
+                    <span class="visually-hidden">@Localizer["Loading"]...</span>
                 </div>
             </div>
             <div class="list-group" id="searchResult">
-                <div class="list-group-item list-group-item-action d-flex gap-3 py-3">Start Searching</div>
+                <div class="list-group-item list-group-item-action d-flex gap-3 py-3">
+                    @Localizer["Start Searching"]
+                </div>
             </div>
         </div>
     </div>

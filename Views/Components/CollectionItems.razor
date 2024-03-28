@@ -1,7 +1,9 @@
 ﻿@using CatalogR.Models;
+@using CatalogR.Services;
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
 @inject LinkGenerator LinkGenerator
+@inject RazorLocalizerService Localizer
 @inject IJSRuntime JSRuntime
 
 <SfGrid @ref="Grid" DataSource="@Items" AllowPaging AllowSorting AllowFiltering AllowGrouping AllowResizing>
@@ -36,8 +38,8 @@
     <GridPageSettings PageSizes="@(new string[] { "5", "10" , "20" })" PageSize="5"></GridPageSettings>
     <GridGroupSettings ShowGroupedColumn=true EnableLazyLoading="true"></GridGroupSettings>
     <GridColumns>
-        <GridColumn Field=@nameof(Item.Name) HeaderText="Name" Width="120" AllowGrouping="false"></GridColumn>
-        <GridColumn Field=@nameof(Item.Tags) HeaderText="Tags" Width="50" AllowFiltering="false" AllowSorting="false" AllowGrouping="false">
+        <GridColumn Field=@nameof(Item.Name) HeaderText="@Localizer.GetString("Name")" Width="120" AllowGrouping="false"></GridColumn>
+        <GridColumn Field=@nameof(Item.Tags) HeaderText="@Localizer.GetString("Tags")" Width="50" AllowFiltering="false" AllowSorting="false" AllowGrouping="false">
             <Template>
                 @{
                     var item = (context as Item);

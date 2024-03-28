@@ -11,11 +11,11 @@
         @if (owns)
         {
             <a asp-action="Create" asp-controller="CollectionItems" asp-route-collectionId="@Model.Id" class="btn btn-primary">
-                Create New
+                @Localizer["Create New"]
             </a>
         }
         <a asp-action="Index" class="btn btn-primary">
-            Collections
+            @Localizer["Collections"]
         </a>
     </div>
 </div>

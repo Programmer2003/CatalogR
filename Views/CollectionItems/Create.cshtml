@@ -10,7 +10,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h4>Create Item</h4>
+<h4>@Localizer["Create Item"]</h4>
 <hr />
 <form asp-action="Create" class="d-flex flex-column gap-3">
     <input type="hidden" asp-for="CollectionId" />
@@ -25,7 +25,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <ejs-multiselect name="SelectedTags" dataSource="Model.TagsListItems" value="Model.SelectedTags"
-                                 id="SelectedTags" allowFiltering floatLabelType="Auto" allowCustomValue placeholder="Tags"
+                                 id="SelectedTags" allowFiltering floatLabelType="Auto" allowCustomValue placeholder="@Localizer["Tags"].Value"
                                  MaximumSelectionLength="10" cssClass="e-bigger">
                     <e-multiselect-fields value="Text"></e-multiselect-fields>
                 </ejs-multiselect>
@@ -37,13 +37,15 @@
     @await Html.PartialAsync("CustomFields/Date", Model)
     @await Html.PartialAsync("CustomFields/Int", Model)
     @await Html.PartialAsync("CustomFields/Text", Model)
-    
+
     <div class="d-flex gap-1">
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
+            <input type="submit" value="@Localizer["Create"]" class="btn btn-primary" />
         </div>
         <div>
-            <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.CollectionId" class="btn btn-primary">Back to List</a>
+            <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.CollectionId" class="btn btn-primary">
+                @Localizer["Back to List"]
+            </a>
         </div>
     </div>
 </form>

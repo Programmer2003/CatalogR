@@ -12,10 +12,10 @@
     <e-grid-filterSettings type="Menu"></e-grid-filterSettings>
     <e-grid-groupsettings enableLazyLoading="true"></e-grid-groupsettings>
     <e-grid-columns>
-        <e-grid-column template="#img-template" headerText="Image" textAlign="Center" width="150"></e-grid-column>
-        <e-grid-column field="Name" headerText="Name" allowGrouping="false" width="100"></e-grid-column>
-        <e-grid-column template="#markdown-template" headerText="Description" width="200"></e-grid-column>
-        <e-grid-column field="Topic.Name" headerText="Topic" filter="@(new { type="CheckBox"})" textAlign="Left" width="100"></e-grid-column>
+        <e-grid-column template="#img-template" headerText="@Localizer["Image"].Value" textAlign="Center" width="150"></e-grid-column>
+        <e-grid-column field="Name" headerText="@Localizer["Name"].Value" allowGrouping="false" width="100"></e-grid-column>
+        <e-grid-column template="#markdown-template" headerText="@Localizer["Description"].Value" width="200"></e-grid-column>
+        <e-grid-column field="Topic.Name" headerText="@Localizer["Topic"].Value" filter="@(new { type="CheckBox"})" textAlign="Left" width="100"></e-grid-column>
     </e-grid-columns>
 </ejs-grid>
 
@@ -41,13 +41,17 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-warning">@Localizer["Warning"]</h5>
+                <h5 class="modal-title text-warning">
+                    @Localizer["Warning"]
+                </h5>
             </div>
             <div class="modal-body">
                 <p>@Localizer["No records selected"]</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    @Localizer["Close"]
+                </button>
             </div>
         </div>
     </div>

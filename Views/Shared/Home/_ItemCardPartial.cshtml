@@ -17,7 +17,7 @@
                 @if (Model.Collection.User.Id == UserManager.GetUserId(User))
                 {
                     <a asp-action="Index" asp-controller="UserCollections">
-                        You
+                        @Localizer["You"]
                     </a>
                 }
                 else

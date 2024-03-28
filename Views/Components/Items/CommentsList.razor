@@ -1,17 +1,20 @@
 ﻿@using CatalogR.Models
+@using CatalogR.Services;
 @using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.Extensions.Localization;
 @using Syncfusion.Blazor.Navigations;
 @inject NavigationManager Navigation
 @inject LinkGenerator LinkGenerator
+@inject RazorLocalizerService Localizer
 @implements IAsyncDisposable
 
 
-<h4>Comments</h4>
+<h4>@Localizer.GetString("Comments")</h4>
 
 @if (Auth)
 {
     <div class="input-group">
-        <input @bind="textInput" @bind:event="oninput" type="text" class="form-control" placeholder="Your message">
+        <input @bind="textInput" @bind:event="oninput" type="text" class="form-control" placeholder="@Localizer.GetString("Your message")">
         <button class="btn btn-primary" type="button" @onclick="Send" disabled="@(!IsConnected || string.IsNullOrWhiteSpace(textInput))">Send</button>
     </div>
 }
@@ -28,7 +31,7 @@
                             @if (UserId == comment.UserId)
                             {
                                 <a href="@LinkGenerator.GetPathByAction("Index","UserCollections")">
-                                    <small class="font-weight-bold text-primary">You</small>
+                                    <small class="font-weight-bold text-primary">@Localizer.GetString("You")</small>
                                 </a>
                             }
                             else

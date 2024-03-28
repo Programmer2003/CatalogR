@@ -14,6 +14,8 @@ search.on("blur", function () {
 
 let timer = null;
 function restartTimer() {
+    var value = $('#search-input').val();
+    if (value == undefined || value.length == 0) return;
     result.empty();
     loader.show();
     clearTimeout(timer);
@@ -24,6 +26,7 @@ search.on('input', restartTimer);
 
 function updateSearchResult() {
     var value = $('#search-input').val();
+    
     $.ajax({
         type: "POST",
         url: '/Search/FastSearch',
@@ -32,7 +35,7 @@ function updateSearchResult() {
             loader.hide();
             result.empty();
             if (!Array.isArray(data) || data.length == 0) {
-                result.append('<div class="list-group-item list-group-item-action d-flex gap-3 py-3">No results</div>');
+                result.append('<div class="list-group-item list-group-item-action d-flex gap-3 py-3">-</div>');
             }
             else {
                 addItems(data, value);
@@ -50,10 +53,10 @@ function addItems(data, query) {
         let html =
             `<a href="${item.url}/${item.id}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
                 <div class="d-flex gap-2 w-100 justify-content-between">
-                <div>
-                    <h6 class="mb-0">${item.name}</h6>
-                    <p class="mb-0 opacity-75">${founded}</p>
-                </div>
+                    <div>
+                        <h6 class="mb-0">${item.name}</h6>
+                        <p class="mb-0 opacity-75">${founded}</p>
+                    </div>
                 </div>
             </a>`;
         result.append(html);

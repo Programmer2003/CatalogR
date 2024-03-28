@@ -117,16 +117,46 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin Panel" xml:space="preserve">
-    <value>Панель Админа</value>
+  <data name="Admin" xml:space="preserve">
+    <value>Админ</value>
   </data>
-  <data name="All Collections" xml:space="preserve">
-    <value>Все Коллекции</value>
+  <data name="Blocked" xml:space="preserve">
+    <value>Заблокирован</value>
   </data>
-  <data name="My Collections" xml:space="preserve">
-    <value>Мои Коллекции</value>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Конфиденциальность</value>
+  <data name="Deleted" xml:space="preserve">
+    <value>Удален</value>
+  </data>
+  <data name="Downgraded to user" xml:space="preserve">
+    <value>Понижен до пользователя</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Почта</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Заблокирован</value>
+  </data>
+  <data name="No records selected" xml:space="preserve">
+    <value>Не выбрана запись</value>
+  </data>
+  <data name="Success" xml:space="preserve">
+    <value>Успешно</value>
+  </data>
+  <data name="successfully" xml:space="preserve">
+    <value>успешно</value>
+  </data>
+  <data name="Unblocked" xml:space="preserve">
+    <value>Разблокирован</value>
+  </data>
+  <data name="Upgraded to admin" xml:space="preserve">
+    <value>Повышен до админа</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Внимание</value>
   </data>
 </root>
