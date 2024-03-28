@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CatalogR.Models;
-using LinqKit;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using CatalogR.Data;
+﻿using CatalogR.Models;
 using CatalogR.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogR.Controllers
 {
@@ -19,12 +16,16 @@ namespace CatalogR.Controllers
         }
 
         [HttpPost]
-        public JsonResult ItemsSearch(string query)
+        public async Task<JsonResult> FastSearch(string query)
         {
-            var items = _searchService.FastItems(query)
-                .Select(i => new { i.Id, i.FullTextIndexPropetries, i.Name }).ToList();
-            var collections = _searchService.FastCollections(query)
-                .Select(c => new { c.Id, c.FullTextIndexPropetries, c.Name }).ToList();
+            var items = await _searchService
+                .FastItems(query)
+                .Select(i => new { i.Id, i.FullTextIndexPropetries, i.Name, Url = "Items/Details" })
+                .ToListAsync();
+            var collections = await _searchService
+                .FastCollections(query)
+                .Select(c => new { c.Id, c.FullTextIndexPropetries, c.Name, Url = "Collections/Details" })
+                .ToListAsync();
             items.AddRange(collections);
             return Json(items);
         }
@@ -38,9 +39,9 @@ namespace CatalogR.Controllers
                 return View(new SearchModel() { Items = await _searchService.SearchByTag(tag).ToListAsync(), Query = tag });
             }
 
-            var collections = await _searchService.GetAllCollections(query).ToListAsync();
             var items = await _searchService.GetAllItems(query).ToListAsync();
             var comments = await _searchService.GetAllComments(query).ToListAsync();
+            var collections = await _searchService.GetAllCollections(query).ToListAsync();
             var model = new SearchModel() { Items = items, Collections = collections, Comments = comments, Query = query };
             return View(model);
         }

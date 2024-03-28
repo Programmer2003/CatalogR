@@ -23,20 +23,14 @@ function restartTimer() {
 search.on('input', restartTimer);
 
 function updateSearchResult() {
-    console.log('start');
     var value = $('#search-input').val();
-    var data = { query: value };
     $.ajax({
         type: "POST",
-        url: '/Search/ItemsSearch',
-        data: data,
+        url: '/Search/FastSearch',
+        data: { query: value },
         success: function (data) {
-            //console.log(Object.keys(data))
-            //console.log(Object.values(data))
-            //console.log(Object.getOwnPropertyNames(data));
             loader.hide();
             result.empty();
-            console.log(data);
             if (!Array.isArray(data) || data.length == 0) {
                 result.append('<div class="list-group-item list-group-item-action d-flex gap-3 py-3">No results</div>');
             }
@@ -51,12 +45,10 @@ function addItems(data, query) {
     $(data).each(function () {
         let item = $(this)[0];
         let properties = item.fullTextIndexPropetries;
-        console.log(properties);
         let founded = properties.find(x => x.toLowerCase().includes(query.toLowerCase()));
         if (!founded) founded = item.name;
-        console.log(founded);
         let html =
-            `<a href="Items/Details/${item.id}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+            `<a href="${item.url}/${item.id}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
                 <div class="d-flex gap-2 w-100 justify-content-between">
                 <div>
                     <h6 class="mb-0">${item.name}</h6>
