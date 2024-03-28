@@ -126,11 +126,23 @@
   <data name="Date Fields" xml:space="preserve">
     <value>Даты</value>
   </data>
+  <data name="Delete Item" xml:space="preserve">
+    <value>Удалить Айтем</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Редактирование</value>
   </data>
+  <data name="Edit Item" xml:space="preserve">
+    <value>Редактировать Айтем</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Экспорт</value>
+  </data>
   <data name="Int Fields" xml:space="preserve">
     <value>Целочисленные поля</value>
+  </data>
+  <data name="Item Details" xml:space="preserve">
+    <value>Подробнее</value>
   </data>
   <data name="Items count" xml:space="preserve">
     <value>Кол-во айтемов</value>

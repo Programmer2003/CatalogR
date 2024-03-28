@@ -120,14 +120,23 @@
   <data name="Admin" xml:space="preserve">
     <value>Админ</value>
   </data>
+  <data name="Block Selected" xml:space="preserve">
+    <value>Заблокировать выбранных</value>
+  </data>
   <data name="Blocked" xml:space="preserve">
     <value>Заблокирован</value>
   </data>
   <data name="Close" xml:space="preserve">
     <value>Закрыть</value>
   </data>
+  <data name="Delete Selected" xml:space="preserve">
+    <value>Удалить Выбранных</value>
+  </data>
   <data name="Deleted" xml:space="preserve">
     <value>Удален</value>
+  </data>
+  <data name="Downgrade to User" xml:space="preserve">
+    <value>Убрать админа</value>
   </data>
   <data name="Downgraded to user" xml:space="preserve">
     <value>Понижен до пользователя</value>
@@ -141,14 +150,23 @@
   <data name="No records selected" xml:space="preserve">
     <value>Не выбрана запись</value>
   </data>
+  <data name="Show User Profile" xml:space="preserve">
+    <value>Показать профиль</value>
+  </data>
   <data name="Success" xml:space="preserve">
     <value>Успешно</value>
   </data>
   <data name="successfully" xml:space="preserve">
     <value>успешно</value>
   </data>
+  <data name="Unblock Selected" xml:space="preserve">
+    <value>Разблокировать выбранных</value>
+  </data>
   <data name="Unblocked" xml:space="preserve">
     <value>Разблокирован</value>
+  </data>
+  <data name="Upgrade to Admin" xml:space="preserve">
+    <value>Повысить до Админа</value>
   </data>
   <data name="Upgraded to admin" xml:space="preserve">
     <value>Повышен до админа</value>
