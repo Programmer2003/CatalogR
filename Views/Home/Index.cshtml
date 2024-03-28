@@ -12,7 +12,7 @@
     </style>
 }
 
-@(await Html.RenderComponentAsync<CatalogR.Views.Components.Home.BiggestCollections>(RenderMode.Server, new { Model.Collections, ItemsCountLocalized = Localizer["Items count"].Value }))
+@(await Html.RenderComponentAsync<CatalogR.Views.Components.Home.BiggestCollections>(RenderMode.Server, new { Model.Collections }))
 
 <div class="row g-5 mt-2">
     <div class="col-md-9 d-flex flex-column gap-3">
@@ -23,8 +23,8 @@
     </div>
     <div class="col-md-3">
         <div class="card mb-3 border-info">
-            <div class="card-header">Tag Cloud</div>
-            <div class="p-3"> 
+            <div class="card-header">@Localizer["Tag Cloud"]</div>
+            <div class="p-3">
                 @{
                     ViewData["TagClassList"] = "me-2 mb-2";
                 }

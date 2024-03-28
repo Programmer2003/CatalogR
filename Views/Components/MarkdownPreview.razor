@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor
+@inject RazorLocalizerService Localizer
 
 <SfTab CssClass=@("default-tab")>
     <TabAnimationSettings>
@@ -11,7 +12,7 @@
     <TabItems>
         <TabItem>
             <ChildContent>
-                <TabHeader Text="Edit"></TabHeader>
+                <TabHeader Text="@Localizer.GetString("Edit")"></TabHeader>
             </ChildContent>
             <ContentTemplate>
                 <div>
@@ -23,7 +24,7 @@
         </TabItem>
         <TabItem>
             <ChildContent>
-                <TabHeader Text="Preview"></TabHeader>
+                <TabHeader Text="@Localizer.GetString("Preview")"></TabHeader>
             </ChildContent>
             <ContentTemplate>
                 <div class="scrollable-div" style="min-height:185px">

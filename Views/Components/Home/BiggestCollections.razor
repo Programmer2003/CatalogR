@@ -1,6 +1,8 @@
 ﻿@using CatalogR.Models;
+@using CatalogR.Services;
 @using Syncfusion.Blazor.Navigations
 @inject LinkGenerator LinkGenerator
+@inject RazorLocalizerService Localizer
 
 <div class="control-section db-carousel-section">
     <div class="col-lg-12 content-wrapper">
@@ -16,7 +18,7 @@
                             <img src="@image" class="card-img-top object-fit-scale" alt=@collection.Name style="height:450px;width:100%;" />
                             <div class="card-body" style="padding: 1rem;">
                                 <h5 class="card-title">@collection.Name</h5>
-                                <p class="card-text">@ItemsCountLocalized : @collection.ItemsCount</p>
+                                <p class="card-text">@Localizer.GetString("Items count") : @collection.ItemsCount</p>
                                 <p></p>
                             </div>
                         </a>
@@ -30,7 +32,4 @@
 @code {
     [Parameter]
     public IEnumerable<CollectionPreviewModel> Collections { get; set; } = new List<CollectionPreviewModel>();
-
-    [Parameter]
-    public string ItemsCountLocalized { get; set; } = string.Empty;
 }

@@ -11,10 +11,10 @@
     <e-grid-columns>
         <e-grid-column field="Id" headerText="Id" isPrimaryKey="true" visible="false" width="100"></e-grid-column>
         <e-grid-column type="checkbox" width="50"></e-grid-column>
-        <e-grid-column field="GetName" headerText="UserName" allowGrouping="false" width="100"></e-grid-column>
-        <e-grid-column field="Email" headerText="Email" allowGrouping="false" width="100"></e-grid-column>
-        <e-grid-column field="IsLocked" headerText="Locked" displayAsCheckBox filter="@(new { type="CheckBox"})" width="50"></e-grid-column>
-        <e-grid-column field='IsAdmin' headerText="Admin" displayAsCheckBox filter="@(new { type="CheckBox"})" width="50"></e-grid-column>
+        <e-grid-column field="GetName" headerText="@Localizer["UserName"].Value" allowGrouping="false" width="100"></e-grid-column>
+        <e-grid-column field="Email" headerText="@Localizer["Email"].Value" allowGrouping="false" width="100"></e-grid-column>
+        <e-grid-column field="IsLocked" headerText="@Localizer["Locked"].Value" displayAsCheckBox filter="@(new { type="CheckBox"})" width="50"></e-grid-column>
+        <e-grid-column field='IsAdmin' headerText="@Localizer["Admin"].Value" displayAsCheckBox filter="@(new { type="CheckBox"})" width="50"></e-grid-column>
     </e-grid-columns>
 </ejs-grid>
 
@@ -39,13 +39,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-warning">@Localizer["Warning"]</h5>
+                <h5 class="modal-title text-warning">@Localizer["Warning"].Value</h5>
             </div>
             <div class="modal-body">
-                <p>@Localizer["No records selected"]</p>
+                <p>@Localizer["No records selected"].Value</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    @Localizer["Close"].Value
+                </button>
             </div>
         </div>
     </div>
@@ -54,11 +56,11 @@
 <div class="toast-container position-fixed top-0 end-0 p-3">
     <div id="liveToast" class="toast bg-info" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-header">
-            <strong class="me-auto">Success!</strong>
+            <strong class="me-auto">@Localizer["Success"].Value!</strong>
             <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
         <div class="toast-body text-secondary">
-            <span id="toast-text"></span> successfully
+            <span id="toast-text"></span> @Localizer["successfully"].Value
         </div>
     </div>
 </div>
@@ -99,7 +101,7 @@
                 url: "/Admin/UsersChangeRole",
                 success: function (content) {
                     selected.forEach((row) => grid.setCellValue(row.Id, 'IsAdmin', admin));
-                    let text = admin ? '@Localizer["Upgraded to admin"]' : '@Localizer["Downgraded to user"]';
+                    let text = admin ? '@Html.Raw(Localizer["Upgraded to admin"].Value)' : '@Html.Raw(Localizer["Downgraded to user"].Value)';
                     $('#toast-text').text(text);
                     toastBootstrap.show();
                 },
@@ -118,7 +120,7 @@
                 url: "/Admin/UsersChangeBlockStatus",
                 success: function (content) {
                     selected.forEach((row) => grid.setCellValue(row.Id, 'IsLocked', block));
-                    let text = block ? '@Localizer["Blocked"]' : '@Localizer["Unblocked"]';
+                    let text = block ? '@Html.Raw(Localizer["Blocked"].Value)' : '@Html.Raw(Localizer["Blocked"].Value)';
                     $('#toast-text').text(text);
                     toastBootstrap.show();
                 },
@@ -135,7 +137,7 @@
                 url: "/Admin/DeleteUsers",
                 success: function (content) {
                     grid.deleteRecord();
-                    let text = '@Localizer["Deleted"]';
+                    let text = '@Html.Raw(Localizer["Deleted"].Value)';
                     $('#toast-text').text(text);
                     toastBootstrap.show();
                 },
@@ -146,7 +148,6 @@
 
     var onError = function (xhr, status) {
         if (xhr.status == 403) {
-            console.log("reload");
             location.reload();
         }
     }

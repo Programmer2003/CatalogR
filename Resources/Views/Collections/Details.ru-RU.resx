@@ -117,16 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin Panel" xml:space="preserve">
-    <value>Панель Админа</value>
+  <data name="by" xml:space="preserve">
+    <value>От</value>
   </data>
-  <data name="All Collections" xml:space="preserve">
-    <value>Все Коллекции</value>
+  <data name="Custom Bool" xml:space="preserve">
+    <value>Кастомные Да/Нет</value>
   </data>
-  <data name="My Collections" xml:space="preserve">
-    <value>Мои Коллекции</value>
+  <data name="Custom Date" xml:space="preserve">
+    <value>Кастомные Даты</value>
+    <comment> </comment>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Конфиденциальность</value>
+  <data name="Custom Int" xml:space="preserve">
+    <value>Кастомные числа</value>
+  </data>
+  <data name="Custom String" xml:space="preserve">
+    <value>Кастомные Строки</value>
+  </data>
+  <data name="Custom Text" xml:space="preserve">
+    <value>Кастомные Комментарии</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Айтемы</value>
+  </data>
+  <data name="Your collection" xml:space="preserve">
+    <value>Ваша коллекция</value>
   </data>
 </root>

@@ -13,6 +13,36 @@
     @RenderSection("Head", required: false)
 </head>
 <body>
+    <div id="preloader" class="d-flex bg-body-tertiary justify-content-center align-items-center" style="height: 100vh; width: 100%; position: fixed; z-index: 99999">
+        <svg class="bike" viewBox="0 0 48 30" width="48px" height="30px">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+                <g transform="translate(9.5,19)">
+                    <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                    <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                        <circle class="bike__spokes" r="5" />
+                        <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                    </g>
+                </g>
+                <g transform="translate(24,19)">
+                    <g class="bike__pedals-spin" stroke-dasharray="25.133 25.133" stroke-dashoffset="-21.991" transform="rotate(67.5,0,0)">
+                        <circle class="bike__pedals" r="4" />
+                        <circle class="bike__pedals" r="4" transform="rotate(180,0,0)" />
+                    </g>
+                </g>
+                <g transform="translate(38.5,19)">
+                    <circle class="bike__tire" r="9" stroke-dasharray="56.549 56.549" />
+                    <g class="bike__spokes-spin" stroke-dasharray="31.416 31.416" stroke-dashoffset="-23.562">
+                        <circle class="bike__spokes" r="5" />
+                        <circle class="bike__spokes" r="5" transform="rotate(180,0,0)" />
+                    </g>
+                </g>
+                <polyline class="bike__seat" points="14 3,18 3" stroke-dasharray="5 5" />
+                <polyline class="bike__body" points="16 3,24 19,9.5 19,18 8,34 7,24 19" stroke-dasharray="79 79" />
+                <path class="bike__handlebars" d="m30,2h6s1,0,1,1-1,1-1,1" stroke-dasharray="10 10" />
+                <polyline class="bike__front" points="32.5 2,38.5 19" stroke-dasharray="19 19" />
+            </g>
+        </svg>
+    </div>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <a class="navbar-brand link-primary" href="#">CatalogR</a>
@@ -27,7 +57,9 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-action="Index" asp-controller="UserCollections" style="padding-top: 10px">
                                 <i class="bi bi-person-lines-fill h4"></i>
-                                <span class="d-lg-none ms-2">My Collections</span>
+                                <span class="d-lg-none ms-2">
+                                    @Localizer["My Collections"]
+                                </span>
                             </a>
                         </li>
                         @if ((await UserManager.GetUserAsync(User)).IsAdmin)
@@ -35,7 +67,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" asp-action="Index" asp-controller="Admin" style="padding-top: 10px">
                                     <i class="bi bi-person-gear h4"></i>
-                                    <span class="d-lg-none ms-2">Admin Panel</span>
+                                    <span class="d-lg-none ms-2">
+                                        @Localizer["Admin Panel"]
+                                    </span>
                                 </a>
                             </li>
                         }
@@ -44,7 +78,9 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-action="Index" asp-controller="Collections" style="padding-top: 10px">
                             <i class="bi bi-collection h4"></i>
-                            <span class="d-lg-none ms-2">All Collections</span>
+                            <span class="d-lg-none ms-2">
+                                @Localizer["All Collections"]
+                            </span>
                         </a>
                     </li>
                     <partial name="_SelectLanguagePartial" />
@@ -66,6 +102,12 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            console.log("here")
+            setTimeout(function () { $("#preloader").remove() }, 500)
+        });
+    </script>
     <script src="~/lib/bootstrap/dist-5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/themes.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

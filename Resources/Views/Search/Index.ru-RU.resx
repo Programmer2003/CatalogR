@@ -117,16 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Admin Panel" xml:space="preserve">
-    <value>Панель Админа</value>
+  <data name="Collections" xml:space="preserve">
+    <value>Коллекции</value>
   </data>
-  <data name="All Collections" xml:space="preserve">
-    <value>Все Коллекции</value>
+  <data name="Comments" xml:space="preserve">
+    <value>Комментарии</value>
   </data>
-  <data name="My Collections" xml:space="preserve">
-    <value>Мои Коллекции</value>
+  <data name="Empty" xml:space="preserve">
+    <value>Пусто</value>
   </data>
-  <data name="Privacy" xml:space="preserve">
-    <value>Конфиденциальность</value>
+  <data name="Items" xml:space="preserve">
+    <value>Айтемы</value>
+  </data>
+  <data name="Result found by" xml:space="preserve">
+    <value>Результаты по запросу</value>
   </data>
 </root>

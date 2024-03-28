@@ -1,6 +1,9 @@
-﻿<div class="d-flex flex-column border rounded p-2 gap-2">
+﻿@using CatalogR.Services;
+@inject RazorLocalizerService Localizer
+
+<div class="d-flex flex-column border rounded p-2 gap-2">
     <div class="d-flex justify-content-between mb-2">
-        <h3>@Title</h3>
+        <h3>@Localizer.GetString(Title)</h3>
         <div @onclick="AddValue" class="btn btn-primary" disabled="@(Values.Count >= 3)">
             <i class="bi bi-plus"></i>
         </div>

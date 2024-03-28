@@ -1,5 +1,4 @@
-﻿@using CatalogR.Models;
-@model Item
+﻿@model CatalogR.Models.Item
 
 @{
     ViewData["Title"] = "Details";
@@ -20,7 +19,7 @@
                 {
                     <span>
                         <a asp-action="Index" asp-controller="UserCollections" class="link-primary link-underline link-underline-opacity-0 fw-bold">
-                            Your Collection
+                            @Localizer["Your Collection"]
                         </a>
                     </span>
                 }
@@ -54,7 +53,7 @@
             </div>
             <div class="col-md">
                 <nav>
-                    <h4>Tags</h4>
+                    <h4>@Localizer["Tags"]</h4>
                     @foreach (var tag in Model.Tags)
                     {
                         <partial name="_TagLinkPartial" model="tag" />
