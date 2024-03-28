@@ -8,6 +8,7 @@
 <form asp-action="Edit" class="d-flex flex-column gap-3">
     <input type="hidden" asp-for="CollectionId" />
     <input type="hidden" asp-for="Item.Id" />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
