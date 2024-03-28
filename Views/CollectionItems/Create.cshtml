@@ -15,7 +15,7 @@
 <h4>Create Item</h4>
 <hr />
 <form asp-action="Create" class="d-flex flex-column gap-3">
-    <input type="hidden" asp-for="collectionId" />
+    <input type="hidden" asp-for="CollectionId" />
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -45,7 +45,7 @@
             <input type="submit" value="Create" class="btn btn-primary" />
         </div>
         <div>
-            <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.collectionId" class="btn btn-primary">Back to List</a>
+            <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.CollectionId" class="btn btn-primary">Back to List</a>
         </div>
     </div>
 </form>

@@ -70,15 +70,9 @@ namespace CatalogR.Controllers
                  .FirstOrDefaultAsync(c => c.Id == id);
             if (collection == null) return NotFound();
 
-            var model = new CollectionListModel()
-            {
-                collectionId = id,
-                Collection = collection,
-                Items = collection.Items.ToList()
-            };
             var user = await _userManager.GetUserAsync(User);
             ViewData["OwnsCollection"] = user != null && (collection.UserId == user.Id || user.IsAdmin);
-            return View(model);
+            return View(collection);
         }
     }
 }

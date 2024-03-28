@@ -1,6 +1,6 @@
 ﻿namespace CatalogR.Models
 {
-    public struct CustomFieldValues<T>
+    public readonly struct CustomFieldValues<T>
     {
         public readonly bool State;
         public readonly string? Name;

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 
 namespace CatalogR.Models
 {

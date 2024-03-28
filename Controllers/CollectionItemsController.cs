@@ -31,7 +31,7 @@ namespace CatalogR.Controllers
             ItemModel model = new ItemModel()
             {
                 TagsListItems = _context.Tags.Select(t => t.Name).ToArray(),
-                collectionId = collectionId
+                CollectionId = collectionId
             };
             model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == collectionId);
             return View(model);
@@ -45,16 +45,16 @@ namespace CatalogR.Controllers
             {
                 model.Item = _context.Add(model.Item).Entity;
                 model.Item.Tags = await _context.Entry(model.Item).Collection(i => i.Tags).Query().ToListAsync();
-                model.Item.CollectionId = model.collectionId;
+                model.Item.CollectionId = model.CollectionId;
                 if (!UpdateTags(model)) return View(model);
 
                 await _context.SaveChangesAsync();
                 ViewData["OwnsCollection"] = true;
-                return RedirectToAction("Items", "Collections", new { id = model.collectionId });
+                return RedirectToAction("Items", "Collections", new { id = model.CollectionId });
             }
 
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
-            model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == model.collectionId);
+            model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == model.CollectionId);
             return View(model);
         }
 
@@ -68,7 +68,7 @@ namespace CatalogR.Controllers
 
             ItemModel model = new ItemModel() { Item = item };
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
-            model.collectionId = collectionId;
+            model.CollectionId = collectionId;
             model.SelectedTags = item.Tags.Select(t => t.Name).ToArray();
             return View(model);
         }
@@ -80,14 +80,14 @@ namespace CatalogR.Controllers
             if (id != model.Item.Id) return NotFound();
 
             model.TagsListItems = _context.Tags.Select(t => t.Name).ToArray();
-            model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == model.collectionId);
+            model.Item.Collection = _context.Collections.FirstOrDefault(c => c.Id == model.CollectionId);
             if (ModelState.IsValid)
             {
                 try
                 {
                     model.Item = _context.Update(model.Item).Entity;
                     model.Item.Tags = await _context.Entry(model.Item).Collection(i => i.Tags).Query().ToListAsync();
-                    model.Item.CollectionId = model.collectionId;
+                    model.Item.CollectionId = model.CollectionId;
                     if (!UpdateTags(model))
                     {
                         return View(model);
@@ -102,7 +102,7 @@ namespace CatalogR.Controllers
                 }
 
                 ViewData["OwnsCollection"] = true;
-                return RedirectToAction("Items", "Collections", new { id = model.collectionId });
+                return RedirectToAction("Items", "Collections", new { id = model.CollectionId });
             }
 
             return View(model);

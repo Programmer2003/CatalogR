@@ -1,9 +1,9 @@
-﻿using CatalogR.Data;
-using Microsoft.AspNetCore.Authorization;
+﻿using System.Net;
+using CatalogR.Data;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CatalogR.Controllers
 {
@@ -13,10 +13,7 @@ namespace CatalogR.Controllers
     {
         private readonly ApplicationDbContext _context;
 
-        public AdminController(ApplicationDbContext context)
-        {
-            _context = context;
-        }
+        public AdminController(ApplicationDbContext context) => _context = context;
 
         public async Task<IActionResult> Index()
         {

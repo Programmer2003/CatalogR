@@ -2,15 +2,12 @@
 
 namespace CatalogR.Services.SearchInfo
 {
-    public abstract class Searchable<T> 
+    public abstract class Searchable<T>
     {
-        abstract public List<Expression<Func<T, bool>>> GetPredicates(string query);
+        public abstract List<Expression<Func<T, bool>>> GetPredicates(string query);
 
-        abstract public Expression<Func<T, T>> GetSelector();
+        public abstract Expression<Func<T, T>> Selector { get; }
 
-        protected string GetSearchString(string query)
-        {
-            return $"\"{query}*\"";
-        }
+        protected string GetSearchString(string query) => $"\"{query}*\"";
     }
 }

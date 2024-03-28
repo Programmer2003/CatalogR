@@ -1,6 +1,5 @@
 ﻿using CatalogR.Data;
 using CatalogR.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +7,7 @@ namespace CatalogR.Hubs
 {
     public class CommentsHub : ItemHub
     {
-        public CommentsHub(ApplicationDbContext context, UserManager<User> userManager) : base(context, userManager) { }
+        public CommentsHub(ApplicationDbContext context) : base(context) { }
 
         public async Task AddComment(string userId, int itemId, string text)
         {

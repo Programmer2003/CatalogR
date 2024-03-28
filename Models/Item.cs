@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
 
 namespace CatalogR.Models
 {
@@ -21,6 +19,7 @@ namespace CatalogR.Models
         public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public virtual ICollection<Like> Likes { get; set; } = new List<Like>();
+
         [NotMapped]
         public int LikesCount { get => Likes.Count; }
 
@@ -62,7 +61,7 @@ namespace CatalogR.Models
         [DataType(DataType.DateTime)]
         public DateTime TimeStamp { get; set; }
 
-        public List<string?> FullTextIndexPropetries => new List<string?>()
+        public List<string?> FullTextIndexPropetries => new()
         {
             Name,
             CustomString1,
