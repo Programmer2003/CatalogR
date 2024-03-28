@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Tag Cloud" xml:space="preserve">
-    <value>Облако Тегов</value>
+  <data name="Register" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="There are no external authentication services configured yet" xml:space="preserve">
+    <value>Пока что нет дополнительных сервисов для входа </value>
+  </data>
+  <data name="Use another service to log in" xml:space="preserve">
+    <value>Используйте другой сервис для входа</value>
   </data>
 </root>
