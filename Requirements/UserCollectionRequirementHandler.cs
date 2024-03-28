@@ -22,7 +22,7 @@ namespace CatalogR.Data.Migrations
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, UserCollectionRequirement requirement)
         {
-            var userId = _userManager.GetUserId(context.User);
+            var user = await _userManager.GetUserAsync(context.User);
 
             if (context.Resource is HttpContext httpContext)
             {
@@ -40,7 +40,7 @@ namespace CatalogR.Data.Migrations
                 }
 
                 var collection = await _context.Collections.AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
-                if(collection == null || collection.UserId != userId) context.Fail();
+                if (collection == null || user == null || (collection.UserId != user.Id && !user.IsAdmin)) context.Fail();
                 else context.Succeed(requirement);
             }
         }

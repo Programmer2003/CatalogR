@@ -37,7 +37,8 @@ namespace CatalogR.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (collection == null) return NotFound();
 
-            ViewData["OwnsCollection"] = collection.UserId == _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+            ViewData["OwnsCollection"] = user != null && (collection.UserId == user.Id || user.IsAdmin);
             return View(collection);
         }
 
@@ -75,7 +76,8 @@ namespace CatalogR.Controllers
                 Collection = collection,
                 Items = collection.Items.ToList()
             };
-            ViewData["OwnsCollection"] = collection.UserId == _userManager.GetUserId(User);
+            var user = await _userManager.GetUserAsync(User);
+            ViewData["OwnsCollection"] = user != null && (collection.UserId == user.Id || user.IsAdmin);
             return View(model);
         }
     }

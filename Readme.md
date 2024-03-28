@@ -51,11 +51,11 @@
 		- [x] Auto Update
 		- [x] One like from one user
 		
-- [] Admin Profile
-  - [] User List
-    - [ ] Show User
-	  - [ ] Collections List
-	  - [ ] Manipulate Like Use
+- [x] Admin Profile
+  - [x] User List
+    - [x] Show User
+	  - [x] Collections List
+	  - [x] Manipulate Like Use
 	- [x] Update User
 	  - [x] Block & Unblock
 	  - [x] Delete

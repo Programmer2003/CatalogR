@@ -153,6 +153,7 @@ using (var scope = app.Services.CreateAsyncScope())
         var user = new User();
         user.UserName = email;
         user.Email = email;
+        user.IsAdmin = true;
 
         await userManager.CreateAsync(user, password);
         await userManager.AddToRoleAsync(user, "Admin");

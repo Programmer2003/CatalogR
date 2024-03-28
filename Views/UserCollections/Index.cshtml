@@ -5,12 +5,13 @@
 @{
     ViewData["Title"] = "Index";
     ViewData["OwnsCollection"] = true;
+    var userId = ViewData["UserId"] as string;
 }
 
 <div class="d-flex justify-content-between align-items-center mb-2">
     <h1>Your Collections</h1>
     <div class="align-self-end">
-        <a asp-action="Create" class="btn btn-primary">
+        <a asp-action="Create" asp-route-userId="@userId" class="btn btn-primary">
             Create New
         </a>
     </div>

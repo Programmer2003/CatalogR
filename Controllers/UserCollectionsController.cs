@@ -27,9 +27,16 @@ namespace CatalogR.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? UserId)
         {
-            var userId = _userManager.GetUserId(User);
+            var currentUser = await _userManager.GetUserAsync(User);
+            var userId = currentUser.Id;
+            if (!string.IsNullOrEmpty(UserId) && currentUser.IsAdmin)
+            {
+                userId = UserId;
+                ViewData["UserId"] = userId;
+            }
+
             var user = await _context.Users.Include(u => u.Collections).ThenInclude(u => u.Topic).FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null) return NotFound();
 
@@ -38,24 +45,37 @@ namespace CatalogR.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create(string? userId)
         {
             ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name");
-            return View();
+            var collection = new Collection();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (!string.IsNullOrEmpty(userId) && currentUser.IsAdmin)
+                collection.UserId = userId;
+            else
+                collection.UserId = currentUser.Id;
+
+            return View(collection);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Collection collection)
         {
-            collection.UserId = _userManager.GetUserId(User);
+            if ((await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == collection.UserId)) == null)
+                collection.UserId = _userManager.GetUserId(User);
+
             if (ModelState.IsValid)
             {
                 collection.Description = _sanitizer.Sanitize(collection.Description);
                 await UpdateImage(collection);
                 _context.Add(collection);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (collection.UserId == _userManager.GetUserId(User))
+                    return RedirectToAction(nameof(Index));
+                else
+                    return RedirectToAction(nameof(Index), new { collection.UserId });
+
             }
 
             ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name", collection.CollectionTopicId);
@@ -77,7 +97,6 @@ namespace CatalogR.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, Collection collection)
         {
-            collection.UserId = _userManager.GetUserId(User);
             if (id != collection.Id) return NotFound();
 
             if (ModelState.IsValid)
@@ -95,7 +114,10 @@ namespace CatalogR.Controllers
                     else throw;
                 }
 
-                return RedirectToAction(nameof(Index));
+                if (collection.UserId == _userManager.GetUserId(User))
+                    return RedirectToAction(nameof(Index));
+                else
+                    return RedirectToAction(nameof(Index), new { collection.UserId });
             }
 
             ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name", collection.CollectionTopicId);
@@ -131,13 +153,16 @@ namespace CatalogR.Controllers
             var collection = await _context.Collections.FindAsync(id);
             if (collection != null)
             {
-                if(collection.ImageStorageName != null) await _cloudStorage.DeleteFileAsync(collection.ImageStorageName);
+                if (collection.ImageStorageName != null) await _cloudStorage.DeleteFileAsync(collection.ImageStorageName);
 
                 _context.Collections.Remove(collection);
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (collection != null && collection.UserId == _userManager.GetUserId(User))
+                return RedirectToAction(nameof(Index));
+            else
+                return RedirectToAction(nameof(Index), new { collection.UserId });
         }
 
         private bool CollectionExists(int id) => (_context.Collections?.Any(e => e.Id == id)).GetValueOrDefault();
