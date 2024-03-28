@@ -1,6 +1,4 @@
 ﻿using CatalogR.Data;
-using CatalogR.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 
 namespace CatalogR.Hubs
@@ -9,14 +7,9 @@ namespace CatalogR.Hubs
     {
         protected readonly ApplicationDbContext _context;
 
-        public ItemHub(ApplicationDbContext context, UserManager<User> userManager)
-        {
-            _context = context;
-        }
+        public ItemHub(ApplicationDbContext context) => _context = context;
 
-        public async Task AddToGroup(int itemId)
-        {
+        public async Task AddToGroup(int itemId) => 
             await Groups.AddToGroupAsync(Context.ConnectionId, itemId.ToString());
-        }
     }
 }

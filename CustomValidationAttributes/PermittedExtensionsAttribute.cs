@@ -1,41 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CatalogR.CustomValidationAttributes
 {
     public sealed class PermittedExtensionsAttribute : ValidationAttribute
     {
-        private readonly string[] permittedExtensions;
-        public PermittedExtensionsAttribute(string[] permittedExtensions)
-        {
-            this.permittedExtensions = permittedExtensions;
-        }
+        private readonly string[] extensions;
+        public PermittedExtensionsAttribute(string[] permittedExtensions) => extensions = permittedExtensions;
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (value == null) new ValidationResult(GetErrorMessage());
-
-            IFormFile? file = value as IFormFile;
-            if (file != null)
+            if (value is IFormFile file)
             {
                 var extension = Path.GetExtension(file.FileName);
-                if (!permittedExtensions.Contains(extension.ToLower()))
-                {
+                if (!extensions.Contains(extension.ToLower()))
                     return new ValidationResult(GetErrorMessage());
-                }
             }
 
             return ValidationResult.Success;
         }
 
-        public string GetErrorMessage()
-        {
-            return $"This image file extension is not allowed.";
-        }
+        public string GetErrorMessage() => $"This image file extension is not allowed.";
     }
 }

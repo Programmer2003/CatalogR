@@ -1,9 +1,6 @@
 ﻿@model CatalogR.Models.Collection
 
 @section Head{
-    <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
-    <script src="~/lib/syncfusion/dist/js/uploader.min.js"></script>
-    <script src="~/lib/syncfusion/dist/js/dropdown.min.js"></script>
     <style>
         .e-input-group.e-control-wrapper {
             background-color: unset;
@@ -66,7 +63,7 @@
             </div>
             <div class="col-md"></div>
         </div>
-        @(await Html.RenderComponentAsync<CatalogR.Views.Components.MarkdownPreview>(RenderMode.ServerPrerendered, new { Text = Model.Description }))
+        @(await Html.RenderComponentAsync<CatalogR.Views.Components.MarkdownPreview>(RenderMode.ServerPrerendered, new { Text = Model!.Description }))
         <div class="d-flex gap-1">
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -81,6 +78,9 @@
 
 
 @section Scripts {
+    <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
+    <script src="~/lib/syncfusion/dist/js/uploader.min.js"></script>
+    <script src="~/lib/syncfusion/dist/js/dropdown.min.js"></script>
     <script>
         function onfiltering(e) {
             var query = new ej.data.Query();

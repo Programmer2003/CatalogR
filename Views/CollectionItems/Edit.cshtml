@@ -1,8 +1,4 @@
 ﻿@model ItemModel
-@section Head{
-    <script src="~/lib/syncfusion/dist/js/multiselect.min.js"></script>
-    <script src="~/lib/syncfusion/dist/js/datepicker.min.js"></script>
-}
 @{
     ViewData["Title"] = "Edit";
 }
@@ -12,7 +8,7 @@
 <h4>Item</h4>
 <hr />
 <form asp-action="Edit" class="d-flex flex-column gap-3">
-    <input type="hidden" asp-for="collectionId" />
+    <input type="hidden" asp-for="CollectionId" />
     <input type="hidden" asp-for="Item.Id" />
     <div class="row">
         <div class="col-md-4">
@@ -42,12 +38,14 @@
             <input type="submit" value="Edit" class="btn btn-primary" />
         </div>
         <div>
-            <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.collectionId" class="btn btn-primary">Back to List</a>
+            <a asp-action="Items" asp-controller="Collections" asp-route-id="@Model.CollectionId" class="btn btn-primary">Back to List</a>
         </div>
     </div>
 </form>
 
 @section Scripts {
+    <script src="~/lib/syncfusion/dist/js/multiselect.min.js"></script>
+    <script src="~/lib/syncfusion/dist/js/datepicker.min.js"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CatalogR.Models;
-using LinqKit;
-using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using CatalogR.Data;
+﻿using CatalogR.Models;
 using CatalogR.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CatalogR.Controllers
 {
@@ -13,18 +10,21 @@ namespace CatalogR.Controllers
 
         private readonly FullTextSearchService _searchService;
 
-        public SearchController(FullTextSearchService searchService)
-        {
-            _searchService = searchService;
-        }
+        public SearchController(FullTextSearchService searchService) => _searchService = searchService;
 
         [HttpPost]
-        public JsonResult ItemsSearch(string query)
+        public async Task<JsonResult> FastSearch(string query)
         {
-            var items = _searchService.FastItems(query)
-                .Select(i => new { i.Id, i.FullTextIndexPropetries, i.Name }).ToList();
-            var collections = _searchService.FastCollections(query)
-                .Select(c => new { c.Id, c.FullTextIndexPropetries, c.Name }).ToList();
+            var items = await _searchService
+                .FastItems(query)
+                .AsNoTracking()
+                .Select(i => new { i.Id, i.FullTextIndexPropetries, i.Name, Url = "Items/Details" })
+                .ToListAsync();
+            var collections = await _searchService
+                .FastCollections(query)
+                .AsNoTracking()
+                .Select(c => new { c.Id, c.FullTextIndexPropetries, c.Name, Url = "Collections/Details" })
+                .ToListAsync();
             items.AddRange(collections);
             return Json(items);
         }
@@ -35,12 +35,21 @@ namespace CatalogR.Controllers
             {
                 if (string.IsNullOrWhiteSpace(tag)) return NotFound();
 
-                return View(new SearchModel() { Items = await _searchService.SearchByTag(tag).ToListAsync(), Query = tag });
+                return View(new SearchModel() { Items = await _searchService.SearchByTag(tag).AsNoTracking().ToListAsync(), Query = tag });
             }
 
-            var collections = await _searchService.GetAllCollections(query).ToListAsync();
-            var items = await _searchService.GetAllItems(query).ToListAsync();
-            var comments = await _searchService.GetAllComments(query).ToListAsync();
+            var items = await _searchService.GetAllItems(query)
+                                            .OrderByDescending(i => i.TimeStamp)
+                                            .AsNoTracking()
+                                            .ToListAsync();
+            var comments = await _searchService.GetAllComments(query)
+                                               .OrderByDescending(c => c.TimeStamp)
+                                               .AsNoTracking()
+                                               .ToListAsync();
+            var collections = await _searchService.GetAllCollections(query)
+                                                  .OrderByDescending(c => c.TimeStamp)
+                                                  .AsNoTracking()
+                                                  .ToListAsync();
             var model = new SearchModel() { Items = items, Collections = collections, Comments = comments, Query = query };
             return View(model);
         }

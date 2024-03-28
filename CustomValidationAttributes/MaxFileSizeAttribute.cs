@@ -1,37 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CatalogR.CustomValidationAttributes
 {
     public sealed class MaxFileSizeAttribute : ValidationAttribute
     {
-        private readonly int maxFileSize;
-        public MaxFileSizeAttribute(int maxFileSize)
-        {
-            this.maxFileSize = maxFileSize;
-        }
+        private readonly int maxSize;
+        public MaxFileSizeAttribute(int maxSize) => this.maxSize = maxSize;
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            if (value == null) new ValidationResult(GetErrorMessage());
-
-            IFormFile? file = value as IFormFile;
-            if (file != null && file.Length > maxFileSize)
-            {
+            if (value is IFormFile file && file.Length > maxSize)
                 return new ValidationResult(GetErrorMessage());
-            }
 
             return ValidationResult.Success;
         }
 
-
-        public string GetErrorMessage()
-        {
-            return $"Maximum allowed file size is {maxFileSize/1024.0/1024.0} MBytes.";
-        }
+        public string GetErrorMessage() => $"Maximum allowed file size is {maxSize/1024.0/1024.0} MBytes.";
     }
 }

@@ -1,9 +1,9 @@
-﻿using CatalogR.CustomValidationAttributes;
-using CatalogR.Services;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using CatalogR.Services;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
+using CatalogR.CustomValidationAttributes;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CatalogR.Models
 {
@@ -49,7 +49,7 @@ namespace CatalogR.Models
 
         [JsonIgnore]
         [IgnoreDataMember]
-        public ICollection<Item> Items { get; set; } = new List<Item>();
+        public virtual ICollection<Item> Items { get; set; } = new List<Item>();
 
         public bool CustomInt1_State { get; set; } = false;
         public bool CustomInt2_State { get; set; } = false;
@@ -166,7 +166,7 @@ namespace CatalogR.Models
             return dates;
         }
 
-        public List<string?> FullTextIndexPropetries => new List<string?>()
+        public List<string?> FullTextIndexPropetries => new()
         {
             Name
         };

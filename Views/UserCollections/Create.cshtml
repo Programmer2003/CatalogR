@@ -1,9 +1,6 @@
 ﻿@model CatalogR.Models.Collection
 
 @section Head{
-    <script src="~/lib/syncfusion/dist/js/dropdown.min.js"></script>
-    <script src="~/lib/syncfusion/dist/js/uploader.min.js"></script>
-    <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
     <style>
         .e-input-group.e-control-wrapper {
             background-color: unset;
@@ -77,6 +74,9 @@
 </div>
 
 @section Scripts {
+    <script src="~/lib/syncfusion/dist/js/dropdown.min.js"></script>
+    <script src="~/lib/syncfusion/dist/js/uploader.min.js"></script>
+    <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
     <script>
         function onfiltering(e) {
             var query = new ej.data.Query();

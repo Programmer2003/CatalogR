@@ -1,24 +1,19 @@
 ﻿using CatalogR.Data;
 using CatalogR.Models;
-using Microsoft.AspNetCore.Localization;
+using System.Diagnostics;
+using Syncfusion.Blazor.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Syncfusion.Blazor.Data;
-using System.Diagnostics;
+using Microsoft.AspNetCore.Localization;
 
 namespace CatalogR.Controllers
 {
 
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
-        {
-            _logger = logger;
-            _context = context;
-        }
+        public HomeController(ApplicationDbContext context) => _context = context;
 
         public async Task<IActionResult> Index()
         {
@@ -29,6 +24,7 @@ namespace CatalogR.Controllers
                 .Select(c => new CollectionPreviewModel() { Id = c.Key.CollectionId, Name = c.Key.Name, ImageUrl = c.Key.ImageUrl, ItemsCount = c.Count() })
                 .OrderByDescending(c => c.ItemsCount)
                 .Take(5)
+                .AsNoTracking()
                 .ToListAsync();
 
             var items = await _context.Items
@@ -36,6 +32,7 @@ namespace CatalogR.Controllers
                     .ThenInclude(c => c!.User)
                 .OrderByDescending(i => i.TimeStamp)
                 .Take(5)
+                .AsNoTracking()
                 .ToListAsync();
 
             var tags = await _context.Tags
@@ -43,6 +40,7 @@ namespace CatalogR.Controllers
                 .OrderByDescending(t => t.Count)
                 .Select(t => new Tag { Id = t.Id, Name = t.Name })
                 .Take(10)
+                .AsNoTracking()
                 .ToListAsync();
 
             return View(new MainPageModel() { Collections = collections, Items = items, Tags = tags });

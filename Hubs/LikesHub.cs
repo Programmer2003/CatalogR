@@ -1,6 +1,5 @@
 ﻿using CatalogR.Data;
 using CatalogR.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +7,7 @@ namespace CatalogR.Hubs
 {
     public class LikesHub : ItemHub
     {
-        public LikesHub(ApplicationDbContext context, UserManager<User> userManager) : base(context, userManager) { }
+        public LikesHub(ApplicationDbContext context) : base(context) { }
 
         public async Task LikeItem(string userId, int itemId)
         {
@@ -31,9 +30,7 @@ namespace CatalogR.Hubs
         public async Task DislikeItem(string userId, int itemId)
         {
             if (await DeleteLike(userId, itemId))
-            {
                 await Clients.GroupExcept(itemId.ToString(), Context.ConnectionId).SendAsync("Disliked");
-            }
         }
 
         private async Task<bool> DeleteLike(string userId, int itemId)
@@ -42,7 +39,6 @@ namespace CatalogR.Hubs
             if (like == null) return false;
 
             _context.Likes.Remove(like);
-
             return (await _context.SaveChangesAsync()) > 0;
         }
     }

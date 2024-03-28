@@ -1,12 +1,12 @@
-﻿using CatalogR.CloudStorage;
-using CatalogR.Data;
+﻿using CatalogR.Data;
 using CatalogR.Models;
 using CatalogR.Services;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+using CatalogR.CloudStorage;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CatalogR.Controllers
 {
@@ -143,7 +143,6 @@ namespace CatalogR.Controllers
             return View(collection);
         }
 
-        // POST: UserCollections/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -162,7 +161,7 @@ namespace CatalogR.Controllers
             if (collection != null && collection.UserId == _userManager.GetUserId(User))
                 return RedirectToAction(nameof(Index));
             else
-                return RedirectToAction(nameof(Index), new { collection.UserId });
+                return RedirectToAction(nameof(Index), new { collection?.UserId });
         }
 
         private bool CollectionExists(int id) => (_context.Collections?.Any(e => e.Id == id)).GetValueOrDefault();
@@ -179,8 +178,7 @@ namespace CatalogR.Controllers
         private static string FormFileName(string title, string fileName)
         {
             var extension = Path.GetExtension(fileName);
-            var fileStorageName = $"{title}-{DateTime.Now.ToString("yyyyMMddHHmmss")}{extension}";
-            return fileStorageName;
+            return $"{title}-{DateTime.Now:yyyyMMddHHmmss}{extension}";
         }
     }
 }

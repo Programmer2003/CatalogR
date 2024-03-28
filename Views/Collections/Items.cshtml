@@ -1,4 +1,4 @@
-﻿@model CollectionListModel
+﻿@model CatalogR.Models.Collection
 @{
     ViewData["Title"] = "Items";
     var check = ViewData["OwnsCollection"] as bool?;
@@ -6,11 +6,11 @@
 }
 
 <div class="d-flex justify-content-between align-items-center mb-2">
-    <h1>@Model.Collection.Name</h1>
+    <h1>@Model.Name</h1>
     <div class="d-flex gap-2 align-self-end">
         @if (owns)
         {
-            <a asp-action="Create" asp-controller="CollectionItems" asp-route-collectionId="@Model.collectionId" class="btn btn-primary">
+            <a asp-action="Create" asp-controller="CollectionItems" asp-route-collectionId="@Model.Id" class="btn btn-primary">
                 Create New
             </a>
         }
@@ -19,7 +19,7 @@
         </a>
     </div>
 </div>
-@(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model.Collection, Owns = owns }))
+@(await Html.RenderComponentAsync<CatalogR.Views.Components.CollectionItems>(RenderMode.ServerPrerendered, new { Items = Model.Items, Collection = Model, Owns = owns }))
 
 @section Scripts{
     <script src="~/lib/syncfusion/blazor/dist/js/syncfusion-blazor.min.js"></script>
