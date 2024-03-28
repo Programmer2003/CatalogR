@@ -56,6 +56,11 @@ namespace CatalogR.Data
                 .ValueGeneratedOnAddOrUpdate()
                 .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
+            builder.Entity<Collection>()
+                .Property(c => c.UserId)
+                .ValueGeneratedOnUpdate()
+                .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+
             builder.Entity<Like>().HasKey(table => new
             {
                 table.ItemId,
