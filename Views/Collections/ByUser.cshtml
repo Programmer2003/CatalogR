@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<CatalogR.Models.Collection>
-@section Head{
-    <script src="~/lib/syncfusion/dist/js/grid.min.js"></script>
-}
 @{
     ViewData["Title"] = "Index";
     ViewData["OwnsCollection"] = false;
@@ -13,3 +10,7 @@
     <h4 class="text-primary">@ViewBag.UserName</h4>
 </div>
 <partial name="Collections/_ListPartial" model="Model" view-data="ViewData" />
+
+@section Scripts{
+    <script src="~/lib/syncfusion/dist/js/grid.min.js"></script>
+}

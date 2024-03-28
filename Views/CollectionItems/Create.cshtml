@@ -1,7 +1,5 @@
 ﻿@model ItemModel
 @section Head{
-    <script src="~/lib/syncfusion/dist/js/multiselect.min.js"></script>
-    <script src="~/lib/syncfusion/dist/js/datepicker.min.js"></script>
     <style>
         .e-multiselect.e-input-group.e-control-wrapper {
             background-color: unset;
@@ -51,6 +49,8 @@
 </form>
 
 @section Scripts {
+    <script src="~/lib/syncfusion/dist/js/multiselect.min.js"></script>
+    <script src="~/lib/syncfusion/dist/js/datepicker.min.js"></script>
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
