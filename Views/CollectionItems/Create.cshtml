@@ -1,8 +1,8 @@
 ﻿@model ItemModel
 @section Head{
     <style>
-        .e-multiselect.e-input-group.e-control-wrapper {
-            background-color: unset;
+        .e-multiselect.e-control-wrapper, .e-date-wrapper {
+            background-color: unset !important
         }
     </style>
 }
@@ -27,7 +27,7 @@
             <div class="form-group">
                 <ejs-multiselect name="SelectedTags" dataSource="Model.TagsListItems" value="Model.SelectedTags"
                                  id="SelectedTags" allowFiltering floatLabelType="Auto" allowCustomValue placeholder="@Localizer["Tags"].Value"
-                                 MaximumSelectionLength="10" cssClass="e-bigger">
+                                 MaximumSelectionLength="10" cssClass="e-bigger" popupHeight="220px">
                     <e-multiselect-fields value="Text"></e-multiselect-fields>
                 </ejs-multiselect>
             </div>
