@@ -88,6 +88,7 @@ builder.Services.AddSingleton<ICloudStorage, GoogleCloudStorage>();
 builder.Services.AddTransient<FullTextSearchService>();
 builder.Services.AddTransient<HtmlSanitizationService>();
 builder.Services.AddTransient<TimeManagerService>();
+builder.Services.AddTransient<AdminService>();
 
 var app = builder.Build();
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(builder.Configuration.GetValue<string>("SyncfusionLicenseKey"));

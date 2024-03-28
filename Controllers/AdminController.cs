@@ -1,9 +1,8 @@
 ﻿using System.Net;
-using CatalogR.Data;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using CatalogR.Services;
 
 namespace CatalogR.Controllers
 {
@@ -11,54 +10,42 @@ namespace CatalogR.Controllers
     [Authorize(Policy = "AdminPolicy")]
     public class AdminController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AdminService _adminService;
 
-        public AdminController(ApplicationDbContext context) => _context = context;
+        public AdminController(AdminService adminService) => _adminService = adminService;
 
-        public async Task<IActionResult> Index()
-        {
-            var users = await _context.Users
-                .AsNoTracking()
-                .OrderBy(u=>u.Id)
-                .ToListAsync();
-
-            return View(users);
-        }
+        public async Task<IActionResult> Index() => View(await _adminService.GetUsersAsync());
 
         [HttpPost]
         public async Task<JsonResult> UsersChangeBlockStatus(string data, bool block)
         {
-            var list = JsonConvert.DeserializeObject<List<string>>(data);
-            if (list == null) return Json(HttpStatusCode.OK);
+            var userIds = UsersFromJson(data);
+            if (userIds == null) return Json(HttpStatusCode.OK);
 
-            var users = await _context.Users.Where(u => list.Contains(u.Id)).ToListAsync();
-            users.ForEach(u => u.IsLocked = block);
-            await _context.SaveChangesAsync();
-            return Json(HttpStatusCode.OK);
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> DeleteUsers(string data)
-        {
-            var list = JsonConvert.DeserializeObject<List<string>>(data);
-            if (list == null) return Json(HttpStatusCode.OK);
-
-            _context.Comments.RemoveRange(_context.Comments.Where(c => list.Contains(c.UserId!)));
-            _context.Users.RemoveRange(_context.Users.Where(u => list.Contains(u.Id)));
-            await _context.SaveChangesAsync();
+            await _adminService.ChangeBlockStatus(userIds, block);
             return Json(HttpStatusCode.OK);
         }
 
         [HttpPost]
         public async Task<JsonResult> UsersChangeRole(string data, bool admin)
         {
-            var list = JsonConvert.DeserializeObject<List<string>>(data);
-            if (list == null) return Json(HttpStatusCode.OK);
+            var userIds = UsersFromJson(data);
+            if (userIds == null) return Json(HttpStatusCode.OK);
 
-            var users = await _context.Users.Where(u => list.Contains(u.Id)).ToListAsync();
-            users.ForEach(u => u.IsAdmin = admin);
-            await _context.SaveChangesAsync();
+            await _adminService.ChangeRole(userIds, admin);
             return Json(HttpStatusCode.OK);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteUsers(string data)
+        {
+            var userIds = UsersFromJson(data);
+            if (userIds == null) return Json(HttpStatusCode.OK);
+
+            await _adminService.RemoveUsers(userIds);
+            return Json(HttpStatusCode.OK);
+        }
+
+        private static List<string>? UsersFromJson(string data) => JsonConvert.DeserializeObject<List<string>>(data);
     }
 }
