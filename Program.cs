@@ -174,7 +174,7 @@ using (var scope = app.Services.CreateAsyncScope())
 using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var topics = new[] { "Books", "Signs", "Silverware", "Other" };
+    var topics = new[] { "Books", "Cars", "History", "Fashion", "Sport", "Cuisine", "Myth", "Technology", "Science", "Other" };
     foreach (var topic in topics)
     {
         if (!await db.CollectionTopics.AnyAsync(c => c.Name == topic))

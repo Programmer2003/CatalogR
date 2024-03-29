@@ -4,7 +4,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            <a class="nav-link" title="@Localizer["Profile"]" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
             <i class="bi bi-person-circle h4"></i>
             <span class="d-lg-none ms-2">@Localizer["Profile"]</span>
         </a>
@@ -12,7 +12,7 @@
     <li class="nav-item">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
             <div class="d-flex align-items-center gap-1">
-                <button type="submit" class="nav-link btn btn-link "><i class="bi bi-box-arrow-right h4"></i></button>
+                <button type="submit" title="@Localizer["Logout"]" class="nav-link btn btn-link "><i class="bi bi-box-arrow-right h4"></i></button>
                 <span class="d-lg-none ms-2">@Localizer["Logout"]</span>
             </div>
         </form>

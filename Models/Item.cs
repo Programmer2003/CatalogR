@@ -14,7 +14,8 @@ namespace CatalogR.Models
         [DataType(DataType.Text)]
         public string Name { get; set; } = string.Empty;
         public int? CollectionId { get; set; }
-        public virtual Collection? Collection { get; set; }
+        [Display(Name = "Collection")]
+        public Collection? Collection { get; set; }
 
         public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
         public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();

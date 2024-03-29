@@ -54,7 +54,7 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-action="Index" asp-controller="UserCollections" style="padding-top: 10px">
+                            <a class="nav-link" title="@Localizer["My Collections"]" asp-action="Index" asp-controller="UserCollections" style="padding-top: 10px">
                                 <i class="bi bi-person-lines-fill h4"></i>
                                 <span class="d-lg-none ms-2">
                                     @Localizer["My Collections"]
@@ -64,7 +64,7 @@
                         @if ((await UserManager.GetUserAsync(User)).IsAdmin)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-action="Index" asp-controller="Admin" style="padding-top: 10px">
+                                <a class="nav-link" title="@Localizer["Admin Panel"]" asp-action="Index" asp-controller="Admin" style="padding-top: 10px">
                                     <i class="bi bi-person-gear h4"></i>
                                     <span class="d-lg-none ms-2">
                                         @Localizer["Admin Panel"]
@@ -75,7 +75,7 @@
                     }
 
                     <li class="nav-item">
-                        <a class="nav-link" asp-action="Index" asp-controller="Collections" style="padding-top: 10px">
+                        <a class="nav-link" title="@Localizer["All Collections"]" asp-action="Index" asp-controller="Collections" style="padding-top: 10px">
                             <i class="bi bi-collection h4"></i>
                             <span class="d-lg-none ms-2">
                                 @Localizer["All Collections"]
