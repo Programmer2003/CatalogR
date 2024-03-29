@@ -16,6 +16,7 @@
         <e-grid-column field="Name" headerText="@Localizer["Name"].Value" allowGrouping="false" width="100"></e-grid-column>
         <e-grid-column template="#markdown-template" headerText="@Localizer["Description"].Value" width="200"></e-grid-column>
         <e-grid-column field="Topic.Name" headerText="@Localizer["Topic"].Value" filter="@(new { type="CheckBox"})" textAlign="Left" width="100"></e-grid-column>
+        <e-grid-column field="TopicLocale" headerText="@Localizer["Topic"].Value" filter="@(new { type="CheckBox"})" textAlign="Left" width="100"></e-grid-column>
     </e-grid-columns>
 </ejs-grid>
 

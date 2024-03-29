@@ -18,12 +18,14 @@ namespace CatalogR.Controllers
         private readonly UserManager<User> _userManager;
         private readonly HtmlSanitizationService _sanitizer;
         private readonly ICloudStorage _cloudStorage;
-        public UserCollectionsController(ApplicationDbContext context, UserManager<User> userManager, ICloudStorage cloudStorage, HtmlSanitizationService sanitizer)
+        private readonly TopicsLocalizerService _topicLocalizer;
+        public UserCollectionsController(ApplicationDbContext context, UserManager<User> userManager, ICloudStorage cloudStorage, HtmlSanitizationService sanitizer, TopicsLocalizerService topicLocalizer)
         {
             _context = context;
             _userManager = userManager;
             _sanitizer = sanitizer;
             _cloudStorage = cloudStorage;
+            _topicLocalizer = topicLocalizer;
         }
 
         [HttpGet]
@@ -47,7 +49,7 @@ namespace CatalogR.Controllers
         [HttpGet]
         public async Task<IActionResult> Create(string? userId)
         {
-            ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name");
+            ViewData["Topics"] = new SelectList(_context.CollectionTopics.OrderBy(t=>t.Id).Select(t=> new {t.Id, Name = _topicLocalizer.GetString(t.Name) }), "Id", "Name");
             var collection = new Collection();
             var currentUser = await _userManager.GetUserAsync(User);
             if (!string.IsNullOrEmpty(userId) && currentUser.IsAdmin)
@@ -78,7 +80,7 @@ namespace CatalogR.Controllers
 
             }
 
-            ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name", collection.CollectionTopicId);
+            ViewData["Topics"] = new SelectList(_context.CollectionTopics.OrderBy(t => t.Id).Select(t => new { t.Id, Name = _topicLocalizer.GetString(t.Name) }), "Id", "Name", collection.CollectionTopicId);
             return View(collection);
         }
 
@@ -89,7 +91,7 @@ namespace CatalogR.Controllers
             var collection = await _context.Collections.FindAsync(id);
             if (collection == null) return NotFound();
 
-            ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name", collection.CollectionTopicId);
+            ViewData["Topics"] = new SelectList(_context.CollectionTopics.OrderBy(t => t.Id).Select(t => new { t.Id, Name = _topicLocalizer.GetString(t.Name) }), "Id", "Name", collection.CollectionTopicId);
             return View(collection);
         }
 
@@ -120,7 +122,7 @@ namespace CatalogR.Controllers
                     return RedirectToAction(nameof(Index), new { collection.UserId });
             }
 
-            ViewData["Topics"] = new SelectList(_context.CollectionTopics, "Id", "Name", collection.CollectionTopicId);
+            ViewData["Topics"] = new SelectList(_context.CollectionTopics.OrderBy(t => t.Id).Select(t => new { t.Id, Name = _topicLocalizer.GetString(t.Name) }), "Id", "Name", collection.CollectionTopicId);
             return View(collection);
         }
 

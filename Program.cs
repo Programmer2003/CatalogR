@@ -96,6 +96,7 @@ builder.Services.AddTransient<FullTextSearchService>();
 builder.Services.AddTransient<HtmlSanitizationService>();
 builder.Services.AddTransient<TimeManagerService>();
 builder.Services.AddTransient<RazorLocalizerService>();
+builder.Services.AddTransient<TopicsLocalizerService>();
 builder.Services.AddTransient<AdminService>();
 
 var app = builder.Build();
