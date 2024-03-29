@@ -138,8 +138,10 @@ namespace CatalogR.Controllers
             if (id == null || _context.Collections == null) return NotFound();
 
             var collection = await _context.Collections.FirstOrDefaultAsync(m => m.Id == id);
-            if (collection == null || collection.UserId != _userManager.GetUserId(User)) return NotFound();
+            if (collection == null) return NotFound();
 
+            var count = _context.Items.Where(i => i.CollectionId == collection.Id).Count();
+            ViewData["ItemsCount"] = count.ToString();
             return View(collection);
         }
 
