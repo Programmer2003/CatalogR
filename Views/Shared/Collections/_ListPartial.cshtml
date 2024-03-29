@@ -76,22 +76,22 @@
         var id = selected[0].Id;
         if (target.id === 'edit') {
             let editUrl = '@(LinkGenerator.GetPathByAction("Edit", "UserCollections", new { id = "PLACEHOLDER" }))';
-            window.open(editUrl.replace('PLACEHOLDER', id));
+            window.location.href = editUrl.replace('PLACEHOLDER', id);
         }
 
         if (target.id === 'view') {
             let viewUrl = '@(LinkGenerator.GetPathByAction("Details", "Collections", new { id = "PLACEHOLDER" }))';
-            window.open(viewUrl.replace('PLACEHOLDER', id));
+            window.location.href = viewUrl.replace('PLACEHOLDER', id);
         }
 
         if (target.id === 'delete') {
             let deleteUrl = '@(LinkGenerator.GetPathByAction("Delete", "UserCollections", new { id = "PLACEHOLDER" }))';
-            window.open(deleteUrl.replace('PLACEHOLDER', id));
+            window.location.href = deleteUrl.replace('PLACEHOLDER', id);
         }
 
         if (target.id === 'list') {
             let listLink = '@(LinkGenerator.GetPathByAction("Items", "Collections", new { id = "PLACEHOLDER" }))';
-            window.open(listLink.replace('PLACEHOLDER', id));
+            window.location.href = listLink.replace('PLACEHOLDER', id);
         }
     };
 </script>
