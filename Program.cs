@@ -1,18 +1,17 @@
-using CatalogR.CloudStorage;
+using CatalogR.Hubs;
 using CatalogR.Data;
-using CatalogR.Data.Migrations;
 using CatalogR.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
+using CatalogR.Services;
+using CatalogR.CloudStorage;
+using CatalogR.Data.Migrations;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Authorization;
 using Syncfusion.Blazor;
 using System.Globalization;
-using CatalogR.Hubs;
-using CatalogR.Services;
-using Microsoft.AspNetCore.SignalR;
-using Ganss.Xss;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -115,6 +114,8 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseStatusCodePagesWithRedirects("/error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

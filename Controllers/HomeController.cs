@@ -57,6 +57,19 @@ namespace CatalogR.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [Route("/error/{statusCode}")]
+        public IActionResult Error(int statusCode)
+        {
+            if (statusCode == 404)
+            {
+                ViewBag.ErrorMessage = "404 Page Not Found Exception";
+                return View("404");
+            }
+
+            ViewBag.ErrorMessage = $"Error {statusCode}";
+            return View("ErrorStatus");
+        }
+
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
